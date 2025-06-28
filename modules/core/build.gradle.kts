@@ -4,7 +4,10 @@ plugins {
     alias(libs.plugins.androidLibrary)
     // Temporarily disable SQLDelight to avoid JVM compilation issues
     // alias(libs.plugins.sqldelight)
+    `maven-publish`
 }
+
+// Publishing is configured via vanniktech.mavenPublish plugin below
 
 kotlin {
     androidTarget {
@@ -115,3 +118,16 @@ android {
 //         }
 //     }
 // }
+
+// Simple publishing configuration for JitPack
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["kotlin"])
+            
+            groupId = "com.everybytesystems"
+            artifactId = "dhis2-dataflow-sdk-core"
+            version = "1.0.0"
+        }
+    }
+}

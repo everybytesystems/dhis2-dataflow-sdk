@@ -2,8 +2,10 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.vanniktech.mavenPublish)
+    `maven-publish`
 }
+
+// Publishing is configured via vanniktech.mavenPublish plugin below
 
 kotlin {
     androidTarget {
@@ -88,40 +90,42 @@ android {
     }
 }
 
-mavenPublishing {
-    coordinates(
-        groupId = project.group.toString(),
-        artifactId = project.name,
-        version = project.version.toString()
-    )
-    
-    pom {
-        name.set("DHIS2 DataFlow SDK Auth")
-        description.set("Authentication manager (Basic, PAT, OIDC) and secure storage")
-        url.set("https://github.com/everybytesystems/dhis2-dataflow-sdk")
-        
-        licenses {
-            license {
-                name.set("Apache-2.0")
-                url.set("https://www.apache.org/licenses/LICENSE-2.0")
+// Simple publishing configuration for JitPack
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["kotlin"])
+            
+            groupId = "com.everybytesystems"
+            artifactId = "dhis2-dataflow-sdk-auth"
+            version = "1.0.0"
+            
+            pom {
+                name.set("DHIS2 DataFlow SDK Auth")
+                description.set("Authentication manager (Basic, PAT, OIDC) and secure storage")
+                url.set("https://github.com/everybytesystems/dhis2-dataflow-sdk")
+                
+                licenses {
+                    license {
+                        name.set("MIT License")
+                        url.set("https://opensource.org/licenses/MIT")
+                    }
+                }
+                
+                developers {
+                    developer {
+                        id.set("everybytesystems")
+                        name.set("EveryByte Systems")
+                        email.set("support@everybytesystems.com")
+                    }
+                }
+                
+                scm {
+                    url.set("https://github.com/everybytesystems/dhis2-dataflow-sdk")
+                    connection.set("scm:git:git@github.com:everybytesystems/dhis2-dataflow-sdk.git")
+                    developerConnection.set("scm:git:git@github.com:everybytesystems/dhis2-dataflow-sdk.git")
+                }
             }
-        }
-        
-        developers {
-            developer {
-                id.set("everybytesystems")
-                name.set("EVERYBYTE SYSTEMS")
-                email.set("socaya@everybytesystems.com")
-            }
-        }
-        
-        scm {
-            url.set("https://github.com/everybytesystems/dhis2-dataflow-sdk")
-            connection.set("scm:git:git@github.com:everybytesystems/dhis2-dataflow-sdk.git")
-            developerConnection.set("scm:git:git@github.com:everybytesystems/dhis2-dataflow-sdk.git")
         }
     }
-    
-    publishToMavenCentral()
-    signAllPublications()
 }
