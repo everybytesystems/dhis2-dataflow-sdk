@@ -80,9 +80,9 @@ echo ""
 echo "🏷️  Version Configuration"
 echo "========================"
 
-# Get current version from gradle.properties
-CURRENT_VERSION=$(grep "VERSION_NAME=" gradle.properties | cut -d'=' -f2)
-print_info "Current version in gradle.properties: $CURRENT_VERSION"
+# Version is hardcoded in build.gradle.kts files as 1.0.0
+CURRENT_VERSION="1.0.0"
+print_info "Current version in build files: $CURRENT_VERSION"
 
 # Ask for version
 read -p "Enter version to publish [$CURRENT_VERSION]: " VERSION
@@ -96,14 +96,8 @@ fi
 
 print_info "Publishing version: $VERSION"
 
-# Update gradle.properties if version changed
-if [ "$VERSION" != "$CURRENT_VERSION" ]; then
-    print_info "Updating gradle.properties with new version..."
-    sed -i.bak "s/VERSION_NAME=.*/VERSION_NAME=$VERSION/" gradle.properties
-    rm gradle.properties.bak
-    git add gradle.properties
-    git commit -m "chore: bump version to $VERSION"
-fi
+# Note: Version is hardcoded in build.gradle.kts files for simplicity
+# For future versions, update the version in each module's build.gradle.kts
 
 echo ""
 echo "🔨 Build Verification"
