@@ -1,0 +1,445 @@
+package com.everybytesystems.dataflow.sdk.services
+
+import com.everybytesystems.dataflow.core.api.system.SystemApi
+import com.everybytesystems.dataflow.core.database.DataCache
+import com.everybytesystems.dataflow.core.network.ApiResponse
+import com.everybytesystems.dataflow.data.models.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+
+/**
+ * High-level data service for managing data values and data sets
+ */
+class DataService(
+    private val systemApi: SystemApi,
+    private val dataCache: DataCache
+) {
+    
+    // ========================================
+    // DATA VALUE OPERATIONS
+    // ========================================
+    
+    /**
+     * Submit data values to DHIS2
+     */
+    suspend fun submitDataValues(dataValues: List<DataValue>): ApiResponse<DataValueImportResult> {
+        return try {
+            // Create data value set
+            val dataValueSet = DataValueSet(
+                dataValues = dataValues,
+                completeDate = null,
+                period = null,
+                orgUnit = null
+            )
+            
+            // Submit to server (would need DataApi implementation)
+            // For now, cache locally
+            dataCache.storeDataValues(dataValues)
+            
+            ApiResponse.Success(
+                DataValueImportResult(
+                    status = "SUCCESS",
+                    importCount = ImportCount(
+                        imported = dataValues.size,
+                        updated = 0,
+                        ignored = 0,
+                        deleted = 0
+                    ),
+                    conflicts = emptyList()
+                )
+            )
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to submit data values: ${e.message}")
+        }
+    }
+    
+    /**
+     * Get data values for specific criteria
+     */
+    suspend fun getDataValues(
+        dataElement: String? = null,
+        period: String? = null,
+        orgUnit: String? = null,
+        startDate: String? = null,
+        endDate: String? = null
+    ): ApiResponse<List<DataValue>> {
+        return try {
+            // Try to get from cache first
+            val cachedValues = dataCache.getDataValues(
+                dataElement = dataElement,
+                period = period,
+                orgUnit = orgUnit
+            )
+            
+            if (cachedValues.isNotEmpty()) {
+                ApiResponse.Success(cachedValues)
+            } else {
+                // Would fetch from server via DataApi
+                ApiResponse.Success(emptyList())
+            }
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to get data values: ${e.message}")
+        }
+    }
+    
+    /**
+     * Bulk submit data value set
+     */
+    suspend fun submitDataValueSet(dataValueSet: DataValueSet): ApiResponse<DataValueImportResult> {
+        return try {
+            // Cache the data values
+            dataCache.storeDataValues(dataValueSet.dataValues)
+            
+            ApiResponse.Success(
+                DataValueImportResult(
+                    status = "SUCCESS",
+                    importCount = ImportCount(
+                        imported = dataValueSet.dataValues.size,
+                        updated = 0,
+                        ignored = 0,
+                        deleted = 0
+                    ),
+                    conflicts = emptyList()
+                )
+            )
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to submit data value set: ${e.message}")
+        }
+    }
+    
+    /**
+     * Delete data value
+     */
+    suspend fun deleteDataValue(
+        dataElement: String,
+        period: String,
+        orgUnit: String,
+        categoryOptionCombo: String? = null,
+        attributeOptionCombo: String? = null
+    ): ApiResponse<Unit> {
+        return try {
+            dataCache.deleteDataValue(dataElement, period, orgUnit, categoryOptionCombo, attributeOptionCombo)
+            ApiResponse.Success(Unit)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to delete data value: ${e.message}")
+        }
+    }
+    
+    // ========================================
+    // DATA SET OPERATIONS
+    // ========================================
+    
+    /**
+     * Mark data set as complete
+     */
+    suspend fun completeDataSet(
+        dataSet: String,
+        period: String,
+        orgUnit: String,
+        attributeOptionCombo: String? = null
+    ): ApiResponse<Unit> {
+        return try {
+            val completion = DataSetCompletion(
+                dataSet = dataSet,
+                period = period,
+                orgUnit = orgUnit,
+                attributeOptionCombo = attributeOptionCombo,
+                date = System.currentTimeMillis().toString(),
+                storedBy = "system" // Would get from auth context
+            )
+            
+            dataCache.storeDataSetCompletion(completion)
+            ApiResponse.Success(Unit)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to complete data set: ${e.message}")
+        }
+    }
+    
+    /**
+     * Get data set completions
+     */
+    suspend fun getDataSetCompletions(
+        dataSet: String? = null,
+        period: String? = null,
+        orgUnit: String? = null
+    ): ApiResponse<List<DataSetCompletion>> {
+        return try {
+            val completions = dataCache.getDataSetCompletions(dataSet, period, orgUnit)
+            ApiResponse.Success(completions)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to get data set completions: ${e.message}")
+        }
+    }
+    
+    /**
+     * Delete data set completion
+     */
+    suspend fun deleteDataSetCompletion(
+        dataSet: String,
+        period: String,
+        orgUnit: String,
+        attributeOptionCombo: String? = null
+    ): ApiResponse<Unit> {
+        return try {
+            dataCache.deleteDataSetCompletion(dataSet, period, orgUnit, attributeOptionCombo)
+            ApiResponse.Success(Unit)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to delete data set completion: ${e.message}")
+        }
+    }
+    
+    // ========================================
+    // VALIDATION AND QUALITY CHECKS
+    // ========================================
+    
+    /**
+     * Validate data values against validation rules
+     */
+    suspend fun validateDataValues(
+        dataValues: List<DataValue>,
+        period: String,
+        orgUnit: String
+    ): ApiResponse<ValidationResult> {
+        return try {
+            val violations = mutableListOf<ValidationViolation>()
+            
+            // Basic validation checks
+            dataValues.forEach { dataValue ->
+                // Check for required fields
+                if (dataValue.dataElement.isBlank()) {
+                    violations.add(
+                        ValidationViolation(
+                            type = "MISSING_DATA_ELEMENT",
+                            message = "Data element is required",
+                            dataValue = dataValue
+                        )
+                    )
+                }
+                
+                if (dataValue.value.isBlank()) {
+                    violations.add(
+                        ValidationViolation(
+                            type = "MISSING_VALUE",
+                            message = "Value is required",
+                            dataValue = dataValue
+                        )
+                    )
+                }
+                
+                // Check for valid periods
+                if (dataValue.period.isBlank()) {
+                    violations.add(
+                        ValidationViolation(
+                            type = "MISSING_PERIOD",
+                            message = "Period is required",
+                            dataValue = dataValue
+                        )
+                    )
+                }
+                
+                // Check for valid org units
+                if (dataValue.orgUnit.isBlank()) {
+                    violations.add(
+                        ValidationViolation(
+                            type = "MISSING_ORG_UNIT",
+                            message = "Organisation unit is required",
+                            dataValue = dataValue
+                        )
+                    )
+                }
+            }
+            
+            ApiResponse.Success(
+                ValidationResult(
+                    valid = violations.isEmpty(),
+                    violations = violations,
+                    validatedCount = dataValues.size
+                )
+            )
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to validate data values: ${e.message}")
+        }
+    }
+    
+    /**
+     * Check for data quality issues
+     */
+    suspend fun checkDataQuality(
+        period: String,
+        orgUnit: String,
+        dataSet: String? = null
+    ): ApiResponse<DataQualityResult> {
+        return try {
+            val issues = mutableListOf<DataQualityIssue>()
+            
+            // Get data values for the period and org unit
+            val dataValuesResponse = getDataValues(
+                period = period,
+                orgUnit = orgUnit
+            )
+            
+            when (dataValuesResponse) {
+                is ApiResponse.Success -> {
+                    val dataValues = dataValuesResponse.data
+                    
+                    // Check for outliers (simple check - values that are 0 or extremely high)
+                    dataValues.forEach { dataValue ->
+                        val numericValue = dataValue.value.toDoubleOrNull()
+                        if (numericValue != null) {
+                            if (numericValue == 0.0) {
+                                issues.add(
+                                    DataQualityIssue(
+                                        type = "ZERO_VALUE",
+                                        message = "Zero value detected",
+                                        dataValue = dataValue,
+                                        severity = "LOW"
+                                    )
+                                )
+                            } else if (numericValue > 1000000) {
+                                issues.add(
+                                    DataQualityIssue(
+                                        type = "EXTREME_VALUE",
+                                        message = "Extremely high value detected",
+                                        dataValue = dataValue,
+                                        severity = "HIGH"
+                                    )
+                                )
+                            }
+                        }
+                    }
+                    
+                    // Check for missing expected data
+                    // This would require metadata about expected data elements
+                    
+                    ApiResponse.Success(
+                        DataQualityResult(
+                            issues = issues,
+                            checkedCount = dataValues.size,
+                            period = period,
+                            orgUnit = orgUnit
+                        )
+                    )
+                }
+                is ApiResponse.Error -> dataValuesResponse
+                is ApiResponse.Loading -> ApiResponse.Loading()
+            }
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to check data quality: ${e.message}")
+        }
+    }
+    
+    // ========================================
+    // UTILITY METHODS
+    // ========================================
+    
+    /**
+     * Get data statistics
+     */
+    suspend fun getDataStatistics(): ApiResponse<DataStatistics> {
+        return try {
+            val stats = DataStatistics(
+                totalDataValues = dataCache.getDataValuesCount(),
+                totalCompletions = dataCache.getDataSetCompletionsCount(),
+                lastSubmissionTime = dataCache.getLastSubmissionTime()
+            )
+            ApiResponse.Success(stats)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to get data statistics: ${e.message}")
+        }
+    }
+    
+    /**
+     * Clear all cached data
+     */
+    suspend fun clearCache() {
+        dataCache.clearDataValues()
+        dataCache.clearDataSetCompletions()
+    }
+}
+
+// ========================================
+// DATA MODELS
+// ========================================
+
+data class DataValue(
+    val dataElement: String,
+    val period: String,
+    val orgUnit: String,
+    val categoryOptionCombo: String? = null,
+    val attributeOptionCombo: String? = null,
+    val value: String,
+    val storedBy: String? = null,
+    val created: String? = null,
+    val lastUpdated: String? = null,
+    val comment: String? = null,
+    val followUp: Boolean = false
+)
+
+data class DataValueSet(
+    val dataValues: List<DataValue>,
+    val completeDate: String? = null,
+    val period: String? = null,
+    val orgUnit: String? = null,
+    val attributeOptionCombo: String? = null
+)
+
+data class DataValueImportResult(
+    val status: String,
+    val importCount: ImportCount,
+    val conflicts: List<ImportConflict>
+)
+
+data class ImportCount(
+    val imported: Int,
+    val updated: Int,
+    val ignored: Int,
+    val deleted: Int
+)
+
+data class ImportConflict(
+    val object: String,
+    val value: String,
+    val errorCode: String,
+    val property: String? = null
+)
+
+data class DataSetCompletion(
+    val dataSet: String,
+    val period: String,
+    val orgUnit: String,
+    val attributeOptionCombo: String? = null,
+    val date: String,
+    val storedBy: String
+)
+
+data class ValidationResult(
+    val valid: Boolean,
+    val violations: List<ValidationViolation>,
+    val validatedCount: Int
+)
+
+data class ValidationViolation(
+    val type: String,
+    val message: String,
+    val dataValue: DataValue
+)
+
+data class DataQualityResult(
+    val issues: List<DataQualityIssue>,
+    val checkedCount: Int,
+    val period: String,
+    val orgUnit: String
+)
+
+data class DataQualityIssue(
+    val type: String,
+    val message: String,
+    val dataValue: DataValue,
+    val severity: String
+)
+
+data class DataStatistics(
+    val totalDataValues: Int,
+    val totalCompletions: Int,
+    val lastSubmissionTime: Long?
+)

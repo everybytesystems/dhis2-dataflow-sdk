@@ -1,0 +1,33 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.name = "dhis2-dataflow-sdk"
+
+include(
+    ":core",
+    ":auth",
+    ":data",
+    ":metadata",
+    ":visual",
+    ":sdk"
+)
+
+// Ensure consistent project names (artifactId) for publishing
+project(":core").name = "dhis2-dataflow-sdk-core"
+project(":auth").name = "dhis2-dataflow-sdk-auth"
+project(":data").name = "dhis2-dataflow-sdk-data"
+project(":metadata").name = "dhis2-dataflow-sdk-metadata"
+project(":visual").name = "dhis2-dataflow-sdk-visual"
+project(":sdk").name = "dhis2-dataflow-sdk"

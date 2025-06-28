@@ -1,0 +1,400 @@
+package com.everybytesystems.dataflow.sdk.services
+
+import com.everybytesystems.dataflow.core.api.metadata.MetadataApi
+import com.everybytesystems.dataflow.core.database.DataCache
+import com.everybytesystems.dataflow.core.network.ApiResponse
+import com.everybytesystems.dataflow.metadata.models.*
+import kotlinx.coroutines.flow.Flow
+
+/**
+ * High-level metadata service that combines API calls with local caching
+ */
+class MetadataService(
+    private val metadataApi: MetadataApi,
+    private val dataCache: DataCache
+) {
+    
+    // ========================================
+    // SYNC OPERATIONS
+    // ========================================
+    
+    /**
+     * Sync all metadata from server
+     */
+    suspend fun syncAll(forceRefresh: Boolean = false): ApiResponse<SyncResult> {
+        return try {
+            val results = mutableListOf<SyncItemResult>()
+            
+            // Sync data elements
+            val dataElementsResult = syncDataElements(forceRefresh)
+            results.add(SyncItemResult("dataElements", dataElementsResult.isSuccess()))
+            
+            // Sync organisation units
+            val orgUnitsResult = syncOrganisationUnits(forceRefresh)
+            results.add(SyncItemResult("organisationUnits", orgUnitsResult.isSuccess()))
+            
+            // Sync data sets
+            val dataSetsResult = syncDataSets(forceRefresh)
+            results.add(SyncItemResult("dataSets", dataSetsResult.isSuccess()))
+            
+            // Sync programs
+            val programsResult = syncPrograms(forceRefresh)
+            results.add(SyncItemResult("programs", programsResult.isSuccess()))
+            
+            // Sync indicators
+            val indicatorsResult = syncIndicators(forceRefresh)
+            results.add(SyncItemResult("indicators", indicatorsResult.isSuccess()))
+            
+            // Sync option sets
+            val optionSetsResult = syncOptionSets(forceRefresh)
+            results.add(SyncItemResult("optionSets", optionSetsResult.isSuccess()))
+            
+            val successCount = results.count { it.success }
+            val totalCount = results.size
+            
+            ApiResponse.Success(
+                SyncResult(
+                    success = successCount == totalCount,
+                    itemResults = results,
+                    message = "Synced $successCount/$totalCount metadata types"
+                )
+            )
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to sync metadata: ${e.message}")
+        }
+    }
+    
+    /**
+     * Sync data elements
+     */
+    suspend fun syncDataElements(forceRefresh: Boolean = false): ApiResponse<List<DataElement>> {
+        return try {
+            val response = metadataApi.getDataElements(
+                fields = "id,name,shortName,code,valueType,domainType,aggregationType,categoryCombo[id,name],optionSet[id,name]",
+                page = 1,
+                pageSize = 1000
+            )
+            
+            when (response) {
+                is ApiResponse.Success -> {
+                    // Cache the data elements
+                    dataCache.storeDataElements(response.data)
+                    response
+                }
+                is ApiResponse.Error -> {
+                    // Return cached data if available
+                    val cached = dataCache.getDataElements()
+                    if (cached.isNotEmpty()) {
+                        ApiResponse.Success(cached)
+                    } else {
+                        response
+                    }
+                }
+                is ApiResponse.Loading -> response
+            }
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to sync data elements: ${e.message}")
+        }
+    }
+    
+    /**
+     * Sync organisation units
+     */
+    suspend fun syncOrganisationUnits(forceRefresh: Boolean = false): ApiResponse<List<OrganisationUnit>> {
+        return try {
+            val response = metadataApi.getOrganisationUnits(
+                fields = "id,name,shortName,code,level,path,parent[id,name],children[id,name],geometry",
+                page = 1,
+                pageSize = 1000
+            )
+            
+            when (response) {
+                is ApiResponse.Success -> {
+                    dataCache.storeOrganisationUnits(response.data)
+                    response
+                }
+                is ApiResponse.Error -> {
+                    val cached = dataCache.getOrganisationUnits()
+                    if (cached.isNotEmpty()) {
+                        ApiResponse.Success(cached)
+                    } else {
+                        response
+                    }
+                }
+                is ApiResponse.Loading -> response
+            }
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to sync organisation units: ${e.message}")
+        }
+    }
+    
+    /**
+     * Sync data sets
+     */
+    suspend fun syncDataSets(forceRefresh: Boolean = false): ApiResponse<List<DataSet>> {
+        return try {
+            val response = metadataApi.getDataSets(
+                fields = "id,name,shortName,code,periodType,dataSetElements[dataElement[id,name]],organisationUnits[id,name]",
+                page = 1,
+                pageSize = 1000
+            )
+            
+            when (response) {
+                is ApiResponse.Success -> {
+                    dataCache.storeDataSets(response.data)
+                    response
+                }
+                is ApiResponse.Error -> {
+                    val cached = dataCache.getDataSets()
+                    if (cached.isNotEmpty()) {
+                        ApiResponse.Success(cached)
+                    } else {
+                        response
+                    }
+                }
+                is ApiResponse.Loading -> response
+            }
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to sync data sets: ${e.message}")
+        }
+    }
+    
+    /**
+     * Sync programs
+     */
+    suspend fun syncPrograms(forceRefresh: Boolean = false): ApiResponse<List<Program>> {
+        return try {
+            val response = metadataApi.getPrograms(
+                fields = "id,name,shortName,code,programType,programStages[id,name],organisationUnits[id,name]",
+                page = 1,
+                pageSize = 1000
+            )
+            
+            when (response) {
+                is ApiResponse.Success -> {
+                    dataCache.storePrograms(response.data)
+                    response
+                }
+                is ApiResponse.Error -> {
+                    val cached = dataCache.getPrograms()
+                    if (cached.isNotEmpty()) {
+                        ApiResponse.Success(cached)
+                    } else {
+                        response
+                    }
+                }
+                is ApiResponse.Loading -> response
+            }
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to sync programs: ${e.message}")
+        }
+    }
+    
+    /**
+     * Sync indicators
+     */
+    suspend fun syncIndicators(forceRefresh: Boolean = false): ApiResponse<List<Indicator>> {
+        return try {
+            val response = metadataApi.getIndicators(
+                fields = "id,name,shortName,code,numerator,denominator,indicatorType[id,name]",
+                page = 1,
+                pageSize = 1000
+            )
+            
+            when (response) {
+                is ApiResponse.Success -> {
+                    dataCache.storeIndicators(response.data)
+                    response
+                }
+                is ApiResponse.Error -> {
+                    val cached = dataCache.getIndicators()
+                    if (cached.isNotEmpty()) {
+                        ApiResponse.Success(cached)
+                    } else {
+                        response
+                    }
+                }
+                is ApiResponse.Loading -> response
+            }
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to sync indicators: ${e.message}")
+        }
+    }
+    
+    /**
+     * Sync option sets
+     */
+    suspend fun syncOptionSets(forceRefresh: Boolean = false): ApiResponse<List<OptionSet>> {
+        return try {
+            val response = metadataApi.getOptionSets(
+                fields = "id,name,code,options[id,name,code]",
+                page = 1,
+                pageSize = 1000
+            )
+            
+            when (response) {
+                is ApiResponse.Success -> {
+                    dataCache.storeOptionSets(response.data)
+                    response
+                }
+                is ApiResponse.Error -> {
+                    val cached = dataCache.getOptionSets()
+                    if (cached.isNotEmpty()) {
+                        ApiResponse.Success(cached)
+                    } else {
+                        response
+                    }
+                }
+                is ApiResponse.Loading -> response
+            }
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to sync option sets: ${e.message}")
+        }
+    }
+    
+    // ========================================
+    // CACHED DATA ACCESS
+    // ========================================
+    
+    /**
+     * Get all cached data elements
+     */
+    fun getDataElements(): List<DataElement> = dataCache.getDataElements()
+    
+    /**
+     * Get data element by ID
+     */
+    fun getDataElement(id: String): DataElement? = dataCache.getDataElement(id)
+    
+    /**
+     * Search data elements by name or code
+     */
+    fun searchDataElements(query: String): List<DataElement> = 
+        dataCache.searchDataElements(query)
+    
+    /**
+     * Get data elements for a specific data set
+     */
+    fun getDataElementsForDataSet(dataSetId: String): List<DataElement> =
+        dataCache.getDataElementsForDataSet(dataSetId)
+    
+    /**
+     * Get all cached organisation units
+     */
+    fun getOrganisationUnits(): List<OrganisationUnit> = dataCache.getOrganisationUnits()
+    
+    /**
+     * Get organisation unit by ID
+     */
+    fun getOrganisationUnit(id: String): OrganisationUnit? = dataCache.getOrganisationUnit(id)
+    
+    /**
+     * Get organisation units by level
+     */
+    fun getOrganisationUnitsByLevel(level: Int): List<OrganisationUnit> =
+        dataCache.getOrganisationUnitsByLevel(level)
+    
+    /**
+     * Get child organisation units
+     */
+    fun getChildOrganisationUnits(parentId: String): List<OrganisationUnit> =
+        dataCache.getChildOrganisationUnits(parentId)
+    
+    /**
+     * Get all cached data sets
+     */
+    fun getDataSets(): List<DataSet> = dataCache.getDataSets()
+    
+    /**
+     * Get data set by ID
+     */
+    fun getDataSet(id: String): DataSet? = dataCache.getDataSet(id)
+    
+    /**
+     * Get all cached programs
+     */
+    fun getPrograms(): List<Program> = dataCache.getPrograms()
+    
+    /**
+     * Get program by ID
+     */
+    fun getProgram(id: String): Program? = dataCache.getProgram(id)
+    
+    /**
+     * Get program stages for a program
+     */
+    fun getProgramStages(programId: String): List<ProgramStage> =
+        dataCache.getProgramStages(programId)
+    
+    /**
+     * Get all cached indicators
+     */
+    fun getIndicators(): List<Indicator> = dataCache.getIndicators()
+    
+    /**
+     * Get indicator by ID
+     */
+    fun getIndicator(id: String): Indicator? = dataCache.getIndicator(id)
+    
+    /**
+     * Get all cached option sets
+     */
+    fun getOptionSets(): List<OptionSet> = dataCache.getOptionSets()
+    
+    /**
+     * Get option set by ID
+     */
+    fun getOptionSet(id: String): OptionSet? = dataCache.getOptionSet(id)
+    
+    /**
+     * Get options for an option set
+     */
+    fun getOptions(optionSetId: String): List<Option> =
+        dataCache.getOptions(optionSetId)
+    
+    // ========================================
+    // UTILITY METHODS
+    // ========================================
+    
+    /**
+     * Clear all cached metadata
+     */
+    suspend fun clearCache() {
+        dataCache.clear()
+    }
+    
+    /**
+     * Get cache statistics
+     */
+    fun getCacheStats(): CacheStats = dataCache.getStats()
+}
+
+/**
+ * Result of a sync operation
+ */
+data class SyncResult(
+    val success: Boolean,
+    val itemResults: List<SyncItemResult>,
+    val message: String
+)
+
+/**
+ * Result of syncing a specific metadata type
+ */
+data class SyncItemResult(
+    val type: String,
+    val success: Boolean
+)
+
+/**
+ * Cache statistics
+ */
+data class CacheStats(
+    val dataElementsCount: Int,
+    val organisationUnitsCount: Int,
+    val dataSetsCount: Int,
+    val programsCount: Int,
+    val indicatorsCount: Int,
+    val optionSetsCount: Int,
+    val lastSyncTime: Long?
+)

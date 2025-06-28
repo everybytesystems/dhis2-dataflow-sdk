@@ -1,0 +1,620 @@
+package com.everybytesystems.dataflow.sdk.services
+
+import com.everybytesystems.dataflow.core.database.DataCache
+import com.everybytesystems.dataflow.core.network.ApiResponse
+import com.everybytesystems.dataflow.data.models.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+
+/**
+ * High-level tracker service for managing tracked entities, enrollments, and events
+ */
+class TrackerService(
+    private val dataCache: DataCache
+) {
+    
+    // ========================================
+    // TRACKED ENTITY OPERATIONS
+    // ========================================
+    
+    /**
+     * Create a new tracked entity instance
+     */
+    suspend fun createTrackedEntity(trackedEntity: TrackedEntity): ApiResponse<TrackedEntity> {
+        return try {
+            // Generate ID if not provided
+            val entityWithId = if (trackedEntity.trackedEntity.isBlank()) {
+                trackedEntity.copy(trackedEntity = generateId())
+            } else {
+                trackedEntity
+            }
+            
+            // Store in cache
+            dataCache.storeTrackedEntity(entityWithId)
+            
+            ApiResponse.Success(entityWithId)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to create tracked entity: ${e.message}")
+        }
+    }
+    
+    /**
+     * Update tracked entity instance
+     */
+    suspend fun updateTrackedEntity(trackedEntity: TrackedEntity): ApiResponse<TrackedEntity> {
+        return try {
+            dataCache.updateTrackedEntity(trackedEntity)
+            ApiResponse.Success(trackedEntity)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to update tracked entity: ${e.message}")
+        }
+    }
+    
+    /**
+     * Get tracked entity by ID
+     */
+    suspend fun getTrackedEntity(id: String): ApiResponse<TrackedEntity?> {
+        return try {
+            val entity = dataCache.getTrackedEntity(id)
+            ApiResponse.Success(entity)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to get tracked entity: ${e.message}")
+        }
+    }
+    
+    /**
+     * Search tracked entities
+     */
+    suspend fun searchTrackedEntities(
+        program: String? = null,
+        orgUnit: String? = null,
+        trackedEntityType: String? = null,
+        attributes: Map<String, String> = emptyMap(),
+        page: Int = 1,
+        pageSize: Int = 50
+    ): ApiResponse<List<TrackedEntity>> {
+        return try {
+            val entities = dataCache.searchTrackedEntities(
+                program = program,
+                orgUnit = orgUnit,
+                trackedEntityType = trackedEntityType,
+                attributes = attributes
+            )
+            
+            // Apply pagination
+            val startIndex = (page - 1) * pageSize
+            val endIndex = minOf(startIndex + pageSize, entities.size)
+            val paginatedEntities = if (startIndex < entities.size) {
+                entities.subList(startIndex, endIndex)
+            } else {
+                emptyList()
+            }
+            
+            ApiResponse.Success(paginatedEntities)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to search tracked entities: ${e.message}")
+        }
+    }
+    
+    /**
+     * Delete tracked entity
+     */
+    suspend fun deleteTrackedEntity(id: String): ApiResponse<Unit> {
+        return try {
+            dataCache.deleteTrackedEntity(id)
+            ApiResponse.Success(Unit)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to delete tracked entity: ${e.message}")
+        }
+    }
+    
+    // ========================================
+    // ENROLLMENT OPERATIONS
+    // ========================================
+    
+    /**
+     * Create enrollment
+     */
+    suspend fun createEnrollment(enrollment: Enrollment): ApiResponse<Enrollment> {
+        return try {
+            val enrollmentWithId = if (enrollment.enrollment.isBlank()) {
+                enrollment.copy(enrollment = generateId())
+            } else {
+                enrollment
+            }
+            
+            dataCache.storeEnrollment(enrollmentWithId)
+            ApiResponse.Success(enrollmentWithId)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to create enrollment: ${e.message}")
+        }
+    }
+    
+    /**
+     * Update enrollment
+     */
+    suspend fun updateEnrollment(enrollment: Enrollment): ApiResponse<Enrollment> {
+        return try {
+            dataCache.updateEnrollment(enrollment)
+            ApiResponse.Success(enrollment)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to update enrollment: ${e.message}")
+        }
+    }
+    
+    /**
+     * Get enrollment by ID
+     */
+    suspend fun getEnrollment(id: String): ApiResponse<Enrollment?> {
+        return try {
+            val enrollment = dataCache.getEnrollment(id)
+            ApiResponse.Success(enrollment)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to get enrollment: ${e.message}")
+        }
+    }
+    
+    /**
+     * Get enrollments for tracked entity
+     */
+    suspend fun getEnrollmentsForTrackedEntity(trackedEntityId: String): ApiResponse<List<Enrollment>> {
+        return try {
+            val enrollments = dataCache.getEnrollmentsForTrackedEntity(trackedEntityId)
+            ApiResponse.Success(enrollments)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to get enrollments: ${e.message}")
+        }
+    }
+    
+    /**
+     * Complete enrollment
+     */
+    suspend fun completeEnrollment(enrollmentId: String): ApiResponse<Unit> {
+        return try {
+            dataCache.updateEnrollmentStatus(enrollmentId, "COMPLETED")
+            ApiResponse.Success(Unit)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to complete enrollment: ${e.message}")
+        }
+    }
+    
+    /**
+     * Cancel enrollment
+     */
+    suspend fun cancelEnrollment(enrollmentId: String): ApiResponse<Unit> {
+        return try {
+            dataCache.updateEnrollmentStatus(enrollmentId, "CANCELLED")
+            ApiResponse.Success(Unit)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to cancel enrollment: ${e.message}")
+        }
+    }
+    
+    // ========================================
+    // EVENT OPERATIONS
+    // ========================================
+    
+    /**
+     * Create event
+     */
+    suspend fun createEvent(event: Event): ApiResponse<Event> {
+        return try {
+            val eventWithId = if (event.event.isBlank()) {
+                event.copy(event = generateId())
+            } else {
+                event
+            }
+            
+            dataCache.storeEvent(eventWithId)
+            ApiResponse.Success(eventWithId)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to create event: ${e.message}")
+        }
+    }
+    
+    /**
+     * Update event
+     */
+    suspend fun updateEvent(event: Event): ApiResponse<Event> {
+        return try {
+            dataCache.updateEvent(event)
+            ApiResponse.Success(event)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to update event: ${e.message}")
+        }
+    }
+    
+    /**
+     * Get event by ID
+     */
+    suspend fun getEvent(id: String): ApiResponse<Event?> {
+        return try {
+            val event = dataCache.getEvent(id)
+            ApiResponse.Success(event)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to get event: ${e.message}")
+        }
+    }
+    
+    /**
+     * Get events for enrollment
+     */
+    suspend fun getEventsForEnrollment(enrollmentId: String): ApiResponse<List<Event>> {
+        return try {
+            val events = dataCache.getEventsForEnrollment(enrollmentId)
+            ApiResponse.Success(events)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to get events: ${e.message}")
+        }
+    }
+    
+    /**
+     * Get events for program stage
+     */
+    suspend fun getEventsForProgramStage(
+        programStage: String,
+        orgUnit: String? = null,
+        startDate: String? = null,
+        endDate: String? = null
+    ): ApiResponse<List<Event>> {
+        return try {
+            val events = dataCache.getEventsForProgramStage(
+                programStage = programStage,
+                orgUnit = orgUnit,
+                startDate = startDate,
+                endDate = endDate
+            )
+            ApiResponse.Success(events)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to get events for program stage: ${e.message}")
+        }
+    }
+    
+    /**
+     * Complete event
+     */
+    suspend fun completeEvent(eventId: String): ApiResponse<Unit> {
+        return try {
+            dataCache.updateEventStatus(eventId, "COMPLETED")
+            ApiResponse.Success(Unit)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to complete event: ${e.message}")
+        }
+    }
+    
+    /**
+     * Delete event
+     */
+    suspend fun deleteEvent(id: String): ApiResponse<Unit> {
+        return try {
+            dataCache.deleteEvent(id)
+            ApiResponse.Success(Unit)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to delete event: ${e.message}")
+        }
+    }
+    
+    // ========================================
+    // BULK OPERATIONS
+    // ========================================
+    
+    /**
+     * Submit tracker data (tracked entities, enrollments, events)
+     */
+    suspend fun submitTrackerData(trackerData: TrackerData): ApiResponse<TrackerImportResult> {
+        return try {
+            var importedCount = 0
+            var updatedCount = 0
+            val conflicts = mutableListOf<TrackerImportConflict>()
+            
+            // Process tracked entities
+            trackerData.trackedEntities.forEach { entity ->
+                try {
+                    if (dataCache.getTrackedEntity(entity.trackedEntity) != null) {
+                        dataCache.updateTrackedEntity(entity)
+                        updatedCount++
+                    } else {
+                        dataCache.storeTrackedEntity(entity)
+                        importedCount++
+                    }
+                } catch (e: Exception) {
+                    conflicts.add(
+                        TrackerImportConflict(
+                            uid = entity.trackedEntity,
+                            trackerType = "TRACKED_ENTITY",
+                            errorCode = "E1000",
+                            message = e.message ?: "Unknown error"
+                        )
+                    )
+                }
+            }
+            
+            // Process enrollments
+            trackerData.enrollments.forEach { enrollment ->
+                try {
+                    if (dataCache.getEnrollment(enrollment.enrollment) != null) {
+                        dataCache.updateEnrollment(enrollment)
+                        updatedCount++
+                    } else {
+                        dataCache.storeEnrollment(enrollment)
+                        importedCount++
+                    }
+                } catch (e: Exception) {
+                    conflicts.add(
+                        TrackerImportConflict(
+                            uid = enrollment.enrollment,
+                            trackerType = "ENROLLMENT",
+                            errorCode = "E1001",
+                            message = e.message ?: "Unknown error"
+                        )
+                    )
+                }
+            }
+            
+            // Process events
+            trackerData.events.forEach { event ->
+                try {
+                    if (dataCache.getEvent(event.event) != null) {
+                        dataCache.updateEvent(event)
+                        updatedCount++
+                    } else {
+                        dataCache.storeEvent(event)
+                        importedCount++
+                    }
+                } catch (e: Exception) {
+                    conflicts.add(
+                        TrackerImportConflict(
+                            uid = event.event,
+                            trackerType = "EVENT",
+                            errorCode = "E1002",
+                            message = e.message ?: "Unknown error"
+                        )
+                    )
+                }
+            }
+            
+            ApiResponse.Success(
+                TrackerImportResult(
+                    status = if (conflicts.isEmpty()) "OK" else "WARNING",
+                    stats = TrackerImportStats(
+                        created = importedCount,
+                        updated = updatedCount,
+                        deleted = 0,
+                        ignored = conflicts.size
+                    ),
+                    bundleReport = TrackerBundleReport(
+                        typeReportMap = mapOf(
+                            "TRACKED_ENTITY" to TrackerTypeReport(
+                                stats = TrackerImportStats(
+                                    created = trackerData.trackedEntities.size,
+                                    updated = 0,
+                                    deleted = 0,
+                                    ignored = 0
+                                )
+                            ),
+                            "ENROLLMENT" to TrackerTypeReport(
+                                stats = TrackerImportStats(
+                                    created = trackerData.enrollments.size,
+                                    updated = 0,
+                                    deleted = 0,
+                                    ignored = 0
+                                )
+                            ),
+                            "EVENT" to TrackerTypeReport(
+                                stats = TrackerImportStats(
+                                    created = trackerData.events.size,
+                                    updated = 0,
+                                    deleted = 0,
+                                    ignored = 0
+                                )
+                            )
+                        )
+                    ),
+                    validationReport = TrackerValidationReport(
+                        errorReports = conflicts.map { conflict ->
+                            TrackerErrorReport(
+                                uid = conflict.uid,
+                                trackerType = conflict.trackerType,
+                                errorCode = conflict.errorCode,
+                                message = conflict.message
+                            )
+                        }
+                    )
+                )
+            )
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to submit tracker data: ${e.message}")
+        }
+    }
+    
+    // ========================================
+    // UTILITY METHODS
+    // ========================================
+    
+    /**
+     * Get tracker statistics
+     */
+    suspend fun getTrackerStatistics(): ApiResponse<TrackerStatistics> {
+        return try {
+            val stats = TrackerStatistics(
+                totalTrackedEntities = dataCache.getTrackedEntitiesCount(),
+                totalEnrollments = dataCache.getEnrollmentsCount(),
+                totalEvents = dataCache.getEventsCount(),
+                lastSyncTime = dataCache.getLastTrackerSyncTime()
+            )
+            ApiResponse.Success(stats)
+        } catch (e: Exception) {
+            ApiResponse.Error(e, "Failed to get tracker statistics: ${e.message}")
+        }
+    }
+    
+    /**
+     * Clear all tracker data from cache
+     */
+    suspend fun clearCache() {
+        dataCache.clearTrackedEntities()
+        dataCache.clearEnrollments()
+        dataCache.clearEvents()
+    }
+    
+    /**
+     * Generate a unique ID
+     */
+    private fun generateId(): String {
+        return "temp_${System.currentTimeMillis()}_${(1000..9999).random()}"
+    }
+}
+
+// ========================================
+// TRACKER DATA MODELS
+// ========================================
+
+data class TrackedEntity(
+    val trackedEntity: String,
+    val trackedEntityType: String,
+    val orgUnit: String,
+    val attributes: List<TrackedEntityAttribute> = emptyList(),
+    val enrollments: List<Enrollment> = emptyList(),
+    val relationships: List<Relationship> = emptyList(),
+    val createdAt: String? = null,
+    val updatedAt: String? = null,
+    val inactive: Boolean = false,
+    val deleted: Boolean = false,
+    val potentialDuplicate: Boolean = false
+)
+
+data class TrackedEntityAttribute(
+    val attribute: String,
+    val value: String,
+    val displayName: String? = null,
+    val createdAt: String? = null,
+    val updatedAt: String? = null,
+    val storedBy: String? = null
+)
+
+data class Enrollment(
+    val enrollment: String,
+    val trackedEntity: String,
+    val program: String,
+    val orgUnit: String,
+    val enrolledAt: String,
+    val occurredAt: String? = null,
+    val completedAt: String? = null,
+    val status: String = "ACTIVE", // ACTIVE, COMPLETED, CANCELLED
+    val attributes: List<TrackedEntityAttribute> = emptyList(),
+    val events: List<Event> = emptyList(),
+    val relationships: List<Relationship> = emptyList(),
+    val notes: List<Note> = emptyList(),
+    val createdAt: String? = null,
+    val updatedAt: String? = null,
+    val deleted: Boolean = false
+)
+
+data class Event(
+    val event: String,
+    val enrollment: String? = null,
+    val program: String,
+    val programStage: String,
+    val orgUnit: String,
+    val occurredAt: String,
+    val scheduledAt: String? = null,
+    val completedAt: String? = null,
+    val status: String = "ACTIVE", // ACTIVE, COMPLETED, VISITED, SCHEDULE, OVERDUE, SKIPPED
+    val dataValues: List<EventDataValue> = emptyList(),
+    val relationships: List<Relationship> = emptyList(),
+    val notes: List<Note> = emptyList(),
+    val createdAt: String? = null,
+    val updatedAt: String? = null,
+    val deleted: Boolean = false,
+    val geometry: Geometry? = null
+)
+
+data class EventDataValue(
+    val dataElement: String,
+    val value: String,
+    val providedElsewhere: Boolean = false,
+    val createdAt: String? = null,
+    val updatedAt: String? = null,
+    val storedBy: String? = null
+)
+
+data class Relationship(
+    val relationship: String,
+    val relationshipType: String,
+    val from: RelationshipItem,
+    val to: RelationshipItem,
+    val createdAt: String? = null,
+    val updatedAt: String? = null
+)
+
+data class RelationshipItem(
+    val trackedEntity: String? = null,
+    val enrollment: String? = null,
+    val event: String? = null
+)
+
+data class Note(
+    val note: String,
+    val value: String,
+    val storedBy: String,
+    val storedAt: String
+)
+
+data class Geometry(
+    val type: String, // Point, Polygon, etc.
+    val coordinates: List<Double>
+)
+
+data class TrackerData(
+    val trackedEntities: List<TrackedEntity> = emptyList(),
+    val enrollments: List<Enrollment> = emptyList(),
+    val events: List<Event> = emptyList(),
+    val relationships: List<Relationship> = emptyList()
+)
+
+data class TrackerImportResult(
+    val status: String,
+    val stats: TrackerImportStats,
+    val bundleReport: TrackerBundleReport,
+    val validationReport: TrackerValidationReport
+)
+
+data class TrackerImportStats(
+    val created: Int,
+    val updated: Int,
+    val deleted: Int,
+    val ignored: Int
+)
+
+data class TrackerBundleReport(
+    val typeReportMap: Map<String, TrackerTypeReport>
+)
+
+data class TrackerTypeReport(
+    val stats: TrackerImportStats
+)
+
+data class TrackerValidationReport(
+    val errorReports: List<TrackerErrorReport>
+)
+
+data class TrackerErrorReport(
+    val uid: String,
+    val trackerType: String,
+    val errorCode: String,
+    val message: String
+)
+
+data class TrackerImportConflict(
+    val uid: String,
+    val trackerType: String,
+    val errorCode: String,
+    val message: String
+)
+
+data class TrackerStatistics(
+    val totalTrackedEntities: Int,
+    val totalEnrollments: Int,
+    val totalEvents: Int,
+    val lastSyncTime: Long?
+)

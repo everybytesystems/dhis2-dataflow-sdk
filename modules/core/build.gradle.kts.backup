@@ -1,0 +1,124 @@
+plugins {
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.sqldelight)
+    alias(libs.plugins.vanniktech.mavenPublish)
+}
+
+kotlin {
+    androidTarget {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "1.8"
+            }
+        }
+    }
+    
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+
+    sourceSets {
+        val commonMain by getting {
+            dependencies {
+                // Ktor
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.client.logging)
+                implementation(libs.ktor.client.auth)
+                implementation(libs.ktor.serialization.kotlinx.json)
+                
+                // SQLDelight
+                implementation(libs.sqldelight.runtime)
+                implementation(libs.sqldelight.coroutines.extensions)
+                
+                // Kotlinx
+                implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.kotlinx.datetime)
+            }
+        }
+        
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
+        }
+        
+        val androidMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.okhttp)
+                implementation(libs.sqldelight.android.driver)
+            }
+        }
+        
+        val iosMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.darwin)
+                implementation(libs.sqldelight.native.driver)
+            }
+        }
+    }
+}
+
+sqldelight {
+    databases {
+        create("DHIS2Database") {
+            packageName.set("com.everybytesystems.dataflow.core.database")
+        }
+    }
+}
+
+android {
+    namespace = "com.everybytesystems.dataflow.core"
+    compileSdk = 34
+    
+    defaultConfig {
+        minSdk = 21
+    }
+    
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+}
+
+mavenPublishing {
+    coordinates(
+        groupId = project.group.toString(),
+        artifactId = project.name,
+        version = project.version.toString()
+    )
+    
+    pom {
+        name.set("DHIS2 DataFlow SDK Core")
+        description.set("Shared networking, database, and utility logic")
+        url.set("https://github.com/everybytesystems/dhis2-dataflow-sdk")
+        
+        licenses {
+            license {
+                name.set("Apache-2.0")
+                url.set("https://www.apache.org/licenses/LICENSE-2.0")
+            }
+        }
+        
+        developers {
+            developer {
+                id.set("everybytesystems")
+                name.set("EVERYBYTE SYSTEMS")
+                email.set("socaya@everybytesystems.com")
+            }
+        }
+        
+        scm {
+            url.set("https://github.com/everybytesystems/dhis2-dataflow-sdk")
+            connection.set("scm:git:git@github.com:everybytesystems/dhis2-dataflow-sdk.git")
+            developerConnection.set("scm:git:git@github.com:everybytesystems/dhis2-dataflow-sdk.git")
+        }
+    }
+    
+    publishToMavenCentral()
+    signAllPublications()
+}
+

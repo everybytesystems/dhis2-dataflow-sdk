@@ -1,0 +1,177 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Cache Gradle packages
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+          
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Run tests
+      run: ./gradlew test --no-daemon
+      
+    - name: Build release artifacts
+      run: ./gradlew build --no-daemon
+      
+    - name: Generate documentation
+      run: ./gradlew dokkaHtml --no-daemon
+      
+    - name: Create release archives
+      run: |
+        mkdir -p release-artifacts
+        cp -r modules/core/build/libs/* release-artifacts/
+        cp -r modules/auth/build/libs/* release-artifacts/
+        cp -r modules/metadata/build/libs/* release-artifacts/
+        cp -r modules/data/build/libs/* release-artifacts/
+        cp -r modules/visual/build/libs/* release-artifacts/
+        
+    - name: Extract version from tag
+      id: version
+      run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      
+    - name: Generate changelog
+      id: changelog
+      run: |
+        if [ -f CHANGELOG.md ]; then
+          echo "CHANGELOG<<EOF" >> $GITHUB_OUTPUT
+          sed -n "/## \[${{ steps.version.outputs.VERSION }}\]/,/## \[/p" CHANGELOG.md | head -n -1 >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+        else
+          echo "CHANGELOG=Release ${{ steps.version.outputs.VERSION }}" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: ${{ github.ref }}
+        name: Release ${{ steps.version.outputs.VERSION }}
+        body: |
+          ## DHIS2 DataFlow SDK ${{ steps.version.outputs.VERSION }}
+          
+          ${{ steps.changelog.outputs.CHANGELOG }}
+          
+          ### 📦 Artifacts
+          - Core SDK: `dhis2-dataflow-sdk-core-${{ steps.version.outputs.VERSION }}.jar`
+          - Authentication: `dhis2-dataflow-sdk-auth-${{ steps.version.outputs.VERSION }}.jar`
+          - Metadata: `dhis2-dataflow-sdk-metadata-${{ steps.version.outputs.VERSION }}.jar`
+          - Data Processing: `dhis2-dataflow-sdk-data-${{ steps.version.outputs.VERSION }}.jar`
+          - Visualization: `dhis2-dataflow-sdk-visual-${{ steps.version.outputs.VERSION }}.jar`
+          
+          ### 🚀 Installation
+          ```kotlin
+          dependencies {
+              implementation("com.everybytesystems:dhis2-dataflow-sdk-core:${{ steps.version.outputs.VERSION }}")
+              implementation("com.everybytesystems:dhis2-dataflow-sdk-auth:${{ steps.version.outputs.VERSION }}")
+          }
+          ```
+          
+          ### 📚 Documentation
+          - [API Documentation](https://everybytesystems.github.io/dhis2-dataflow-sdk/)
+          - [Implementation Status](https://github.com/everybytesystems/dhis2-dataflow-sdk/blob/main/IMPLEMENTATION_STATUS.md)
+          
+        files: |
+          release-artifacts/*
+          IMPLEMENTATION_STATUS.md
+          CURRENT_IMPLEMENTATION_SUMMARY.md
+        draft: false
+        prerelease: false
+        
+  publish-maven:
+    runs-on: ubuntu-latest
+    needs: release
+    if: startsWith(github.ref, 'refs/tags/v')
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Cache Gradle packages
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+          
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Publish to Maven Central
+      env:
+        MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+        MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+        SIGNING_KEY: ${{ secrets.SIGNING_KEY }}
+        SIGNING_PASSWORD: ${{ secrets.SIGNING_PASSWORD }}
+      run: ./gradlew publishToMavenCentral --no-daemon
+      
+  publish-docs:
+    runs-on: ubuntu-latest
+    needs: release
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Cache Gradle packages
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+          
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Generate documentation
+      run: ./gradlew dokkaHtml --no-daemon
+      
+    - name: Deploy to GitHub Pages
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./build/dokka/html
+        destination_dir: docs
