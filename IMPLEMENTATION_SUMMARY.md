@@ -1,12 +1,12 @@
-# DHIS2 DataFlow SDK - Implementation Summary
+# DHIS2 EBSCore SDK - Implementation Summary
 
 ## 🎯 Overview
 
-We have successfully implemented the core modules of the DHIS2 DataFlow SDK, a powerful Kotlin Multiplatform library for seamless DHIS2 integration on Android and iOS platforms.
+We have successfully implemented the core modules of the DHIS2 EBSCore SDK, a powerful Kotlin Multiplatform library for seamless DHIS2 integration on Android and iOS platforms.
 
 ## 📦 Implemented Modules
 
-### 1. **Core Module** (`dhis2-dataflow-sdk-core`)
+### 1. **Core Module** (`dhis2-ebscore-sdk-core`)
 **Location**: `/modules/core/`
 
 **Key Components**:
@@ -23,7 +23,7 @@ We have successfully implemented the core modules of the DHIS2 DataFlow SDK, a p
 - Background sync with exponential backoff
 - Type-safe database operations with SQLDelight
 
-### 2. **Auth Module** (`dhis2-dataflow-sdk-auth`)
+### 2. **Auth Module** (`dhis2-ebscore-sdk-auth`)
 **Location**: `/modules/auth/`
 
 **Key Components**:
@@ -40,7 +40,7 @@ We have successfully implemented the core modules of the DHIS2 DataFlow SDK, a p
 - Secure credential storage across platforms
 - Reactive authentication state management
 
-### 3. **Metadata Module** (`dhis2-dataflow-sdk-metadata`)
+### 3. **Metadata Module** (`dhis2-ebscore-sdk-metadata`)
 **Location**: `/modules/metadata/`
 
 **Key Components**:
@@ -55,7 +55,7 @@ We have successfully implemented the core modules of the DHIS2 DataFlow SDK, a p
 - Search and filtering capabilities
 - Hierarchical organisation unit support
 
-### 4. **Data Module** (`dhis2-dataflow-sdk-data`)
+### 4. **Data Module** (`dhis2-ebscore-sdk-data`)
 **Location**: `/modules/data/`
 
 **Key Components**:
@@ -70,12 +70,12 @@ We have successfully implemented the core modules of the DHIS2 DataFlow SDK, a p
 - Tracker data management
 - DataValueSet operations
 
-### 5. **SDK Module** (`dhis2-dataflow-sdk`)
+### 5. **SDK Module** (`dhis2-ebscore-sdk`)
 **Location**: `/modules/sdk/`
 
 **Key Components**:
-- ✅ **DataFlowSdk**: Main SDK class with builder pattern
-- ✅ **DataFlowSdkBuilder**: Fluent configuration builder
+- ✅ **EBSCoreSdk**: Main SDK class with builder pattern
+- ✅ **EBSCoreSdkBuilder**: Fluent configuration builder
 - ✅ **Examples**: Comprehensive usage examples
 - ✅ **Integration**: Unified API surface for all modules
 
@@ -146,7 +146,7 @@ We have successfully implemented the core modules of the DHIS2 DataFlow SDK, a p
 
 ### **Basic Initialization**
 ```kotlin
-val sdk = DataFlowSdkBuilder()
+val sdk = EBSCoreSdkBuilder()
     .baseUrl("https://dhis2.example.org")
     .apiVersion("41")
     .enableLogging(true)
@@ -207,7 +207,7 @@ val districts = sdk.metadataService.getOrganisationUnitsByLevel(3)
 
 ### **Created Documentation**
 - ✅ **README_SDK.md**: Comprehensive user guide
-- ✅ **dataflowskd-docs.md**: Technical documentation
+- ✅ **ebscoreskd-docs.md**: Technical documentation
 - ✅ **Examples.kt**: Code examples and usage patterns
 - ✅ **IMPLEMENTATION_SUMMARY.md**: This implementation summary
 
@@ -240,13 +240,13 @@ val districts = sdk.metadataService.getOrganisationUnitsByLevel(3)
 ./gradlew build --no-daemon
 # ✅ BUILD SUCCESSFUL
 
-./gradlew :dhis2-dataflow-sdk-core:build --no-daemon
+./gradlew :dhis2-ebscore-sdk-core:build --no-daemon
 # ✅ BUILD SUCCESSFUL
 ```
 
 ### **Project Structure**
 ```
-dhis2-dataflow-sdk/
+dhis2-ebscore-sdk/
 ├── modules/
 │   ├── core/           ✅ Implemented
 │   ├── auth/           ✅ Implemented  
@@ -261,7 +261,7 @@ dhis2-dataflow-sdk/
 
 ## 🎉 Summary
 
-We have successfully implemented the foundational architecture of the DHIS2 DataFlow SDK with:
+We have successfully implemented the foundational architecture of the DHIS2 EBSCore SDK with:
 
 - **5 core modules** with complete functionality
 - **Cross-platform support** for Android and iOS

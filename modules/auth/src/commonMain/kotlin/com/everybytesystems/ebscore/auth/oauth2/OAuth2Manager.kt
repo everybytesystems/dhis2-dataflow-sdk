@@ -3,6 +3,7 @@ package com.everybytesystems.ebscore.auth.oauth2
 import com.everybytesystems.ebscore.auth.SecureStorage
 import com.everybytesystems.ebscore.auth.StoredCredentials
 import com.everybytesystems.ebscore.auth.UserInfo
+import com.everybytesystems.ebscore.auth.crypto.CryptoUtils
 import com.everybytesystems.ebscore.auth.jwt.JwtValidator
 import com.everybytesystems.ebscore.core.network.ApiResponse
 import io.ktor.client.*
@@ -30,6 +31,8 @@ class OAuth2Manager(
     val authState: StateFlow<OAuth2State> = _authState.asStateFlow()
     
     private var currentTokens: OAuth2Tokens? = null
+    private var currentCodeVerifier: String? = null
+    private var currentState: String? = null
     
     /**
      * Initialize OAuth2 manager and restore saved tokens
@@ -54,7 +57,7 @@ class OAuth2Manager(
                         credentials.userInfo?.let { userInfo ->
                             _authState.value = OAuth2State.Authenticated(tokens, userInfo)
                         }
-                    } else if (tokens.refreshToken.isNotEmpty()) {
+                    } else if (!tokens.refreshToken.isNullOrEmpty()) {
                         // Try to refresh the token
                         refreshToken()
                     }
@@ -66,23 +69,44 @@ class OAuth2Manager(
     }
     
     /**
-     * Start OAuth2 authorization code flow
+     * Start OAuth2 authorization code flow with PKCE
      */
-    fun getAuthorizationUrl(state: String? = null): String {
+    fun getAuthorizationUrl(
+        state: String? = null,
+        usePKCE: Boolean = true
+    ): OAuth2AuthorizationRequest {
+        // Generate secure state if not provided
+        val actualState = state ?: CryptoUtils.generateState()
+        currentState = actualState
+        
         val params = mutableMapOf<String, String>().apply {
             put("response_type", "code")
             put("client_id", config.clientId)
             put("redirect_uri", config.redirectUri)
             config.scope?.let { put("scope", it) }
-            state?.let { put("state", it) }
-            config.codeChallenge?.let { put("code_challenge", it) }
-            config.codeChallengeMethod?.let { put("code_challenge_method", it) }
+            put("state", actualState)
+            
+            // Add PKCE parameters if enabled
+            if (usePKCE) {
+                val codeVerifier = CryptoUtils.generateCodeVerifier()
+                val codeChallenge = CryptoUtils.generateCodeChallenge(codeVerifier)
+                currentCodeVerifier = codeVerifier
+                
+                put("code_challenge", codeChallenge)
+                put("code_challenge_method", "S256")
+            }
         }
         
         val queryString = params.map { "${it.key}=${it.value.encodeURLParameter()}" }
             .joinToString("&")
         
-        return "${config.authorizationEndpoint}?$queryString"
+        val authUrl = "${config.authorizationEndpoint}?$queryString"
+        
+        return OAuth2AuthorizationRequest(
+            authorizationUrl = authUrl,
+            state = actualState,
+            codeVerifier = currentCodeVerifier
+        )
     }
     
     /**
@@ -90,11 +114,20 @@ class OAuth2Manager(
      */
     suspend fun exchangeCodeForTokens(
         authorizationCode: String,
+        state: String? = null,
         codeVerifier: String? = null
     ): ApiResponse<OAuth2Tokens> {
         _authState.value = OAuth2State.Loading
         
         return try {
+            // Validate state parameter
+            if (state != null && currentState != null && !CryptoUtils.constantTimeEquals(state, currentState!!)) {
+                _authState.value = OAuth2State.Error("Invalid state parameter", null)
+                return ApiResponse.Error(Exception("Invalid state parameter"), "Invalid state parameter")
+            }
+            
+            val actualCodeVerifier = codeVerifier ?: currentCodeVerifier
+            
             val response = httpClient.submitForm(
                 url = config.tokenEndpoint,
                 formParameters = parameters {
@@ -103,7 +136,7 @@ class OAuth2Manager(
                     append("client_id", config.clientId)
                     config.clientSecret?.let { append("client_secret", it) }
                     append("redirect_uri", config.redirectUri)
-                    codeVerifier?.let { append("code_verifier", it) }
+                    actualCodeVerifier?.let { append("code_verifier", it) }
                 }
             ) {
                 headers {
@@ -123,12 +156,25 @@ class OAuth2Manager(
                         scope = tokenResponse.scope ?: config.scope
                     )
                     
-                    // Get user info
-                    val userInfo = getUserInfo(tokens.accessToken)
+                    // Get user info if userinfo endpoint is available
+                    val userInfo: UserInfo? = if (config.userinfoEndpoint != null) {
+                        getUserInfo(tokens.accessToken)
+                    } else {
+                        // Try to extract user info from ID token if present
+                        if (tokenResponse.idToken != null) {
+                            extractUserInfoFromIdToken(tokenResponse.idToken!!)
+                        } else {
+                            null
+                        }
+                    }
                     
                     // Store tokens
                     storeTokens(tokens, userInfo)
                     currentTokens = tokens
+                    
+                    // Clear temporary values
+                    currentCodeVerifier = null
+                    currentState = null
                     
                     _authState.value = OAuth2State.Authenticated(tokens, userInfo)
                     ApiResponse.Success(tokens)
@@ -310,26 +356,43 @@ class OAuth2Manager(
     }
     
     /**
+     * Extract user info from ID token (JWT)
+     */
+    private fun extractUserInfoFromIdToken(idToken: String): UserInfo? {
+        return try {
+            val validation = jwtValidator.validateToken(idToken)
+            when (validation) {
+                is com.everybytesystems.ebscore.auth.jwt.JwtValidationResult.Valid -> {
+                    UserInfo(
+                        id = validation.claims.subject ?: "",
+                        username = validation.claims.getCustomClaim("preferred_username") ?: validation.claims.subject ?: "",
+                        email = validation.claims.getCustomClaim("email"),
+                        firstName = validation.claims.getCustomClaim("given_name"),
+                        lastName = validation.claims.getCustomClaim("family_name")
+                    )
+                }
+                else -> null
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+    
+    /**
      * Get current access token
      */
-    fun getAccessToken(): String? {
-        return currentTokens?.accessToken
-    }
+    fun getAccessToken(): String? = currentTokens?.accessToken
     
     /**
      * Check if user is authenticated
      */
-    fun isAuthenticated(): Boolean {
-        val tokens = currentTokens ?: return false
-        return !jwtValidator.isTokenExpired(tokens.accessToken)
-    }
+    fun isAuthenticated(): Boolean = currentTokens != null && 
+        !jwtValidator.isTokenExpired(currentTokens!!.accessToken)
     
     /**
      * Get current tokens
      */
-    fun getCurrentTokens(): OAuth2Tokens? {
-        return currentTokens
-    }
+    fun getCurrentTokens(): OAuth2Tokens? = currentTokens
 }
 
 /**
@@ -372,20 +435,32 @@ sealed class OAuth2State {
     data class Error(val message: String, val exception: Throwable? = null) : OAuth2State()
 }
 
+
+
 /**
- * OAuth2 Token Response
+ * OAuth2 Authorization Request
+ */
+data class OAuth2AuthorizationRequest(
+    val authorizationUrl: String,
+    val state: String,
+    val codeVerifier: String? = null
+)
+
+/**
+ * OAuth2 Token Response from server
  */
 @Serializable
 private data class OAuth2TokenResponse(
     val accessToken: String,
+    val refreshToken: String? = null,
     val tokenType: String? = null,
     val expiresIn: Long? = null,
-    val refreshToken: String? = null,
-    val scope: String? = null
+    val scope: String? = null,
+    val idToken: String? = null
 )
 
 /**
- * OAuth2 Error Response
+ * OAuth2 Error Response from server
  */
 @Serializable
 private data class OAuth2ErrorResponse(

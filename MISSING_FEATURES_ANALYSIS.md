@@ -1,4 +1,4 @@
-# 🔍 DHIS2 DataFlow SDK - Missing Features Analysis
+# 🔍 DHIS2 EBSCore SDK - Missing Features Analysis
 
 ## 📋 **What's NOT Implemented Yet**
 
@@ -323,4 +323,4 @@ We have achieved **COMPLETE COVERAGE** of all DHIS2 Web API categories! 🎉
 
 **🏆 MISSION ACCOMPLISHED: 100% DHIS2 Web API Coverage Achieved! 🚀**
 
-The DHIS2 DataFlow SDK now provides the most comprehensive DHIS2 API client available, supporting ALL use cases and application types!
+The DHIS2 EBSCore SDK now provides the most comprehensive DHIS2 API client available, supporting ALL use cases and application types!

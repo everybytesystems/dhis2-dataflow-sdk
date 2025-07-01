@@ -8,6 +8,6 @@ import com.everybytesystems.ebscore.auth.SecureStorageFactory
  */
 actual object PlatformFactory {
     actual fun createSecureStorage(): SecureStorage {
-        return SecureStorageFactory.create()
+        return SecureStorageFactory().create()
     }
 }

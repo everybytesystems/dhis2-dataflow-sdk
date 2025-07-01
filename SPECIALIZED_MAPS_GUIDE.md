@@ -1,7 +1,7 @@
 # 🗺️ Specialized Maps for Data Presentation & Analysis
 
 ## Overview
-The DataFlow UI SDK now includes specialized map types designed for specific use cases including data presentation, surveillance/contact tracing, geographical analysis, and climate/environmental monitoring. These maps provide advanced visualization capabilities for complex data scenarios.
+The EBSCore UI SDK now includes specialized map types designed for specific use cases including data presentation, surveillance/contact tracing, geographical analysis, and climate/environmental monitoring. These maps provide advanced visualization capabilities for complex data scenarios.
 
 ## 📊 Data Presentation Maps
 
@@ -309,7 +309,7 @@ EnvironmentalMonitoringMap(
 ### Real-time Data Integration
 ```kotlin
 // Climate data from weather API
-val climateDataFlow = weatherService.getRealtimeData()
+val climateEBSCore = weatherService.getRealtimeData()
     .map { apiData ->
         apiData.map { station ->
             ClimateDataPoint(
@@ -323,7 +323,7 @@ val climateDataFlow = weatherService.getRealtimeData()
     }
 
 // Contact tracing from health database
-val contactDataFlow = healthService.getContactData()
+val contactEBSCore = healthService.getContactData()
     .map { contacts ->
         contacts.map { contact ->
             ContactNode(
@@ -415,4 +415,4 @@ val sensorData = iotService.getSensorReadings()
 
 ---
 
-**DataFlow UI SDK** - Advanced geospatial visualization for specialized data analysis! 🗺️📊🔬
+**EBSCore UI SDK** - Advanced geospatial visualization for specialized data analysis! 🗺️📊🔬

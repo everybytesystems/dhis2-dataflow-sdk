@@ -39,11 +39,11 @@ configure<PublishingExtension> {
     publications.withType<MavenPublication> {
         // Customize artifact ID based on module
         artifactId = when (project.name) {
-            "core" -> "dhis2-dataflow-sdk-core"
-            "auth" -> "dhis2-dataflow-sdk-auth"
-            "metadata" -> "dhis2-dataflow-sdk-metadata"
-            "data" -> "dhis2-dataflow-sdk-data"
-            "visual" -> "dhis2-dataflow-sdk-visual"
+            "core" -> "ebscore-core"
+            "auth" -> "ebscore-auth"
+            "metadata" -> "ebscore-metadata"
+            "data" -> "ebscore-data"
+            "ui" -> "ebscore-ui"
             else -> project.name
         }
         

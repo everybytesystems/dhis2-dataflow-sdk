@@ -111,7 +111,7 @@ class EBSCoreSdk private constructor(
      * Initialize the SDK and restore authentication state
      */
     suspend fun initialize() {
-        println("🚀 Initializing DHIS2 DataFlow SDK...")
+        println("🚀 Initializing DHIS2 EBSCore SDK...")
         
         // Initialize authentication
         authManager.initialize()

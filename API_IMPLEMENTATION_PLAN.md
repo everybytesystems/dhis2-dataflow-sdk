@@ -2,7 +2,7 @@
 
 ## 📋 **Overview**
 
-This document outlines the comprehensive implementation of all DHIS2 Web API endpoints in our DataFlow SDK, based on the official DHIS2 documentation.
+This document outlines the comprehensive implementation of all DHIS2 Web API endpoints in our EBSCore SDK, based on the official DHIS2 documentation.
 
 ## 🎯 **API Categories to Implement**
 

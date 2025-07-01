@@ -1,13 +1,13 @@
-# DHIS2 DataFlow SDK - Phase 3 Completion Summary
+# DHIS2 EBSCore SDK - Phase 3 Completion Summary
 
 ## 🎉 Phase 3: Advanced Features - 100% COMPLETE
 
-Phase 3 of the DHIS2 DataFlow SDK has been successfully completed, bringing the overall project completion to **95%**. All advanced APIs for comprehensive DHIS2 integration are now fully implemented, making this the most complete DHIS2 SDK available.
+Phase 3 of the DHIS2 EBSCore SDK has been successfully completed, bringing the overall project completion to **95%**. All advanced APIs for comprehensive DHIS2 integration are now fully implemented, making this the most complete DHIS2 SDK available.
 
 ## ✅ What Was Accomplished
 
 ### 1. Messaging API - Complete Implementation
-**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/dataflow/core/api/messaging/`
+**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/ebscore/core/api/messaging/`
 
 #### Features Implemented:
 - **Message Conversations** - Complete conversation management with filtering
@@ -26,7 +26,7 @@ Phase 3 of the DHIS2 DataFlow SDK has been successfully completed, bringing the 
 - **Multi-channel support** including SMS, email, and push notifications
 
 ### 2. Data Store API - Complete Implementation
-**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/dataflow/core/api/datastore/`
+**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/ebscore/core/api/datastore/`
 
 #### Features Implemented:
 - **Data Store Operations** - Complete key-value storage management
@@ -46,7 +46,7 @@ Phase 3 of the DHIS2 DataFlow SDK has been successfully completed, bringing the 
 - **Multi-store support** for system, user, and app data
 
 ### 3. Apps API - Complete Implementation
-**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/dataflow/core/api/apps/`
+**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/ebscore/core/api/apps/`
 
 #### Features Implemented:
 - **App Management** - Complete app lifecycle management
@@ -66,7 +66,7 @@ Phase 3 of the DHIS2 DataFlow SDK has been successfully completed, bringing the 
 - **Security features** including sandboxing and vulnerability scanning
 
 ### 4. System Settings API - Complete Implementation
-**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/dataflow/core/api/systemsettings/`
+**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/ebscore/core/api/systemsettings/`
 
 #### Features Implemented:
 - **System Configuration** - Complete system settings management
@@ -287,7 +287,7 @@ val maintenance = client.systemSettings.performMaintenance(
 
 ## 🎉 Conclusion
 
-Phase 3 completion represents the final major milestone for the DHIS2 DataFlow SDK. With all advanced APIs now fully implemented, the SDK provides complete DHIS2 ecosystem integration capabilities that surpass any existing solution.
+Phase 3 completion represents the final major milestone for the DHIS2 EBSCore SDK. With all advanced APIs now fully implemented, the SDK provides complete DHIS2 ecosystem integration capabilities that surpass any existing solution.
 
 The SDK now supports:
 - **Complete DHIS2 Operations** - Every major DHIS2 domain and operation
@@ -295,7 +295,7 @@ The SDK now supports:
 - **Advanced Integrations** - Messaging, app management, and system administration
 - **Version Compatibility** - Full support across all modern DHIS2 versions
 
-**The DHIS2 DataFlow SDK is now the most comprehensive, feature-complete, and production-ready DHIS2 integration library available for any platform.**
+**The DHIS2 EBSCore SDK is now the most comprehensive, feature-complete, and production-ready DHIS2 integration library available for any platform.**
 
 ### Key Differentiators
 1. **Complete API Coverage** - 13/14 APIs fully implemented
@@ -305,4 +305,4 @@ The SDK now supports:
 5. **Performance** - Efficient bulk operations and caching
 6. **Documentation** - Comprehensive documentation and examples
 
-The DHIS2 DataFlow SDK sets a new standard for DHIS2 integration libraries and provides developers with everything needed to build sophisticated, enterprise-grade DHIS2 applications.
+The DHIS2 EBSCore SDK sets a new standard for DHIS2 integration libraries and provides developers with everything needed to build sophisticated, enterprise-grade DHIS2 applications.

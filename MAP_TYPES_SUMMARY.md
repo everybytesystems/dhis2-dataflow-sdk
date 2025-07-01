@@ -1,11 +1,11 @@
-# 🗺️ DataFlow UI SDK - Complete Map Types Implementation
+# 🗺️ EBSCore UI SDK - Complete Map Types Implementation
 
 ## Overview
-The DataFlow UI SDK now includes a comprehensive collection of **15+ map types** with interactive features, geospatial visualizations, and cross-platform compatibility. All maps are built using Compose Multiplatform for seamless integration across Android, JVM, and future iOS/Web platforms.
+The EBSCore UI SDK now includes a comprehensive collection of **15+ map types** with interactive features, geospatial visualizations, and cross-platform compatibility. All maps are built using Compose Multiplatform for seamless integration across Android, JVM, and future iOS/Web platforms.
 
 ## 🗺️ Basic Map Types
 
-### 1. Interactive Map (`DataFlowMap`)
+### 1. Interactive Map (`EBSCoreMap`)
 - **Purpose**: General-purpose interactive mapping
 - **Features**: Markers, polylines, polygons, circles, zoom controls
 - **Use Cases**: Location displays, POI mapping, basic geographic visualization
@@ -151,7 +151,7 @@ data class RouteSegment(
 
 ### Basic Interactive Map:
 ```kotlin
-DataFlowMap(
+EBSCoreMap(
     markers = listOf(
         MapMarker(
             id = "1",
@@ -300,4 +300,4 @@ Globe3DVisualization(
 
 ---
 
-**DataFlow UI SDK** - The most comprehensive mapping library for Kotlin Multiplatform! 🗺️🚀
+**EBSCore UI SDK** - The most comprehensive mapping library for Kotlin Multiplatform! 🗺️🚀

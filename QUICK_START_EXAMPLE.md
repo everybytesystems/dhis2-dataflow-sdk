@@ -9,20 +9,20 @@ Connect to a real DHIS2 server and login with your credentials.
 ```kotlin
 // In your app's build.gradle.kts
 dependencies {
-    implementation("com.everybytesystems.dataflow-sdk:sdk:1.0.0")
+    implementation("com.everybytesystems.ebscore-sdk:sdk:1.0.0")
 }
 ```
 
 ### Step 2: Initialize the SDK
 ```kotlin
 class MainActivity : ComponentActivity() {
-    private lateinit var sdk: DataFlowSdk
+    private lateinit var sdk: EBSCoreSdk
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
         // Initialize the SDK
-        sdk = DataFlowSdkBuilder()
+        sdk = EBSCoreSdkBuilder()
             .baseUrl("https://play.dhis2.org/dev")  // DHIS2 demo server
             .apiVersion("41")
             .enableLogging(true)
@@ -106,16 +106,16 @@ class LoginActivity : ComponentActivity() {
 ```swift
 // In your Package.swift or Xcode
 dependencies: [
-    .package(url: "https://github.com/everybytesystems/dhis2-dataflow-sdk", from: "1.0.0")
+    .package(url: "https://github.com/everybytesystems/dhis2-ebscore-sdk", from: "1.0.0")
 ]
 ```
 
 ### Step 2: Initialize and Login
 ```swift
-import DHIS2DataFlowSDK
+import DHIS2EBSCoreSDK
 
 class ContentView: View {
-    @State private var sdk: DataFlowSdk?
+    @State private var sdk: EBSCoreSdk?
     @State private var loginStatus = "Not logged in"
     @State private var userData = ""
     
@@ -136,7 +136,7 @@ class ContentView: View {
     }
     
     private func initializeSDK() {
-        sdk = DataFlowSdkBuilder()
+        sdk = EBSCoreSdkBuilder()
             .baseUrl("https://play.dhis2.org/dev")
             .apiVersion("41")
             .enableLogging(true)

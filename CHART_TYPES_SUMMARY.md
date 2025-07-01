@@ -1,75 +1,75 @@
-# 📊 DataFlow UI SDK - Complete Chart Types Implementation
+# 📊 EBSCore UI SDK - Complete Chart Types Implementation
 
 ## Overview
-The DataFlow UI SDK now includes a comprehensive collection of **20+ chart types** with modern animations, interactions, and customization options. All charts are built using Compose Multiplatform for cross-platform compatibility.
+The EBSCore UI SDK now includes a comprehensive collection of **20+ chart types** with modern animations, interactions, and customization options. All charts are built using Compose Multiplatform for cross-platform compatibility.
 
 ## 📈 Basic Chart Types
 
-### 1. Line Chart (`DataFlowLineChart`)
+### 1. Line Chart (`EBSCoreLineChart`)
 - **Purpose**: Show trends over time
 - **Features**: Multi-series support, animations, interactive points
 - **Use Cases**: Sales trends, performance metrics, time series data
 
-### 2. Bar Chart (`DataFlowBarChart`)
+### 2. Bar Chart (`EBSCoreBarChart`)
 - **Purpose**: Compare values across categories
 - **Features**: Horizontal/vertical orientation, grouped bars, gradients
 - **Use Cases**: Regional sales, category comparisons, rankings
 
-### 3. Pie Chart (`DataFlowPieChart`)
+### 3. Pie Chart (`EBSCorePieChart`)
 - **Purpose**: Show proportions of a whole
 - **Features**: Interactive slices, legends, percentage labels
 - **Use Cases**: Market share, budget allocation, demographic breakdown
 
-### 4. Area Chart (`DataFlowAreaChart`)
+### 4. Area Chart (`EBSCoreAreaChart`)
 - **Purpose**: Show cumulative values over time
 - **Features**: Stacked/overlapping modes, gradient fills
 - **Use Cases**: Revenue accumulation, resource usage, portfolio composition
 
-### 5. Gauge Chart (`DataFlowGaugeChart`)
+### 5. Gauge Chart (`EBSCoreGaugeChart`)
 - **Purpose**: Display KPI progress against targets
 - **Features**: Customizable ranges, color coding, center text
 - **Use Cases**: Performance dashboards, goal tracking, health metrics
 
 ## 📊 Advanced Chart Types
 
-### 6. Scatter Plot (`DataFlowScatterPlot`)
+### 6. Scatter Plot (`EBSCoreScatterPlot`)
 - **Purpose**: Show correlation between two variables
 - **Features**: Trend lines, multi-series, point clustering
 - **Use Cases**: Quality vs price analysis, correlation studies
 
-### 7. Heatmap (`DataFlowHeatmap`)
+### 7. Heatmap (`EBSCoreHeatmap`)
 - **Purpose**: Visualize data density across two dimensions
 - **Features**: Color gradients, interactive cells, tooltips
 - **Use Cases**: Activity patterns, correlation matrices, geographic data
 
-### 8. Candlestick Chart (`DataFlowCandlestickChart`)
+### 8. Candlestick Chart (`EBSCoreCandlestickChart`)
 - **Purpose**: Financial data visualization (OHLC)
 - **Features**: Volume bars, color coding, interactive candles
 - **Use Cases**: Stock prices, trading analysis, financial markets
 
-### 9. Radar Chart (`DataFlowRadarChart`)
+### 9. Radar Chart (`EBSCoreRadarChart`)
 - **Purpose**: Multi-dimensional data comparison
 - **Features**: Multiple series, filled areas, axis labels
 - **Use Cases**: Product comparisons, skill assessments, performance profiles
 
-### 10. Bubble Chart (`DataFlowBubbleChart`)
+### 10. Bubble Chart (`EBSCoreBubbleChart`)
 - **Purpose**: Three-dimensional data visualization
 - **Features**: Variable bubble sizes, color coding, animations
 - **Use Cases**: Market analysis, risk vs return, portfolio visualization
 
 ## 🔄 Flow & Process Charts
 
-### 11. Waterfall Chart (`DataFlowWaterfallChart`)
+### 11. Waterfall Chart (`EBSCoreWaterfallChart`)
 - **Purpose**: Show cumulative effect of sequential changes
 - **Features**: Positive/negative changes, connecting lines, totals
 - **Use Cases**: Revenue analysis, budget variance, process flows
 
-### 12. Funnel Chart (`DataFlowFunnelChart`)
+### 12. Funnel Chart (`EBSCoreFunnelChart`)
 - **Purpose**: Conversion process visualization
 - **Features**: Trapezoid shapes, stage highlighting, conversion rates
 - **Use Cases**: Sales funnels, user journeys, process efficiency
 
-### 13. Sankey Diagram (`DataFlowSankeyDiagram`)
+### 13. Sankey Diagram (`EBSCoreSankeyDiagram`)
 - **Purpose**: Flow visualization between categories
 - **Features**: Curved connections, proportional widths, interactive nodes
 - **Use Cases**: Energy flows, user paths, budget allocation
@@ -98,7 +98,7 @@ The DataFlow UI SDK now includes a comprehensive collection of **20+ chart types
 
 ## 🎯 Specialized Charts
 
-### 18. Treemap Chart (`DataFlowTreemapChart`)
+### 18. Treemap Chart (`EBSCoreTreemapChart`)
 - **Purpose**: Hierarchical data visualization
 - **Features**: Nested rectangles, proportional sizing, drill-down
 - **Use Cases**: File systems, market capitalization, organizational data
@@ -108,14 +108,14 @@ The DataFlow UI SDK now includes a comprehensive collection of **20+ chart types
 - **Features**: Circular layout, curved connections, interactive arcs
 - **Use Cases**: Migration flows, trade relationships, network analysis
 
-### 20. Donut Chart (`DataFlowDonutChart`)
+### 20. Donut Chart (`EBSCoreDonutChart`)
 - **Purpose**: Enhanced pie chart with center content
 - **Features**: Customizable center, multiple rings, interactive slices
 - **Use Cases**: Progress indicators, status dashboards, KPI displays
 
 ## 📏 Micro Charts
 
-### 21. Sparkline (`DataFlowSparkline`)
+### 21. Sparkline (`EBSCoreSparkline`)
 - **Purpose**: Compact trend visualization
 - **Features**: Minimal design, area fill, last point highlight
 - **Use Cases**: Inline metrics, dashboard widgets, table cells
@@ -170,7 +170,7 @@ data class ChartSeries(
 
 ### Basic Line Chart:
 ```kotlin
-DataFlowLineChart(
+EBSCoreLineChart(
     series = listOf(
         ChartSeries(
             name = "Revenue",
@@ -179,7 +179,7 @@ DataFlowLineChart(
                 ChartDataPoint(2f, 150f, "Feb", "$150K"),
                 ChartDataPoint(3f, 120f, "Mar", "$120K")
             ),
-            color = DataFlowColors.Blue500
+            color = EBSCoreColors.Blue500
         )
     ),
     config = ChartConfig(
@@ -192,7 +192,7 @@ DataFlowLineChart(
 
 ### Interactive Heatmap:
 ```kotlin
-DataFlowHeatmap(
+EBSCoreHeatmap(
     data = listOf(
         HeatmapDataPoint(0, 0, 0.8f, "Mon-9AM"),
         HeatmapDataPoint(1, 0, 0.6f, "Tue-9AM"),
@@ -210,7 +210,7 @@ DataFlowHeatmap(
 
 ### Financial Candlestick Chart:
 ```kotlin
-DataFlowCandlestickChart(
+EBSCoreCandlestickChart(
     data = listOf(
         CandlestickDataPoint(1f, 100f, 110f, 95f, 105f, 1000f, "Day 1"),
         CandlestickDataPoint(2f, 105f, 115f, 100f, 108f, 1200f, "Day 2"),
@@ -259,4 +259,4 @@ DataFlowCandlestickChart(
 
 ---
 
-**DataFlow UI SDK** - The most comprehensive charting library for Kotlin Multiplatform! 🚀
+**EBSCore UI SDK** - The most comprehensive charting library for Kotlin Multiplatform! 🚀

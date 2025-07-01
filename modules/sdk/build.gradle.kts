@@ -21,19 +21,25 @@ kotlin {
         }
     }
     
-    // iOS targets commented out for now due to build issues
-    // iosX64()
-    // iosArm64()
-    // iosSimulatorArm64()
+    js(IR) {
+        browser()
+        nodejs()
+    }
+    
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
     
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":dhis2-dataflow-sdk-core"))
-                api(project(":dhis2-dataflow-sdk-auth"))
-                api(project(":dhis2-dataflow-sdk-data"))
-                api(project(":dhis2-dataflow-sdk-metadata"))
-                api(project(":dhis2-dataflow-sdk-visual"))
+                api(project(":ebscore-core"))
+                api(project(":ebscore-auth"))
+                api(project(":ebscore-dhis2"))
+                api(project(":ebscore-dhis2-metadata"))
+                api(project(":ebscore-dhis2-data"))
+                api(project(":ebscore-storage"))
+                api(project(":ebscore-network"))
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.ktor.client.core)
@@ -58,8 +64,6 @@ kotlin {
             }
         }
         
-        // iOS source sets commented out for now
-        /*
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
@@ -72,12 +76,11 @@ kotlin {
                 // iOS-specific dependencies if needed
             }
         }
-        */
     }
 }
 
 android {
-    namespace = "com.everybytesystems.dataflow.sdk"
+    namespace = "com.everybytesystems.ebscore.sdk"
     compileSdk = 34
     
     defaultConfig { 
@@ -91,12 +94,6 @@ android {
 }
 
 mavenPublishing {
-    coordinates(
-        groupId = project.group.toString(),
-        artifactId = project.name,
-        version = project.version.toString()
-    )
-    
     pom {
         name.set("DHIS2 DataFlow SDK")
         description.set("All-in-one umbrella SDK including auth, data sync, visualization, and AI Insights")
@@ -123,7 +120,4 @@ mavenPublishing {
             developerConnection.set("scm:git:git@github.com:everybytesystems/dhis2-dataflow-sdk.git")
         }
     }
-    
-    publishToMavenCentral()
-    signAllPublications()
 }

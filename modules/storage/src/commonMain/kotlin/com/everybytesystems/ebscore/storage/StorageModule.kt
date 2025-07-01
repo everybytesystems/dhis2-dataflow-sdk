@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.serializer
 
 /**
  * EBSCore Storage Module
@@ -25,8 +26,8 @@ interface EBSCoreStorage {
     suspend fun clear()
     
     // JSON Storage
-    suspend inline fun <reified T> putObject(key: String, value: T)
-    suspend inline fun <reified T> getObject(key: String, defaultValue: T): T
+    suspend fun <T> putObject(key: String, value: T, serializer: kotlinx.serialization.KSerializer<T>)
+    suspend fun <T> getObject(key: String, defaultValue: T, serializer: kotlinx.serialization.KSerializer<T>): T
     
     // Reactive Storage
     fun observeString(key: String, defaultValue: String = ""): Flow<String>
@@ -35,7 +36,7 @@ interface EBSCoreStorage {
 }
 
 class EBSCoreStorageImpl(
-    private val settings: Settings = Settings()
+    private val settings: Settings
 ) : EBSCoreStorage {
     
     private val json = Json {
@@ -82,18 +83,18 @@ class EBSCoreStorageImpl(
         settings.clear()
     }
     
-    override suspend inline fun <reified T> putObject(key: String, value: T) {
-        val jsonString = json.encodeToString(value)
+    override suspend fun <T> putObject(key: String, value: T, serializer: kotlinx.serialization.KSerializer<T>) {
+        val jsonString = json.encodeToString(serializer, value)
         putString(key, jsonString)
     }
     
-    override suspend inline fun <reified T> getObject(key: String, defaultValue: T): T {
+    override suspend fun <T> getObject(key: String, defaultValue: T, serializer: kotlinx.serialization.KSerializer<T>): T {
         val jsonString = getString(key)
         return if (jsonString.isEmpty()) {
             defaultValue
         } else {
             try {
-                json.decodeFromString<T>(jsonString)
+                json.decodeFromString(serializer, jsonString)
             } catch (e: Exception) {
                 defaultValue
             }
@@ -131,19 +132,19 @@ object StorageKeys {
 }
 
 // Cache Management
-class CacheManager(private val storage: EBSCoreStorage) {
+class CacheManager(val storage: EBSCoreStorage) {
     
-    suspend fun <T> cacheData(key: String, data: T, expiryMinutes: Long = 60) {
+    suspend inline fun <reified T> cacheData(key: String, data: T, expiryMinutes: Long = 60) {
         val cacheEntry = CacheEntry(
             data = data,
-            timestamp = System.currentTimeMillis(),
+            timestamp = kotlinx.datetime.Clock.System.now().toEpochMilliseconds(),
             expiryMinutes = expiryMinutes
         )
-        storage.putObject(key, cacheEntry)
+        storage.putObject(key, cacheEntry, serializer<CacheEntry<T>>())
     }
     
     suspend inline fun <reified T> getCachedData(key: String): T? {
-        val cacheEntry = storage.getObject<CacheEntry<T>?>(key, null)
+        val cacheEntry = storage.getObject(key, null as CacheEntry<T>?, serializer<CacheEntry<T>?>())
         return if (cacheEntry != null && !cacheEntry.isExpired()) {
             cacheEntry.data
         } else {
@@ -165,6 +166,6 @@ data class CacheEntry<T>(
 ) {
     fun isExpired(): Boolean {
         val expiryTime = timestamp + (expiryMinutes * 60 * 1000)
-        return System.currentTimeMillis() > expiryTime
+        return kotlinx.datetime.Clock.System.now().toEpochMilliseconds() > expiryTime
     }
 }

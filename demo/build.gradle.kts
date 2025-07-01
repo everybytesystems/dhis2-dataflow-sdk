@@ -4,7 +4,7 @@ plugins {
 }
 
 dependencies {
-    implementation(project(":dhis2-dataflow-sdk-core"))
+    implementation(project(":ebscore-core"))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
 }
 

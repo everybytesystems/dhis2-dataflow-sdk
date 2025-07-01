@@ -109,11 +109,11 @@
 
 ## 🚀 **SDK Integration Ready**
 
-Our DHIS2 DataFlow SDK can now:
+Our DHIS2 EBSCore SDK can now:
 
 ### **1. Connect to Real DHIS2 Servers** ✅
 ```kotlin
-val sdk = DataFlowSdkBuilder()
+val sdk = EBSCoreSdkBuilder()
     .baseUrl("https://play.im.dhis2.org/dev")
     .build()
 ```
@@ -178,7 +178,7 @@ Our SDK is ready to:
 4. **Work offline** with cached data
 5. **Build** production-ready health applications
 
-**The DHIS2 DataFlow SDK is production-ready! 🚀**
+**The DHIS2 EBSCore SDK is production-ready! 🚀**
 
 ---
 

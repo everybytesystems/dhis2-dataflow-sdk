@@ -1,11 +1,11 @@
 #!/bin/bash
 
-# DHIS2 DataFlow SDK - JitPack Publishing Script
+# EBSCore SDK - JitPack Publishing Script
 # Quick setup for immediate package distribution
 
 set -e
 
-echo "🚀 DHIS2 DataFlow SDK - JitPack Publishing"
+echo "🚀 EBSCore SDK - JitPack Publishing"
 echo "=========================================="
 echo ""
 
@@ -29,7 +29,7 @@ print_warning() {
 
 # Check if we're in the right directory
 if [ ! -f "README.md" ] || [ ! -f "PUBLISHING_GUIDE.md" ]; then
-    echo "❌ Please run this script from the root of the DHIS2 DataFlow SDK project"
+    echo "❌ Please run this script from the root of the EBSCore SDK project"
     exit 1
 fi
 
@@ -135,7 +135,7 @@ fi
 print_info "Creating tag: $TAG_NAME"
 git tag -a "$TAG_NAME" -m "Release version $VERSION
 
-🎉 DHIS2 DataFlow SDK v$VERSION
+🎉 EBSCore SDK v$VERSION
 
 ## Features
 - ✅ 14/14 DHIS2 APIs fully implemented (100% coverage)
@@ -154,15 +154,15 @@ repositories {
 }
 
 dependencies {
-    implementation(\"com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-core:$VERSION\")
-    implementation(\"com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-auth:$VERSION\")
+    implementation(\"com.github.everybytesystems.ebscore-sdk:ebscore-sdk-core:$VERSION\")
+    implementation(\"com.github.everybytesystems.ebscore-sdk:ebscore-sdk-auth:$VERSION\")
 }
 \`\`\`
 
 ## Documentation
-- Repository: https://github.com/everybytesystems/dhis2-dataflow-sdk
-- API Docs: https://everybytesystems.github.io/dhis2-dataflow-sdk/
-- JitPack: https://jitpack.io/#everybytesystems/dhis2-dataflow-sdk
+- Repository: https://github.com/everybytesystems/ebscore-sdk
+- API Docs: https://everybytesystems.github.io/ebscore-sdk/
+- JitPack: https://jitpack.io/#everybytesystems/ebscore-sdk
 
 Ready for production use! 🚀"
 
@@ -175,7 +175,7 @@ echo ""
 echo "📦 JitPack Setup"
 echo "==============="
 
-JITPACK_URL="https://jitpack.io/#everybytesystems/dhis2-dataflow-sdk"
+JITPACK_URL="https://jitpack.io/#everybytesystems/ebscore-sdk"
 print_info "JitPack URL: $JITPACK_URL"
 
 echo ""
@@ -197,24 +197,24 @@ echo "    maven(\"https://jitpack.io\")"
 echo "}"
 echo ""
 echo "dependencies {"
-echo "    implementation(\"com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-core:$VERSION\")"
-echo "    implementation(\"com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-auth:$VERSION\")"
-echo "    implementation(\"com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-metadata:$VERSION\")"
-echo "    implementation(\"com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-data:$VERSION\")"
-echo "    implementation(\"com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-visual:$VERSION\")"
+echo "    implementation(\"com.github.everybytesystems.ebscore-sdk:ebscore-sdk-core:$VERSION\")"
+echo "    implementation(\"com.github.everybytesystems.ebscore-sdk:ebscore-sdk-auth:$VERSION\")"
+echo "    implementation(\"com.github.everybytesystems.ebscore-sdk:ebscore-sdk-metadata:$VERSION\")"
+echo "    implementation(\"com.github.everybytesystems.ebscore-sdk:ebscore-sdk-data:$VERSION\")"
+echo "    implementation(\"com.github.everybytesystems.ebscore-sdk:ebscore-sdk-visual:$VERSION\")"
 echo "}"
 
 echo ""
 echo "🌐 Repository Links"
 echo "=================="
-echo "📁 Repository: https://github.com/everybytesystems/dhis2-dataflow-sdk"
+echo "📁 Repository: https://github.com/everybytesystems/ebscore-sdk"
 echo "📦 JitPack: $JITPACK_URL"
-echo "📚 Documentation: https://everybytesystems.github.io/dhis2-dataflow-sdk/"
-echo "🐛 Issues: https://github.com/everybytesystems/dhis2-dataflow-sdk/issues"
-echo "🏷️  Releases: https://github.com/everybytesystems/dhis2-dataflow-sdk/releases"
+echo "📚 Documentation: https://everybytesystems.github.io/ebscore-sdk/"
+echo "🐛 Issues: https://github.com/everybytesystems/ebscore-sdk/issues"
+echo "🏷️  Releases: https://github.com/everybytesystems/ebscore-sdk/releases"
 
 echo ""
-print_status "🎉 DHIS2 DataFlow SDK v$VERSION published to JitPack!"
+print_status "🎉 EBSCore SDK v$VERSION published to JitPack!"
 echo ""
 print_info "The SDK is now available for immediate use via JitPack."
 print_info "Build will be triggered automatically when someone first requests it."

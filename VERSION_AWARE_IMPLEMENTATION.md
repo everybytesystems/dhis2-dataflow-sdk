@@ -2,7 +2,7 @@
 
 ## 📋 **Overview**
 
-The DHIS2 DataFlow SDK now includes **comprehensive version detection and automatic API adaptation** that supports all DHIS2 versions from **2.36 to 2.42+**. The SDK automatically detects the DHIS2 version when connecting and adapts all API calls accordingly.
+The DHIS2 EBSCore SDK now includes **comprehensive version detection and automatic API adaptation** that supports all DHIS2 versions from **2.36 to 2.42+**. The SDK automatically detects the DHIS2 version when connecting and adapts all API calls accordingly.
 
 ## 🎯 **Key Features**
 
@@ -48,7 +48,7 @@ VersionCompatibilityManager -> Handles version-specific adaptations
 VersionAwareHttpClient -> Automatically adapts API calls
 
 // 5. Enhanced SDK
-DataFlowSdk -> Uses version-aware client for all APIs
+EBSCoreSdk -> Uses version-aware client for all APIs
 ```
 
 ### **Integration Flow**
@@ -198,7 +198,7 @@ ou → orgUnit
 ### **Basic Setup with Version Detection**
 
 ```kotlin
-val sdk = DataFlowSdkBuilder()
+val sdk = EBSCoreSdkBuilder()
     .baseUrl("https://play.dhis2.org/2.42.0")
     .autoDetectVersion(true) // Enable automatic detection
     .enableLogging(true)     // See version detection logs
@@ -291,7 +291,7 @@ DHIS2Config(
 ### **Builder Configuration**
 
 ```kotlin
-DataFlowSdkBuilder()
+EBSCoreSdkBuilder()
     .baseUrl("https://dhis2.example.com")
     .autoDetectVersion(true)              // Enable/disable detection
     .versionCacheTimeout(10 * 60 * 1000)  // Custom cache timeout
@@ -383,7 +383,7 @@ DataFlowSdkBuilder()
 
 ## ✅ **Summary**
 
-The DHIS2 DataFlow SDK now provides **comprehensive version-aware capabilities** that:
+The DHIS2 EBSCore SDK now provides **comprehensive version-aware capabilities** that:
 
 1. **🔍 Automatically detects** DHIS2 version on connection
 2. **🔄 Adapts all API calls** based on detected version  

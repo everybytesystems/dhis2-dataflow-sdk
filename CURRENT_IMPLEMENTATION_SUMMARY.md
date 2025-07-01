@@ -1,4 +1,4 @@
-# DHIS2 DataFlow SDK - Current Implementation Summary
+# DHIS2 EBSCore SDK - Current Implementation Summary
 
 ## 🎯 **IMPLEMENTATION STATUS: 98% COMPLETE**
 
@@ -306,7 +306,7 @@ val syncStatus = client.sync.getSyncStatus(syncResult.syncId)
 
 ## 🎉 **CONCLUSION**
 
-The DHIS2 DataFlow SDK has achieved **98% completion**, representing the most comprehensive, feature-complete, and production-ready DHIS2 integration library available for any platform. 
+The DHIS2 EBSCore SDK has achieved **98% completion**, representing the most comprehensive, feature-complete, and production-ready DHIS2 integration library available for any platform. 
 
 ### **Current Status**
 - ✅ **14/14 APIs Fully Implemented**
@@ -322,7 +322,7 @@ The DHIS2 DataFlow SDK has achieved **98% completion**, representing the most co
 - **100% type safety** with compile-time error detection
 - **Enterprise-grade** features for production deployments
 
-**The DHIS2 DataFlow SDK is now the most comprehensive, feature-complete, and production-ready DHIS2 integration library available, setting a new standard for DHIS2 ecosystem tooling.**
+**The DHIS2 EBSCore SDK is now the most comprehensive, feature-complete, and production-ready DHIS2 integration library available, setting a new standard for DHIS2 ecosystem tooling.**
 
 ---
 

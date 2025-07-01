@@ -1,13 +1,13 @@
-# 🚀 DHIS2 DataFlow SDK - Comprehensive API Implementation
+# 🚀 DHIS2 EBSCore SDK - Comprehensive API Implementation
 
 ## 📋 **Implementation Complete!**
 
-We have successfully implemented **comprehensive coverage** of the DHIS2 Web API in our DataFlow SDK. This makes our SDK the **most complete DHIS2 client library** available for Kotlin Multiplatform development.
+We have successfully implemented **comprehensive coverage** of the DHIS2 Web API in our EBSCore SDK. This makes our SDK the **most complete DHIS2 client library** available for Kotlin Multiplatform development.
 
 ## 🎯 **What We've Implemented**
 
 ### **1. 📊 Metadata Management API** ✅
-**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/dataflow/core/api/metadata/MetadataApi.kt`
+**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/ebscore/core/api/metadata/MetadataApi.kt`
 
 **Complete Coverage**:
 - ✅ **Data Elements** (CRUD + Groups + Group Sets)
@@ -30,7 +30,7 @@ We have successfully implemented **comprehensive coverage** of the DHIS2 Web API
 - Schema introspection
 
 ### **2. 📈 Data Management API** ✅
-**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/dataflow/core/api/data/DataApi.kt`
+**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/ebscore/core/api/data/DataApi.kt`
 
 **Complete Coverage**:
 - ✅ **Data Values** (CRUD operations)
@@ -54,7 +54,7 @@ We have successfully implemented **comprehensive coverage** of the DHIS2 Web API
 - Lock management for data protection
 
 ### **3. 👥 User Management API** ✅
-**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/dataflow/core/api/users/UserApi.kt`
+**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/ebscore/core/api/users/UserApi.kt`
 
 **Complete Coverage**:
 - ✅ **Users** (CRUD + Profile management)
@@ -77,7 +77,7 @@ We have successfully implemented **comprehensive coverage** of the DHIS2 Web API
 - Comprehensive permission system
 
 ### **4. 🔧 System Management API** ✅
-**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/dataflow/core/api/system/SystemApi.kt`
+**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/ebscore/core/api/system/SystemApi.kt`
 
 **Complete Coverage**:
 - ✅ **System Information** (Server info + Status)
@@ -122,11 +122,11 @@ We have successfully implemented **comprehensive coverage** of the DHIS2 Web API
 ## 🚀 **SDK Integration**
 
 ### **Enhanced Main SDK** ✅
-**File**: `modules/sdk/src/commonMain/kotlin/com/everybytesystems/dataflow/sdk/DataFlowSdk.kt`
+**File**: `modules/sdk/src/commonMain/kotlin/com/everybytesystems/ebscore/sdk/EBSCoreSdk.kt`
 
 **New API Access**:
 ```kotlin
-val sdk = DataFlowSdkBuilder()
+val sdk = EBSCoreSdkBuilder()
     .baseUrl("https://play.im.dhis2.org/dev")
     .build()
 
@@ -288,7 +288,7 @@ sdk.systemApi.clearAllCaches()
 
 **We have successfully created the most comprehensive DHIS2 client library ever built!**
 
-With **200+ API endpoints**, **180+ data models**, and **complete type safety**, our DHIS2 DataFlow SDK provides unparalleled access to DHIS2 functionality for Kotlin Multiplatform development.
+With **200+ API endpoints**, **180+ data models**, and **complete type safety**, our DHIS2 EBSCore SDK provides unparalleled access to DHIS2 functionality for Kotlin Multiplatform development.
 
 **This implementation enables:**
 - 🚀 **Faster development** of DHIS2 applications

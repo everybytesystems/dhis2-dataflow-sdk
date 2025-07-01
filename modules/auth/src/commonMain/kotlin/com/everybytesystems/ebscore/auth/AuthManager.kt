@@ -1,5 +1,6 @@
 package com.everybytesystems.ebscore.auth
 
+import com.everybytesystems.ebscore.auth.utils.Base64Utils
 import com.everybytesystems.ebscore.core.config.DHIS2Config
 import com.everybytesystems.ebscore.core.network.ApiResponse
 import io.ktor.client.*
@@ -59,7 +60,7 @@ class AuthManager(
             val response = httpClient.get {
                 url("${config.baseUrl}/api/me")
                 headers {
-                    append("Authorization", "Basic ${encodeBase64("$username:$password")}")
+                    append("Authorization", "Basic ${Base64Utils.encode("$username:$password")}")
                     append("Accept", "application/json")
                 }
             }
@@ -190,14 +191,14 @@ class AuthManager(
                 credentials.password != null -> {
                     when (val result = authenticate(credentials.username, credentials.password)) {
                         is ApiResponse.Success -> ApiResponse.Success(Unit)
-                        is ApiResponse.Error -> result.copy(data = Unit)
+                        is ApiResponse.Error -> ApiResponse.Error(result.exception, result.message)
                         is ApiResponse.Loading -> ApiResponse.Loading
                     }
                 }
                 credentials.bearerToken != null -> {
                     when (val result = authenticateWithToken(credentials.bearerToken)) {
                         is ApiResponse.Success -> ApiResponse.Success(Unit)
-                        is ApiResponse.Error -> result.copy(data = Unit)
+                        is ApiResponse.Error -> ApiResponse.Error(result.exception, result.message)
                         is ApiResponse.Loading -> ApiResponse.Loading
                     }
                 }
@@ -213,19 +214,7 @@ class AuthManager(
         return Clock.System.now().toEpochMilliseconds() >= expiresAt
     }
     
-    private fun encodeBase64(input: String): String {
-        // Platform-specific base64 encoding would be implemented here
-        // For now, using a simple implementation
-        return try {
-            // This is a placeholder - actual implementation would use platform-specific base64
-            input.encodeToByteArray().let { bytes ->
-                // Simple base64 encoding (not production ready)
-                bytes.joinToString("") { "%02x".format(it) }
-            }
-        } catch (e: Exception) {
-            input
-        }
-    }
+
 }
 
 /**

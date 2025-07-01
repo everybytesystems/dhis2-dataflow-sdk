@@ -1,8 +1,8 @@
-# DHIS2 DataFlow SDK - Repository Setup Instructions
+# DHIS2 EBSCore SDK - Repository Setup Instructions
 
 ## ✅ Current Status
 - ✅ **Git repository initialized and configured**
-- ✅ **Remote origin correctly set**: `https://github.com/everybytesystems/dhis2-dataflow-sdk.git`
+- ✅ **Remote origin correctly set**: `https://github.com/everybytesystems/dhis2-ebscore-sdk.git`
 - ✅ **Main branch configured**
 - ✅ **All code committed and ready to push**
 - ✅ **Build successful** (390 tasks completed)
@@ -21,7 +21,7 @@ gh auth status
 gh auth login
 
 # Create the repository under everybytesystems organization
-gh repo create everybytesystems/dhis2-dataflow-sdk \
+gh repo create everybytesystems/dhis2-ebscore-sdk \
   --description "A comprehensive, type-safe, and production-ready Kotlin Multiplatform SDK for DHIS2 integration" \
   --public \
   --source=. \
@@ -35,7 +35,7 @@ gh repo create everybytesystems/dhis2-dataflow-sdk \
    
 2. **Repository Settings**:
    - **Owner**: `everybytesystems`
-   - **Repository name**: `dhis2-dataflow-sdk`
+   - **Repository name**: `dhis2-ebscore-sdk`
    - **Description**: `A comprehensive, type-safe, and production-ready Kotlin Multiplatform SDK for DHIS2 integration`
    - **Visibility**: ✅ **Public** (recommended for open-source SDK)
    - **Initialize**: ❌ **DO NOT** check any initialization options (README, .gitignore, license)
@@ -80,13 +80,13 @@ dhis2, kotlin, multiplatform, sdk, health, data, api, tracker, analytics, everyb
 - **Folder**: `/docs`
 
 This will make API documentation available at:
-`https://everybytesystems.github.io/dhis2-dataflow-sdk/`
+`https://everybytesystems.github.io/dhis2-ebscore-sdk/`
 
 ## 📊 What Will Be Available After Setup
 
 ### Repository Structure
 ```
-📁 everybytesystems/dhis2-dataflow-sdk/
+📁 everybytesystems/dhis2-ebscore-sdk/
 ├── 📄 README.md                    # Comprehensive project overview
 ├── 📄 IMPLEMENTATION_STATUS.md     # Detailed implementation status
 ├── 📄 CONTRIBUTING.md              # Contribution guidelines
@@ -155,16 +155,16 @@ git push origin v1.0.0
 
 ## 🌐 Repository URLs (After Creation)
 
-- **Repository**: https://github.com/everybytesystems/dhis2-dataflow-sdk
-- **Documentation**: https://everybytesystems.github.io/dhis2-dataflow-sdk/
-- **Issues**: https://github.com/everybytesystems/dhis2-dataflow-sdk/issues
-- **Discussions**: https://github.com/everybytesystems/dhis2-dataflow-sdk/discussions
-- **Actions**: https://github.com/everybytesystems/dhis2-dataflow-sdk/actions
-- **Releases**: https://github.com/everybytesystems/dhis2-dataflow-sdk/releases
+- **Repository**: https://github.com/everybytesystems/dhis2-ebscore-sdk
+- **Documentation**: https://everybytesystems.github.io/dhis2-ebscore-sdk/
+- **Issues**: https://github.com/everybytesystems/dhis2-ebscore-sdk/issues
+- **Discussions**: https://github.com/everybytesystems/dhis2-ebscore-sdk/discussions
+- **Actions**: https://github.com/everybytesystems/dhis2-ebscore-sdk/actions
+- **Releases**: https://github.com/everybytesystems/dhis2-ebscore-sdk/releases
 
 ## 🎉 Production Ready!
 
-Once the repository is created and the code is pushed, the DHIS2 DataFlow SDK will be:
+Once the repository is created and the code is pushed, the DHIS2 EBSCore SDK will be:
 
 - ✅ **Publicly Available** under EveryByte Systems organization
 - ✅ **Production Ready** with enterprise-grade architecture

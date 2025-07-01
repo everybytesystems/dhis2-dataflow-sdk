@@ -1,14 +1,15 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.vanniktech.mavenPublish)
 }
 
 kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "11"
             }
         }
     }
@@ -17,7 +18,13 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     
-    jvm("desktop")
+    jvm {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "11"
+            }
+        }
+    }
     
     js(IR) {
         browser()
@@ -29,7 +36,6 @@ kotlin {
             implementation(project(":ebscore-core"))
             implementation(project(":ebscore-network"))
             implementation(project(":ebscore-storage"))
-            implementation(project(":ebscore-utils"))
             
             // Serialization
             implementation(libs.kotlinx.serialization.json)
@@ -39,6 +45,40 @@ kotlin {
             
             // DateTime
             implementation(libs.kotlinx.datetime)
+        }
+        
+        androidMain.dependencies {
+            // Android-specific dependencies if needed
+        }
+        
+        val iosMain by creating {
+            dependsOn(commonMain.get())
+            dependencies {
+                // iOS-specific dependencies if needed
+            }
+        }
+        
+        val iosX64Main by getting {
+            dependsOn(iosMain)
+        }
+        
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        
+        val iosSimulatorArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        
+        // Temporarily disable JVM source set
+        // val desktopMain by getting {
+        //     dependencies {
+        //         // Desktop-specific dependencies if needed
+        //     }
+        // }
+        
+        jsMain.dependencies {
+            // JS-specific dependencies if needed
         }
         
         commonTest.dependencies {
@@ -57,7 +97,9 @@ android {
     }
     
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
+
+// Maven publishing configuration will be added later

@@ -1,6 +1,6 @@
-# Contributing to DHIS2 DataFlow SDK
+# Contributing to DHIS2 EBSCore SDK
 
-Thank you for your interest in contributing to the DHIS2 DataFlow SDK! This document provides guidelines and information for contributors.
+Thank you for your interest in contributing to the DHIS2 EBSCore SDK! This document provides guidelines and information for contributors.
 
 ## 🤝 How to Contribute
 
@@ -36,8 +36,8 @@ Thank you for your interest in contributing to the DHIS2 DataFlow SDK! This docu
 
 1. **Clone the repository**:
 ```bash
-git clone https://github.com/everybytesystems/dhis2-dataflow-sdk.git
-cd dhis2-dataflow-sdk
+git clone https://github.com/everybytesystems/dhis2-ebscore-sdk.git
+cd dhis2-ebscore-sdk
 ```
 
 2. **Build the project**:
@@ -58,7 +58,7 @@ cd dhis2-dataflow-sdk
 ### Project Structure
 
 ```
-dhis2-dataflow-sdk/
+dhis2-ebscore-sdk/
 ├── modules/
 │   ├── core/           # Core SDK with all APIs
 │   ├── auth/           # Authentication module
@@ -234,7 +234,7 @@ test(data-values): add integration tests for bulk operations
 ./gradlew test
 
 # Run tests for specific module
-./gradlew :dhis2-dataflow-sdk-core:test
+./gradlew :dhis2-ebscore-sdk-core:test
 
 # Run integration tests
 ./gradlew integrationTest
@@ -324,4 +324,4 @@ Contributors will be recognized in:
 - **Release notes**
 - **GitHub contributors** section
 
-Thank you for contributing to the DHIS2 DataFlow SDK! 🎉
+Thank you for contributing to the DHIS2 EBSCore SDK! 🎉

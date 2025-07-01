@@ -1,4 +1,4 @@
-# DHIS2 DataFlow SDK
+# DHIS2 EBSCore SDK
 
 A comprehensive Kotlin Multiplatform SDK for interacting with DHIS2 systems, providing high-level APIs for metadata management, data synchronization, authentication, and more.
 
@@ -42,7 +42,7 @@ A comprehensive Kotlin Multiplatform SDK for interacting with DHIS2 systems, pro
 ## 📁 Project Structure
 
 ```
-dhis2-dataflow-sdk/
+dhis2-ebscore-sdk/
 ├── modules/
 │   ├── core/           # Core networking, models, and utilities
 │   ├── auth/           # Authentication and security
@@ -60,7 +60,7 @@ dhis2-dataflow-sdk/
 
 ```kotlin
 // Initialize the SDK
-val sdk = DataFlowSdkBuilder()
+val sdk = EBSCoreSdkBuilder()
     .baseUrl("https://play.dhis2.org/40.2.2")
     .basicAuth("admin", "district")
     .enableLogging(true)
@@ -112,7 +112,7 @@ sdk.completeDataSet("dataSetId", "202401", "orgUnitId")
 ### SDK Builder Options
 
 ```kotlin
-val sdk = DataFlowSdkBuilder()
+val sdk = EBSCoreSdkBuilder()
     .baseUrl("https://dhis2.example.org")
     .apiVersion("41")
     .enableLogging(true)
@@ -214,8 +214,8 @@ sdk.authManager.authState.collect { state ->
 ./gradlew test
 
 # Run specific module tests
-./gradlew :dhis2-dataflow-sdk-core:test
-./gradlew :dhis2-dataflow-sdk-auth:test
+./gradlew :dhis2-ebscore-sdk-core:test
+./gradlew :dhis2-ebscore-sdk-auth:test
 ```
 
 ## 📦 Dependencies
@@ -254,7 +254,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 - [DHIS2 Community](https://community.dhis2.org/)
 - [Documentation](https://docs.dhis2.org/)
-- [GitHub Issues](https://github.com/your-org/dhis2-dataflow-sdk/issues)
+- [GitHub Issues](https://github.com/your-org/dhis2-ebscore-sdk/issues)
 
 ---
 

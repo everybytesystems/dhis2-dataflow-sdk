@@ -9,7 +9,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "11"
             }
         }
     }
@@ -18,7 +18,13 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     
-    jvm("desktop")
+    jvm {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "11"
+            }
+        }
+    }
     
     js(IR) {
         browser()
@@ -51,15 +57,31 @@ kotlin {
             implementation(libs.sqldelight.android.driver)
         }
         
-        iosMain.dependencies {
-            implementation(libs.sqldelight.native.driver)
-        }
-        
-        val desktopMain by getting {
+        val iosMain by creating {
+            dependsOn(commonMain.get())
             dependencies {
-                implementation(libs.sqldelight.sqlite.driver)
+                implementation(libs.sqldelight.native.driver)
             }
         }
+        
+        val iosX64Main by getting {
+            dependsOn(iosMain)
+        }
+        
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        
+        val iosSimulatorArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        
+        // Temporarily disable JVM source set
+        // val desktopMain by getting {
+        //     dependencies {
+        //         implementation(libs.sqldelight.sqlite.driver)
+        //     }
+        // }
         
         jsMain.dependencies {
             implementation(libs.sqldelight.web.worker.driver)
@@ -81,8 +103,8 @@ android {
     }
     
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 

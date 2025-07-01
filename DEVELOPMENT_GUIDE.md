@@ -1,8 +1,8 @@
-# DHIS2 DataFlow SDK - Development Guide
+# DHIS2 EBSCore SDK - Development Guide
 
 ## 🎯 Getting Started
 
-This guide will help you understand how to work with and extend the DHIS2 DataFlow SDK.
+This guide will help you understand how to work with and extend the DHIS2 EBSCore SDK.
 
 ## 📋 Prerequisites
 
@@ -17,7 +17,7 @@ This guide will help you understand how to work with and extend the DHIS2 DataFl
 
 ```bash
 git clone <repository-url>
-cd dhis2-dataflow-sdk
+cd dhis2-ebscore-sdk
 
 # Build JVM and Android targets (iOS temporarily disabled)
 ./gradlew build
@@ -145,8 +145,8 @@ core/src/commonMain/kotlin/
 **Purpose**: Main SDK facade and high-level APIs
 
 **Key Components**:
-- `DataFlowSdk`: Main SDK interface
-- `DataFlowSdkBuilder`: Builder pattern for configuration
+- `EBSCoreSdk`: Main SDK interface
+- `EBSCoreSdkBuilder`: Builder pattern for configuration
 
 **Development Tips**:
 - Keep the API surface clean and intuitive
@@ -212,7 +212,7 @@ class NewModelService(private val api: NewModelApi) {
 #### Step 5: Expose in SDK
 ```kotlin
 // In modules/sdk/
-class DataFlowSdkImpl : DataFlowSdk {
+class EBSCoreSdkImpl : EBSCoreSdk {
     override suspend fun syncNewModels(): Flow<SyncProgress> {
         return newModelService.syncNewModels()
     }
@@ -333,10 +333,10 @@ fun `should return cached data when offline`() {
 ./gradlew test
 
 # Build specific module
-./gradlew :dhis2-dataflow-sdk-core:build
+./gradlew :dhis2-ebscore-sdk-core:build
 
 # Run specific module tests
-./gradlew :dhis2-dataflow-sdk-auth:test
+./gradlew :dhis2-ebscore-sdk-auth:test
 ```
 
 ### Common Build Issues

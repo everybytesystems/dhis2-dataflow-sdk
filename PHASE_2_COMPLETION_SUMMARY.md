@@ -1,13 +1,13 @@
-# DHIS2 DataFlow SDK - Phase 2 Completion Summary
+# DHIS2 EBSCore SDK - Phase 2 Completion Summary
 
 ## 🎉 Phase 2: Essential Features - 100% COMPLETE
 
-Phase 2 of the DHIS2 DataFlow SDK has been successfully completed, bringing the overall project completion to **85%**. All essential APIs for comprehensive DHIS2 integration are now fully implemented.
+Phase 2 of the DHIS2 EBSCore SDK has been successfully completed, bringing the overall project completion to **85%**. All essential APIs for comprehensive DHIS2 integration are now fully implemented.
 
 ## ✅ What Was Accomplished
 
 ### 1. Analytics API - Complete Implementation
-**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/dataflow/core/api/analytics/`
+**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/ebscore/core/api/analytics/`
 
 #### Features Implemented:
 - **Aggregate Analytics** - Complete implementation with all parameters
@@ -27,7 +27,7 @@ Phase 2 of the DHIS2 DataFlow SDK has been successfully completed, bringing the 
 - **Comprehensive error handling** with version-specific validation
 
 ### 2. User Management API - Complete Implementation
-**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/dataflow/core/api/users/`
+**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/ebscore/core/api/users/`
 
 #### Features Implemented:
 - **User CRUD Operations** - Complete user lifecycle management
@@ -47,7 +47,7 @@ Phase 2 of the DHIS2 DataFlow SDK has been successfully completed, bringing the 
 - **Bulk operations** for efficient user management
 
 ### 3. Data Approval API - Complete Implementation
-**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/dataflow/core/api/approval/`
+**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/ebscore/core/api/approval/`
 
 #### Features Implemented:
 - **Data Approval Operations** - Approve/unapprove data
@@ -66,7 +66,7 @@ Phase 2 of the DHIS2 DataFlow SDK has been successfully completed, bringing the 
 - **Advanced workflow management** with custom operations
 
 ### 4. File Resources API - Complete Implementation
-**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/dataflow/core/api/files/`
+**File**: `modules/core/src/commonMain/kotlin/com/everybytesystems/ebscore/core/api/files/`
 
 #### Features Implemented:
 - **File Upload/Download** - Complete file lifecycle management
@@ -247,8 +247,8 @@ val upload = client.fileResources.uploadFile(
 
 ## 🎉 Conclusion
 
-Phase 2 completion represents a major milestone for the DHIS2 DataFlow SDK. With all essential APIs now fully implemented, the SDK provides enterprise-grade DHIS2 integration capabilities that support the complete DHIS2 ecosystem.
+Phase 2 completion represents a major milestone for the DHIS2 EBSCore SDK. With all essential APIs now fully implemented, the SDK provides enterprise-grade DHIS2 integration capabilities that support the complete DHIS2 ecosystem.
 
 The SDK is now ready for production use in enterprise environments, offering comprehensive functionality, robust error handling, and excellent version compatibility across all supported DHIS2 versions.
 
-**The DHIS2 DataFlow SDK is now the most comprehensive Kotlin Multiplatform DHIS2 integration library available.**
+**The DHIS2 EBSCore SDK is now the most comprehensive Kotlin Multiplatform DHIS2 integration library available.**

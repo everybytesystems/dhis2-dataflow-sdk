@@ -2,7 +2,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinSerialization)
-    `maven-publish`
+    alias(libs.plugins.vanniktech.mavenPublish)
 }
 
 // Publishing is configured via vanniktech.mavenPublish plugin below
@@ -16,6 +16,11 @@ kotlin {
         }
     }
     
+    // Temporarily disable iOS targets due to Xcode configuration issues
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
+    
     jvm {
         compilations.all {
             kotlinOptions {
@@ -24,16 +29,18 @@ kotlin {
         }
     }
     
-    // iOS targets commented out for now due to build issues
-    // iosX64()
-    // iosArm64()
-    // iosSimulatorArm64()
+    js(IR) {
+        browser()
+        nodejs()
+    }
     
     sourceSets {
         val commonMain by getting {
             dependencies { 
-                implementation(project(":dhis2-dataflow-sdk-core"))
+                implementation(project(":ebscore-core"))
                 implementation(libs.ktor.client.auth)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.serialization.kotlinx.json)
                 implementation(libs.kotlinx.coroutines.core)
                 implementation(libs.kotlinx.serialization.json)
                 implementation(libs.kotlinx.datetime)
@@ -49,35 +56,48 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation(libs.androidx.security.crypto)
+                implementation(libs.androidx.biometric)
+                implementation("androidx.lifecycle:lifecycle-process:2.7.0")
+                implementation("androidx.fragment:fragment-ktx:1.6.2")
             }
         }
         
-        val jvmMain by getting {
-            dependencies {
-                // JVM-specific dependencies if needed
-            }
-        }
+        // Temporarily disable JVM source set
+        // val desktopMain by getting {
+        //     dependencies {
+        //         // JVM-specific dependencies if needed
+        //     }
+        // }
         
-        // iOS source sets commented out for now
-        /*
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
+        val nativeMain by creating {
             dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
             dependencies {
-                // iOS-specific dependencies if needed
+                // Native-specific dependencies if needed
             }
         }
-        */
+        
+        val iosX64Main by getting {
+            dependsOn(nativeMain)
+        }
+        
+        val iosArm64Main by getting {
+            dependsOn(nativeMain)
+        }
+        
+        val iosSimulatorArm64Main by getting {
+            dependsOn(nativeMain)
+        }
+        
+        val jsMain by getting {
+            dependencies {
+                // JS-specific dependencies if needed
+            }
+        }
     }
 }
 
 android {
-    namespace = "com.everybytesystems.dataflow.auth"
+    namespace = "com.everybytesystems.ebscore.auth"
     compileSdk = 34
     
     defaultConfig {
@@ -90,42 +110,3 @@ android {
     }
 }
 
-// Simple publishing configuration for JitPack
-publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["kotlin"])
-            
-            groupId = "com.everybytesystems"
-            artifactId = "dhis2-dataflow-sdk-auth"
-            version = "1.0.0"
-            
-            pom {
-                name.set("DHIS2 DataFlow SDK Auth")
-                description.set("Authentication manager (Basic, PAT, OIDC) and secure storage")
-                url.set("https://github.com/everybytesystems/dhis2-dataflow-sdk")
-                
-                licenses {
-                    license {
-                        name.set("MIT License")
-                        url.set("https://opensource.org/licenses/MIT")
-                    }
-                }
-                
-                developers {
-                    developer {
-                        id.set("everybytesystems")
-                        name.set("EveryByte Systems")
-                        email.set("support@everybytesystems.com")
-                    }
-                }
-                
-                scm {
-                    url.set("https://github.com/everybytesystems/dhis2-dataflow-sdk")
-                    connection.set("scm:git:git@github.com:everybytesystems/dhis2-dataflow-sdk.git")
-                    developerConnection.set("scm:git:git@github.com:everybytesystems/dhis2-dataflow-sdk.git")
-                }
-            }
-        }
-    }
-}

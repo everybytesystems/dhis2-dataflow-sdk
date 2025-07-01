@@ -18,7 +18,7 @@ private class JsSecureStorage : SecureStorage {
             val jsonString = json.encodeToString(credentials)
             localStorage.setItem(storageKey, jsonString)
         } catch (e: Exception) {
-            throw SecurityException("Failed to store credentials: ${e.message}")
+            throw Exception("Failed to store credentials: ${e.message}")
         }
     }
     

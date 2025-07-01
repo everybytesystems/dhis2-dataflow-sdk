@@ -1,5 +1,6 @@
 package com.everybytesystems.ebscore.auth.jwt
 
+import com.everybytesystems.ebscore.auth.utils.Base64Utils
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
@@ -174,14 +175,11 @@ class JwtValidator(
     
     private fun decodeBase64(input: String): String {
         // This will be implemented platform-specifically
-        return decodeBase64Platform(input)
+        return Base64Utils.decodeUrlSafe(input)
     }
 }
 
-/**
- * Platform-specific base64 decoding
- */
-expect fun decodeBase64Platform(input: String): String
+
 
 /**
  * JWT validation result

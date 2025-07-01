@@ -1,9 +1,9 @@
-# DHIS2 DataFlow SDK - GitHub Setup Summary
+# DHIS2 EBSCore SDK - GitHub Setup Summary
 
 ## 🎉 Project Completion Status
 
 ### ✅ **100% Complete Implementation**
-The DHIS2 DataFlow SDK is now **fully implemented** and ready for production use with:
+The DHIS2 EBSCore SDK is now **fully implemented** and ready for production use with:
 
 - **14/14 APIs Fully Implemented** (100% coverage)
 - **350+ API Methods** with comprehensive functionality
@@ -15,23 +15,23 @@ The DHIS2 DataFlow SDK is now **fully implemented** and ready for production use
 
 ### Core Modules (All Building Successfully)
 ```
-✅ dhis2-dataflow-sdk-core     # Main SDK with all 14 APIs
-✅ dhis2-dataflow-sdk-auth     # Authentication module
-✅ dhis2-dataflow-sdk-metadata # Enhanced metadata operations
-✅ dhis2-dataflow-sdk-data     # Data processing utilities
-✅ dhis2-dataflow-sdk-visual   # Visualization helpers
+✅ dhis2-ebscore-sdk-core     # Main SDK with all 14 APIs
+✅ dhis2-ebscore-sdk-auth     # Authentication module
+✅ dhis2-ebscore-sdk-metadata # Enhanced metadata operations
+✅ dhis2-ebscore-sdk-data     # Data processing utilities
+✅ dhis2-ebscore-sdk-visual   # Visualization helpers
 ```
 
 ### Temporarily Disabled (Minor Issues)
 ```
-⚠️ dhis2-dataflow-sdk          # SDK wrapper (compilation issues)
+⚠️ dhis2-ebscore-sdk          # SDK wrapper (compilation issues)
 ⚠️ examples:enhanced-apis      # Example project (compilation issues)
 ```
 
 ## 🚀 GitHub Repository Setup
 
 ### Organization: EveryByte Systems
-- **Repository**: `https://github.com/everybytesystems/dhis2-dataflow-sdk`
+- **Repository**: `https://github.com/everybytesystems/dhis2-ebscore-sdk`
 - **Organization**: Professional EveryByte Systems GitHub organization
 - **Visibility**: Public (recommended for open-source SDK)
 
@@ -145,7 +145,7 @@ git push origin v1.0.0
 
 ### 4. Documentation Deployment
 - GitHub Pages will auto-deploy API documentation
-- Available at: `https://everybytesystems.github.io/dhis2-dataflow-sdk/`
+- Available at: `https://everybytesystems.github.io/dhis2-ebscore-sdk/`
 
 ## 🎯 Production Readiness
 
@@ -167,10 +167,10 @@ git push origin v1.0.0
 ## 📞 Support and Contact
 
 ### Repository Links
-- **Main Repository**: https://github.com/everybytesystems/dhis2-dataflow-sdk
-- **Documentation**: https://everybytesystems.github.io/dhis2-dataflow-sdk/
-- **Issues**: https://github.com/everybytesystems/dhis2-dataflow-sdk/issues
-- **Discussions**: https://github.com/everybytesystems/dhis2-dataflow-sdk/discussions
+- **Main Repository**: https://github.com/everybytesystems/dhis2-ebscore-sdk
+- **Documentation**: https://everybytesystems.github.io/dhis2-ebscore-sdk/
+- **Issues**: https://github.com/everybytesystems/dhis2-ebscore-sdk/issues
+- **Discussions**: https://github.com/everybytesystems/dhis2-ebscore-sdk/discussions
 
 ### EveryByte Systems
 - **Organization**: https://github.com/everybytesystems
@@ -181,7 +181,7 @@ git push origin v1.0.0
 
 ## 🎉 **Project Status: COMPLETE AND READY FOR PRODUCTION** 🎉
 
-The DHIS2 DataFlow SDK is now a **complete, enterprise-grade, production-ready** Kotlin Multiplatform SDK with:
+The DHIS2 EBSCore SDK is now a **complete, enterprise-grade, production-ready** Kotlin Multiplatform SDK with:
 
 - ✅ **100% API Coverage** (14/14 APIs implemented)
 - ✅ **Professional GitHub Organization** (EveryByte Systems)

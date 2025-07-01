@@ -1,12 +1,12 @@
-import com.everybytesystems.dataflow.sdk.DataFlowSdkBuilder
-import com.everybytesystems.dataflow.auth.BasicAuthConfig
-import com.everybytesystems.dataflow.core.models.apps.*
-import com.everybytesystems.dataflow.core.models.messaging.*
-import com.everybytesystems.dataflow.core.models.exchange.*
+import com.everybytesystems.ebscore.sdk.EBSCoreSdkBuilder
+import com.everybytesystems.ebscore.auth.BasicAuthConfig
+import com.everybytesystems.ebscore.core.models.apps.*
+import com.everybytesystems.ebscore.core.models.messaging.*
+import com.everybytesystems.ebscore.core.models.exchange.*
 import kotlinx.coroutines.runBlocking
 
 /**
- * 🎉 COMPLETE DHIS2 DataFlow SDK Example - 100% API Coverage! 🎉
+ * 🎉 COMPLETE DHIS2 EBSCore SDK Example - 100% API Coverage! 🎉
  * 
  * This comprehensive example demonstrates ALL implemented APIs:
  * 1. ✅ Metadata API - Complete metadata management
@@ -23,14 +23,14 @@ import kotlinx.coroutines.runBlocking
  */
 fun main() = runBlocking {
     
-    println("🎉 === DHIS2 DataFlow SDK - COMPLETE API DEMONSTRATION === 🎉")
+    println("🎉 === DHIS2 EBSCore SDK - COMPLETE API DEMONSTRATION === 🎉")
     println("🚀 Demonstrating 100% DHIS2 Web API Coverage!")
     
     // ========================================
     // 1. CREATE SDK WITH ALL APIS
     // ========================================
     
-    val sdk = DataFlowSdkBuilder()
+    val sdk = EBSCoreSdkBuilder()
         .baseUrl("https://play.dhis2.org/2.42.0") // DHIS2 2.42 demo server
         .autoDetectVersion(true) // Enable automatic version detection
         .enableLogging(true) // Enable logging
@@ -491,17 +491,17 @@ fun main() = runBlocking {
         
         // Feature support matrix
         val features = mapOf(
-            "Metadata API" to com.everybytesystems.dataflow.core.version.DHIS2Feature.METADATA_API,
-            "Data API" to com.everybytesystems.dataflow.core.version.DHIS2Feature.DATA_API,
-            "User API" to com.everybytesystems.dataflow.core.version.DHIS2Feature.USER_API,
-            "System API" to com.everybytesystems.dataflow.core.version.DHIS2Feature.SYSTEM_API,
-            "Analytics API" to com.everybytesystems.dataflow.core.version.DHIS2Feature.ANALYTICS_API,
-            "New Tracker API" to com.everybytesystems.dataflow.core.version.DHIS2Feature.NEW_TRACKER_API,
-            "Legacy Tracker API" to com.everybytesystems.dataflow.core.version.DHIS2Feature.TRACKER_API,
-            "Visualizations" to com.everybytesystems.dataflow.core.version.DHIS2Feature.VISUALIZATIONS,
-            "Event Visualizations" to com.everybytesystems.dataflow.core.version.DHIS2Feature.EVENT_VISUALIZATIONS,
-            "Messaging" to com.everybytesystems.dataflow.core.version.DHIS2Feature.MESSAGING,
-            "Data Exchange" to com.everybytesystems.dataflow.core.version.DHIS2Feature.DATA_EXCHANGE
+            "Metadata API" to com.everybytesystems.ebscore.core.version.DHIS2Feature.METADATA_API,
+            "Data API" to com.everybytesystems.ebscore.core.version.DHIS2Feature.DATA_API,
+            "User API" to com.everybytesystems.ebscore.core.version.DHIS2Feature.USER_API,
+            "System API" to com.everybytesystems.ebscore.core.version.DHIS2Feature.SYSTEM_API,
+            "Analytics API" to com.everybytesystems.ebscore.core.version.DHIS2Feature.ANALYTICS_API,
+            "New Tracker API" to com.everybytesystems.ebscore.core.version.DHIS2Feature.NEW_TRACKER_API,
+            "Legacy Tracker API" to com.everybytesystems.ebscore.core.version.DHIS2Feature.TRACKER_API,
+            "Visualizations" to com.everybytesystems.ebscore.core.version.DHIS2Feature.VISUALIZATIONS,
+            "Event Visualizations" to com.everybytesystems.ebscore.core.version.DHIS2Feature.EVENT_VISUALIZATIONS,
+            "Messaging" to com.everybytesystems.ebscore.core.version.DHIS2Feature.MESSAGING,
+            "Data Exchange" to com.everybytesystems.ebscore.core.version.DHIS2Feature.DATA_EXCHANGE
         )
         
         println("\n🔍 Complete Feature Support Matrix:")
@@ -535,7 +535,7 @@ fun main() = runBlocking {
         
         println("\n🏆 === ACHIEVEMENT UNLOCKED ===")
         println("🎊 COMPLETE DHIS2 WEB API COVERAGE! 🎊")
-        println("🚀 The DHIS2 DataFlow SDK now supports:")
+        println("🚀 The DHIS2 EBSCore SDK now supports:")
         println("   📱 ANY type of DHIS2 application")
         println("   🔄 COMPLETE data workflows")
         println("   🌍 FULL system integration")
@@ -545,7 +545,7 @@ fun main() = runBlocking {
         println("   📦 SEAMLESS data exchange")
         
         println("\n🎉 CONGRATULATIONS! 🎉")
-        println("The DHIS2 DataFlow SDK is now the most")
+        println("The DHIS2 EBSCore SDK is now the most")
         println("comprehensive DHIS2 API client available!")
         println("Ready for production use! 🚀")
         
@@ -556,13 +556,13 @@ fun main() = runBlocking {
     // Cleanup
     sdk.close()
     println("\n✅ SDK closed successfully")
-    println("🎊 Thank you for using DHIS2 DataFlow SDK! 🎊")
+    println("🎊 Thank you for using DHIS2 EBSCore SDK! 🎊")
 }
 
 /**
  * Example of building a complete DHIS2 application workflow
  */
-suspend fun demonstrateCompleteWorkflow(sdk: com.everybytesystems.dataflow.sdk.DataFlowSdk) {
+suspend fun demonstrateCompleteWorkflow(sdk: com.everybytesystems.ebscore.sdk.EBSCoreSdk) {
     println("\n🎯 === COMPLETE DHIS2 APPLICATION WORKFLOW ===")
     
     // 1. System Setup and Configuration
@@ -624,7 +624,7 @@ suspend fun demonstrateCompleteWorkflow(sdk: com.everybytesystems.dataflow.sdk.D
 /**
  * Example of advanced SDK features
  */
-suspend fun demonstrateAdvancedFeatures(sdk: com.everybytesystems.dataflow.sdk.DataFlowSdk) {
+suspend fun demonstrateAdvancedFeatures(sdk: com.everybytesystems.ebscore.sdk.EBSCoreSdk) {
     println("\n🚀 === ADVANCED SDK FEATURES ===")
     
     // Version-aware API calls

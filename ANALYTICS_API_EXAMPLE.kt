@@ -1,6 +1,6 @@
-import com.everybytesystems.dataflow.sdk.DataFlowSdkBuilder
-import com.everybytesystems.dataflow.auth.BasicAuthConfig
-import com.everybytesystems.dataflow.core.models.analytics.*
+import com.everybytesystems.ebscore.sdk.EBSCoreSdkBuilder
+import com.everybytesystems.ebscore.auth.BasicAuthConfig
+import com.everybytesystems.ebscore.core.models.analytics.*
 import kotlinx.coroutines.runBlocking
 
 /**
@@ -19,7 +19,7 @@ fun main() = runBlocking {
     // 1. CREATE SDK WITH ANALYTICS API
     // ========================================
     
-    val sdk = DataFlowSdkBuilder()
+    val sdk = EBSCoreSdkBuilder()
         .baseUrl("https://play.dhis2.org/2.42.0") // DHIS2 2.42 demo server
         .autoDetectVersion(true) // Enable automatic version detection
         .enableLogging(true) // Enable logging
@@ -190,7 +190,7 @@ fun main() = runBlocking {
         println("\n📈 === VISUALIZATIONS ===")
         
         // Check if visualizations are supported
-        if (sdk.isFeatureSupported(com.everybytesystems.dataflow.core.version.DHIS2Feature.VISUALIZATIONS_API)) {
+        if (sdk.isFeatureSupported(com.everybytesystems.ebscore.core.version.DHIS2Feature.VISUALIZATIONS_API)) {
             // Get visualizations
             val visualizationsResult = sdk.analyticsApi.getVisualizations(
                 fields = "id,name,type,created,lastUpdated",
@@ -237,7 +237,7 @@ fun main() = runBlocking {
         
         println("\n📊 === EVENT VISUALIZATIONS ===")
         
-        if (sdk.isFeatureSupported(com.everybytesystems.dataflow.core.version.DHIS2Feature.EVENT_VISUALIZATIONS)) {
+        if (sdk.isFeatureSupported(com.everybytesystems.ebscore.core.version.DHIS2Feature.EVENT_VISUALIZATIONS)) {
             val eventVisualizationsResult = sdk.analyticsApi.getEventVisualizations(
                 fields = "id,name,type,program,created,lastUpdated",
                 pageSize = 5
@@ -348,7 +348,7 @@ fun main() = runBlocking {
 /**
  * Example of creating a custom analytics dashboard
  */
-suspend fun createAnalyticsDashboard(sdk: com.everybytesystems.dataflow.sdk.DataFlowSdk) {
+suspend fun createAnalyticsDashboard(sdk: com.everybytesystems.ebscore.sdk.EBSCoreSdk) {
     println("\n📊 === CREATING ANALYTICS DASHBOARD ===")
     
     // 1. Get key indicators
@@ -391,7 +391,7 @@ suspend fun createAnalyticsDashboard(sdk: com.everybytesystems.dataflow.sdk.Data
 /**
  * Example of advanced analytics workflow
  */
-suspend fun performAdvancedAnalytics(sdk: com.everybytesystems.dataflow.sdk.DataFlowSdk) {
+suspend fun performAdvancedAnalytics(sdk: com.everybytesystems.ebscore.sdk.EBSCoreSdk) {
     println("\n🔬 === ADVANCED ANALYTICS WORKFLOW ===")
     
     // 1. Multi-dimensional analysis

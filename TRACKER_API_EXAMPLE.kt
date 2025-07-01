@@ -1,6 +1,6 @@
-import com.everybytesystems.dataflow.sdk.DataFlowSdkBuilder
-import com.everybytesystems.dataflow.auth.BasicAuthConfig
-import com.everybytesystems.dataflow.core.models.tracker.*
+import com.everybytesystems.ebscore.sdk.EBSCoreSdkBuilder
+import com.everybytesystems.ebscore.auth.BasicAuthConfig
+import com.everybytesystems.ebscore.core.models.tracker.*
 import kotlinx.coroutines.runBlocking
 
 /**
@@ -20,7 +20,7 @@ fun main() = runBlocking {
     // 1. CREATE SDK WITH TRACKER API
     // ========================================
     
-    val sdk = DataFlowSdkBuilder()
+    val sdk = EBSCoreSdkBuilder()
         .baseUrl("https://play.dhis2.org/2.42.0") // DHIS2 2.42 demo server
         .autoDetectVersion(true) // Enable automatic version detection
         .enableLogging(true) // Enable logging
@@ -457,10 +457,10 @@ fun main() = runBlocking {
         
         // Feature support checking
         val features = mapOf(
-            "New Tracker API" to com.everybytesystems.dataflow.core.version.DHIS2Feature.NEW_TRACKER_API,
-            "Tracker API" to com.everybytesystems.dataflow.core.version.DHIS2Feature.TRACKER_API,
-            "Program Rules" to com.everybytesystems.dataflow.core.version.DHIS2Feature.PROGRAM_RULES,
-            "Relationships" to com.everybytesystems.dataflow.core.version.DHIS2Feature.RELATIONSHIPS
+            "New Tracker API" to com.everybytesystems.ebscore.core.version.DHIS2Feature.NEW_TRACKER_API,
+            "Tracker API" to com.everybytesystems.ebscore.core.version.DHIS2Feature.TRACKER_API,
+            "Program Rules" to com.everybytesystems.ebscore.core.version.DHIS2Feature.PROGRAM_RULES,
+            "Relationships" to com.everybytesystems.ebscore.core.version.DHIS2Feature.RELATIONSHIPS
         )
         
         println("\n🔍 Tracker Feature Support Matrix:")
@@ -507,7 +507,7 @@ fun main() = runBlocking {
 /**
  * Example of creating a complete tracker workflow
  */
-suspend fun demonstrateCompleteTrackerWorkflow(sdk: com.everybytesystems.dataflow.sdk.DataFlowSdk) {
+suspend fun demonstrateCompleteTrackerWorkflow(sdk: com.everybytesystems.ebscore.sdk.EBSCoreSdk) {
     println("\n🎯 === COMPLETE TRACKER WORKFLOW ===")
     
     // 1. Get a program
@@ -585,7 +585,7 @@ suspend fun demonstrateCompleteTrackerWorkflow(sdk: com.everybytesystems.dataflo
 /**
  * Example of advanced tracker queries
  */
-suspend fun demonstrateAdvancedTrackerQueries(sdk: com.everybytesystems.dataflow.sdk.DataFlowSdk) {
+suspend fun demonstrateAdvancedTrackerQueries(sdk: com.everybytesystems.ebscore.sdk.EBSCoreSdk) {
     println("\n🔍 === ADVANCED TRACKER QUERIES ===")
     
     // 1. Complex tracked entity query

@@ -14,9 +14,19 @@ kotlin {
         compilations.all {
             kotlinOptions {
                 jvmTarget = "11"
+                // Workaround for Kotlin 2.0.x compiler issues
+                freeCompilerArgs += listOf(
+                    "-Xno-param-assertions",
+                    "-Xno-call-assertions",
+                    "-Xno-receiver-assertions"
+                )
             }
         }
     }
+    
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
     
     jvm {
         compilations.all {
@@ -26,58 +36,41 @@ kotlin {
         }
     }
     
-    // iOS targets commented out for now due to build issues
-    // iosX64()
-    // iosArm64()
-    // iosSimulatorArm64()
+    js(IR) {
+        browser()
+        nodejs()
+    }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
-                // Temporarily disable SQLDelight to avoid JVM compilation issues
-                // implementation("app.cash.sqldelight:runtime:2.0.2")
-                // implementation("app.cash.sqldelight:coroutines-extensions:2.0.2")
-                implementation("io.ktor:ktor-client-core:3.0.1")
-                implementation("io.ktor:ktor-client-content-negotiation:3.0.1")
-                implementation("io.ktor:ktor-client-auth:3.0.1")
-                implementation("io.ktor:ktor-client-logging:3.0.1")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.1")
+                implementation(libs.kotlinx.coroutines.core)
+                implementation(libs.kotlinx.serialization.json)
+                implementation(libs.kotlinx.datetime)
+                implementation(libs.ktor.client.core)
+                implementation(libs.ktor.client.content.negotiation)
+                implementation(libs.ktor.client.auth)
+                implementation(libs.ktor.client.logging)
+                implementation(libs.ktor.serialization.kotlinx.json)
             }
         }
         
         val commonTest by getting {
             dependencies {
-                implementation(kotlin("test"))
+                implementation(libs.kotlin.test)
             }
         }
         
         val androidMain by getting {
             dependencies {
-                // Temporarily disable SQLDelight to avoid JVM compilation issues
-                // implementation("app.cash.sqldelight:android-driver:2.0.2")
-                implementation("io.ktor:ktor-client-okhttp:3.0.1")
+                implementation(libs.ktor.client.okhttp)
             }
         }
         
-        val jvmMain by getting {
-            dependencies {
-                // Temporarily exclude SQLDelight for JVM to avoid compiler issues
-                // implementation("app.cash.sqldelight:sqlite-driver:2.0.2")
-                implementation("io.ktor:ktor-client-okhttp:3.0.1")
-            }
-        }
-        
-        // iOS source sets commented out for now
-        /*
         val iosMain by creating {
             dependsOn(commonMain)
             dependencies {
-                // Temporarily disable SQLDelight to avoid JVM compilation issues
-                // implementation("app.cash.sqldelight:native-driver:2.0.2")
-                implementation("io.ktor:ktor-client-darwin:3.0.1")
+                implementation(libs.ktor.client.darwin)
             }
         }
         
@@ -92,12 +85,24 @@ kotlin {
         val iosSimulatorArm64Main by getting {
             dependsOn(iosMain)
         }
-        */
+        
+        // Temporarily disable JVM source set
+        // val desktopMain by getting {
+        //     dependencies {
+        //         implementation(libs.ktor.client.okhttp)
+        //     }
+        // }
+        
+        val jsMain by getting {
+            dependencies {
+                implementation(libs.ktor.client.js)
+            }
+        }
     }
 }
 
 android {
-    namespace = "com.everybytesystems.dataflow.core"
+    namespace = "com.everybytesystems.ebscore.core"
     compileSdk = 34
     
     defaultConfig {
@@ -126,7 +131,7 @@ publishing {
             from(components["kotlin"])
             
             groupId = "com.everybytesystems"
-            artifactId = "dhis2-dataflow-sdk-core"
+            artifactId = "ebscore-core"
             version = "1.0.0"
         }
     }

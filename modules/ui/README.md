@@ -1,6 +1,6 @@
-# 🎨 DataFlow UI SDK
+# 🎨 EBSCore UI SDK
 
-A comprehensive, modern UI toolkit for building beautiful data-driven applications with Kotlin Multiplatform and Compose.
+A comprehensive, production-ready multiplatform UI toolkit for Android, iOS, Desktop, and Web with Kotlin Multiplatform and Compose.
 
 ## ✨ Features
 
@@ -56,23 +56,23 @@ Add to your `build.gradle.kts`:
 
 ```kotlin
 dependencies {
-    implementation("com.everybytesystems:dhis2-dataflow-sdk-ui:1.0.0")
+    implementation("com.everybytesystems:dhis2-ebscore-sdk-ui:1.0.0")
 }
 ```
 
 ### Basic Usage
 
 ```kotlin
-import com.everybytesystems.dataflow.ui.theme.DataFlowTheme
-import com.everybytesystems.dataflow.ui.components.*
-import com.everybytesystems.dataflow.ui.charts.*
+import com.everybytesystems.ebscore.ui.theme.EBSCoreTheme
+import com.everybytesystems.ebscore.ui.components.*
+import com.everybytesystems.ebscore.ui.charts.*
 
 @Composable
 fun MyApp() {
-    DataFlowTheme {
+    EBSCoreTheme {
         Column {
             // Metric Card
-            DataFlowMetricCard(
+            EBSCoreMetricCard(
                 title = "Total Sales",
                 value = "$125,430",
                 trend = MetricTrend(12.5f, TrendDirection.UP),
@@ -80,12 +80,12 @@ fun MyApp() {
             )
             
             // Line Chart
-            DataFlowLineChart(
+            EBSCoreLineChart(
                 series = listOf(
                     ChartSeries(
                         name = "Revenue",
                         data = chartData,
-                        color = DataFlowColors.Blue500
+                        color = EBSCoreColors.Blue500
                     )
                 ),
                 config = ChartConfig(
@@ -95,7 +95,7 @@ fun MyApp() {
             )
             
             // Data Table
-            DataFlowDataTable(
+            EBSCoreDataTable(
                 columns = tableColumns,
                 data = tableData,
                 selectable = true,
@@ -118,11 +118,11 @@ val series = listOf(
             ChartDataPoint(2f, 150f, "Feb", "$150K"),
             ChartDataPoint(3f, 120f, "Mar", "$120K")
         ),
-        color = DataFlowColors.Blue500
+        color = EBSCoreColors.Blue500
     )
 )
 
-DataFlowLineChart(
+EBSCoreLineChart(
     series = series,
     config = ChartConfig(
         title = "Sales Trend",
@@ -140,7 +140,7 @@ val data = listOf(
     ChartDataPoint(3f, 95f, "Q3", "95%")
 )
 
-DataFlowBarChart(
+EBSCoreBarChart(
     data = data,
     horizontal = true,
     config = ChartConfig(title = "Quarterly Performance")
@@ -150,12 +150,12 @@ DataFlowBarChart(
 ### Pie Chart
 ```kotlin
 val data = listOf(
-    ChartDataPoint(1f, 40f, "Desktop", "40%", DataFlowColors.Blue500),
-    ChartDataPoint(2f, 35f, "Mobile", "35%", DataFlowColors.Green500),
-    ChartDataPoint(3f, 25f, "Tablet", "25%", DataFlowColors.Orange500)
+    ChartDataPoint(1f, 40f, "Desktop", "40%", EBSCoreColors.Blue500),
+    ChartDataPoint(2f, 35f, "Mobile", "35%", EBSCoreColors.Green500),
+    ChartDataPoint(3f, 25f, "Tablet", "25%", EBSCoreColors.Orange500)
 )
 
-DataFlowPieChart(
+EBSCorePieChart(
     data = data,
     donutMode = true,
     config = ChartConfig(title = "Traffic Sources")
@@ -179,7 +179,7 @@ val data = listOf(
     ))
 )
 
-DataFlowDataTable(
+EBSCoreDataTable(
     columns = columns,
     data = data,
     selectable = true,
@@ -207,7 +207,7 @@ val widgets = listOf(
     )
 )
 
-DataFlowExecutiveDashboard(
+EBSCoreExecutiveDashboard(
     widgets = widgets,
     config = DashboardConfig(
         title = "Executive Dashboard",
@@ -246,7 +246,7 @@ val fields = listOf(
     )
 )
 
-DataFlowForm(
+EBSCoreForm(
     fields = fields,
     title = "Contact Form",
     onSubmit = { values -> 
@@ -259,7 +259,7 @@ DataFlowForm(
 
 ### Custom Colors
 ```kotlin
-DataFlowTheme(
+EBSCoreTheme(
     darkTheme = false
 ) {
     // Your app content
@@ -270,7 +270,7 @@ DataFlowTheme(
 ```kotlin
 @Composable
 fun MyComponent() {
-    val colors = DataFlowThemeColors.current
+    val colors = EBSCoreThemeColors.current
     val chartColors = getChartColors()
     
     // Use theme colors
@@ -344,11 +344,11 @@ FormField(
 Check out the comprehensive showcase:
 
 ```kotlin
-import com.everybytesystems.dataflow.ui.examples.DataFlowUIShowcase
+import com.everybytesystems.ebscore.ui.examples.EBSCoreUIShowcase
 
 @Composable
 fun App() {
-    DataFlowUIShowcase()
+    EBSCoreUIShowcase()
 }
 ```
 
@@ -368,4 +368,4 @@ This project is licensed under the MIT License - see the [LICENSE](../../LICENSE
 
 ---
 
-**DataFlow UI SDK** - Building beautiful data applications, one component at a time! 🚀
+**EBSCore UI SDK** - Building beautiful data applications, one component at a time! 🚀

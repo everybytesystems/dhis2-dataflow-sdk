@@ -1,14 +1,14 @@
-import com.everybytesystems.dataflow.sdk.DataFlowSdkBuilder
-import com.everybytesystems.dataflow.auth.BasicAuthConfig
-import com.everybytesystems.dataflow.core.models.analytics.*
-import com.everybytesystems.dataflow.core.models.tracker.*
-import com.everybytesystems.dataflow.core.models.apps.*
-import com.everybytesystems.dataflow.core.models.messaging.*
-import com.everybytesystems.dataflow.core.models.exchange.*
+import com.everybytesystems.ebscore.sdk.EBSCoreSdkBuilder
+import com.everybytesystems.ebscore.auth.BasicAuthConfig
+import com.everybytesystems.ebscore.core.models.analytics.*
+import com.everybytesystems.ebscore.core.models.tracker.*
+import com.everybytesystems.ebscore.core.models.apps.*
+import com.everybytesystems.ebscore.core.models.messaging.*
+import com.everybytesystems.ebscore.core.models.exchange.*
 import kotlinx.coroutines.runBlocking
 
 /**
- * Comprehensive example demonstrating ALL DHIS2 DataFlow SDK APIs
+ * Comprehensive example demonstrating ALL DHIS2 EBSCore SDK APIs
  * 
  * This example shows how to use all the major API categories:
  * 1. Analytics & Reporting APIs
@@ -29,7 +29,7 @@ fun main() = runBlocking {
     // 1. CREATE SDK WITH ALL APIS
     // ========================================
     
-    val sdk = DataFlowSdkBuilder()
+    val sdk = EBSCoreSdkBuilder()
         .baseUrl("https://play.dhis2.org/2.42.0") // DHIS2 2.42 demo server
         .autoDetectVersion(true) // Enable automatic version detection
         .enableLogging(true) // Enable logging
@@ -172,7 +172,7 @@ fun main() = runBlocking {
         }
         
         // Get event visualizations (DHIS2 2.38+)
-        if (sdk.isFeatureSupported(com.everybytesystems.dataflow.core.version.DHIS2Feature.EVENT_VISUALIZATIONS)) {
+        if (sdk.isFeatureSupported(com.everybytesystems.ebscore.core.version.DHIS2Feature.EVENT_VISUALIZATIONS)) {
             val eventVisualizationsResult = sdk.appsApi.getEventVisualizations(
                 fields = "id,name,type",
                 pageSize = 5
@@ -265,7 +265,7 @@ fun main() = runBlocking {
         }
         
         // Get data exchanges (DHIS2 2.39+)
-        if (sdk.isFeatureSupported(com.everybytesystems.dataflow.core.version.DHIS2Feature.DATA_EXCHANGE)) {
+        if (sdk.isFeatureSupported(com.everybytesystems.ebscore.core.version.DHIS2Feature.DATA_EXCHANGE)) {
             val dataExchangesResult = sdk.exchangeApi.getDataExchanges(
                 fields = "id,name,source,target",
                 pageSize = 5
@@ -409,7 +409,7 @@ fun main() = runBlocking {
 /**
  * Example of creating and managing tracker data
  */
-suspend fun demonstrateTrackerWorkflow(sdk: com.everybytesystems.dataflow.sdk.DataFlowSdk) {
+suspend fun demonstrateTrackerWorkflow(sdk: com.everybytesystems.ebscore.sdk.EBSCoreSdk) {
     println("\n🎯 === TRACKER WORKFLOW EXAMPLE ===")
     
     // 1. Get tracked entity types
@@ -443,7 +443,7 @@ suspend fun demonstrateTrackerWorkflow(sdk: com.everybytesystems.dataflow.sdk.Da
 /**
  * Example of analytics queries
  */
-suspend fun demonstrateAnalyticsQueries(sdk: com.everybytesystems.dataflow.sdk.DataFlowSdk) {
+suspend fun demonstrateAnalyticsQueries(sdk: com.everybytesystems.ebscore.sdk.EBSCoreSdk) {
     println("\n📊 === ANALYTICS QUERIES EXAMPLE ===")
     
     // 1. Basic analytics query
@@ -480,13 +480,13 @@ suspend fun demonstrateAnalyticsQueries(sdk: com.everybytesystems.dataflow.sdk.D
 /**
  * Example of messaging features
  */
-suspend fun demonstrateMessagingFeatures(sdk: com.everybytesystems.dataflow.sdk.DataFlowSdk) {
+suspend fun demonstrateMessagingFeatures(sdk: com.everybytesystems.ebscore.sdk.EBSCoreSdk) {
     println("\n💬 === MESSAGING FEATURES EXAMPLE ===")
     
     // 1. Send a message
     val messageResult = sdk.messagingApi.sendMessage(
         subject = "Test Message from SDK",
-        text = "This is a test message sent using the DHIS2 DataFlow SDK",
+        text = "This is a test message sent using the DHIS2 EBSCore SDK",
         users = listOf("M5zQapPyTZI"), // Admin user
         messageType = "PRIVATE"
     )
@@ -510,7 +510,7 @@ suspend fun demonstrateMessagingFeatures(sdk: com.everybytesystems.dataflow.sdk.
 /**
  * Example of import/export operations
  */
-suspend fun demonstrateImportExportOperations(sdk: com.everybytesystems.dataflow.sdk.DataFlowSdk) {
+suspend fun demonstrateImportExportOperations(sdk: com.everybytesystems.ebscore.sdk.EBSCoreSdk) {
     println("\n🔄 === IMPORT/EXPORT OPERATIONS EXAMPLE ===")
     
     // 1. Export metadata

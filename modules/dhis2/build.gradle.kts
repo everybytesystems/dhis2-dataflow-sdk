@@ -8,7 +8,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "11"
             }
         }
     }
@@ -17,7 +17,13 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     
-    jvm("desktop")
+    jvm {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "11"
+            }
+        }
+    }
     
     js(IR) {
         browser()
@@ -30,9 +36,11 @@ kotlin {
             implementation(project(":ebscore-network"))
             implementation(project(":ebscore-storage"))
             implementation(project(":ebscore-auth"))
-            implementation(project(":ebscore-data"))
-            implementation(project(":ebscore-analytics"))
-            implementation(project(":ebscore-sync"))
+            // DHIS2 sub-modules - implementing 100% of these modules
+            api(project(":ebscore-dhis2-metadata"))
+            api(project(":ebscore-dhis2-data"))
+            api(project(":ebscore-dhis2-analytics"))
+            api(project(":ebscore-dhis2-sync"))
             implementation(project(":ebscore-utils"))
             
             // Networking
@@ -68,7 +76,7 @@ android {
     }
     
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }

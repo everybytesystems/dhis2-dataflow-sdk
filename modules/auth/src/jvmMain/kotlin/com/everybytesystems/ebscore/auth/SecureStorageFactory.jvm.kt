@@ -6,7 +6,6 @@ import kotlinx.serialization.json.Json
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
-import java.security.SecureRandom
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
@@ -67,7 +66,7 @@ private class JvmSecureStorage : SecureStorage {
             
             Files.write(Paths.get(credentialsFile), encoded)
         } catch (e: Exception) {
-            throw SecurityException("Failed to store credentials: ${e.message}")
+            throw Exception("Failed to store credentials: ${e.message}")
         }
     }
     

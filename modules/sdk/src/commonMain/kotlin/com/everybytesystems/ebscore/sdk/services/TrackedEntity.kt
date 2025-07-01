@@ -1,7 +1,7 @@
 package com.everybytesystems.ebscore.sdk.services
 
 import kotlinx.serialization.Serializable
-import kotlinx.datetime.LocalDate
+// import kotlinx.datetime.LocalDate // TODO: Add when datetime dependency is available
 
 /**
  * Represents a DHIS2 tracked entity instance

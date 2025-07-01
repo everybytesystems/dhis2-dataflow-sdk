@@ -1,7 +1,7 @@
-# DHIS2 DataFlow SDK - Implementation Status
+# DHIS2 EBSCore SDK - Implementation Status
 
 ## Overview
-This document tracks the current implementation status of the DHIS2 DataFlow SDK, providing comprehensive API coverage for DHIS2 versions 2.36-2.42.
+This document tracks the current implementation status of the DHIS2 EBSCore SDK, providing comprehensive API coverage for DHIS2 versions 2.36-2.42.
 
 ## Current Implementation Status
 
@@ -265,7 +265,7 @@ This document tracks the current implementation status of the DHIS2 DataFlow SDK
 
 ## Conclusion
 
-The DHIS2 DataFlow SDK now has a comprehensive implementation covering ALL essential and advanced DHIS2 operations. The version-aware architecture provides excellent forward and backward compatibility across all DHIS2 versions from 2.36 to 2.42. All three phases are now complete with full implementations across the entire DHIS2 ecosystem.
+The DHIS2 EBSCore SDK now has a comprehensive implementation covering ALL essential and advanced DHIS2 operations. The version-aware architecture provides excellent forward and backward compatibility across all DHIS2 versions from 2.36 to 2.42. All three phases are now complete with full implementations across the entire DHIS2 ecosystem.
 
 **Current Status: 100% Complete**
 - Phase 1 (Core Foundation): 100% ✅

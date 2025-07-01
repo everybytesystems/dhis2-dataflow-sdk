@@ -164,7 +164,7 @@ class DHIS2Client private constructor(
                     headers {
                         append("Accept", "application/json")
                         append("Content-Type", "application/json")
-                        append("User-Agent", "DHIS2-DataFlow-SDK/1.0")
+                        append("User-Agent", "DHIS2-EBSCore-SDK/1.0")
                     }
                     
                     // Add bearer token if available

@@ -25,7 +25,7 @@ class EBSCoreSdkBuilder {
     private var enableCaching: Boolean = true
     private var cacheSize: Long = 50 * 1024 * 1024L // 50MB
     private var enableCompression: Boolean = true
-    private var userAgent: String = "DHIS2-DataFlow-SDK/1.0"
+    private var userAgent: String = "DHIS2-EBSCore-SDK/1.0"
     
     /**
      * Set the base URL of the DHIS2 instance
@@ -156,7 +156,7 @@ class EBSCoreSdkBuilder {
     }
     
     /**
-     * Build the DataFlowSdk instance
+     * Build the EBSCoreSdk instance
      */
     suspend fun build(): ApiResponse<EBSCoreSdk> {
         val url = baseUrl ?: throw IllegalStateException("Base URL is required")

@@ -103,7 +103,7 @@ class EnhancedAuthManager(
      * Get OAuth2 authorization URL
      */
     fun getOAuth2AuthorizationUrl(state: String? = null): String? {
-        return oauth2Manager?.getAuthorizationUrl(state)
+        return oauth2Manager?.getAuthorizationUrl(state)?.authorizationUrl
     }
     
     /**

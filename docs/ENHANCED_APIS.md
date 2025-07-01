@@ -1,6 +1,6 @@
 # Enhanced APIs Documentation
 
-This document describes the enhanced APIs in the DHIS2 DataFlow SDK that provide version-aware functionality and comprehensive feature support.
+This document describes the enhanced APIs in the DHIS2 EBSCore SDK that provide version-aware functionality and comprehensive feature support.
 
 ## Overview
 
@@ -333,7 +333,7 @@ See the complete example in `examples/enhanced-apis/src/main/kotlin/EnhancedApis
 
 The SDK automatically adapts to the detected version and provides appropriate functionality.# Enhanced APIs Documentation
 
-This document describes the enhanced APIs in the DHIS2 DataFlow SDK that provide version-aware functionality and comprehensive feature support.
+This document describes the enhanced APIs in the DHIS2 EBSCore SDK that provide version-aware functionality and comprehensive feature support.
 
 ## Overview
 

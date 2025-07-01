@@ -1,5 +1,5 @@
 /**
- * DHIS2 DataFlow SDK - Current Implementation Usage Examples
+ * DHIS2 EBSCore SDK - Current Implementation Usage Examples
  * 
  * This file demonstrates how to use the currently implemented APIs:
  * - Version Detection & Compatibility
@@ -9,12 +9,12 @@
  * - System API (Basic)
  */
 
-import com.everybytesystems.dataflow.core.DHIS2Client
-import com.everybytesystems.dataflow.core.config.DHIS2Config
-import com.everybytesystems.dataflow.core.network.ApiResponse
-import com.everybytesystems.dataflow.core.version.DHIS2Version
-import com.everybytesystems.dataflow.core.api.tracker.*
-import com.everybytesystems.dataflow.core.api.data.*
+import com.everybytesystems.ebscore.core.DHIS2Client
+import com.everybytesystems.ebscore.core.config.DHIS2Config
+import com.everybytesystems.ebscore.core.network.ApiResponse
+import com.everybytesystems.ebscore.core.version.DHIS2Version
+import com.everybytesystems.ebscore.core.api.tracker.*
+import com.everybytesystems.ebscore.core.api.data.*
 
 suspend fun main() {
     // ========================================

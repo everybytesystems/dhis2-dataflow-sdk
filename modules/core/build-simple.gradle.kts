@@ -33,7 +33,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.everybytesystems.dataflow.core"
+    namespace = "com.everybytesystems.ebscore.core"
     compileSdk = 34
     
     defaultConfig {

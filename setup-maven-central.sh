@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# DHIS2 DataFlow SDK - Maven Central Setup Script
+# EBSCore SDK - Maven Central Setup Script
 # This script helps set up Maven Central publishing for the SDK
 
 set -e
@@ -33,11 +33,11 @@ print_info() {
     echo -e "${BLUE}ℹ️  $1${NC}"
 }
 
-echo "🚀 DHIS2 DataFlow SDK - Maven Central Setup"
+echo "🚀 EBSCore SDK - Maven Central Setup"
 echo "==========================================="
 echo ""
 
-print_info "This script will help you set up Maven Central publishing for the DHIS2 DataFlow SDK."
+print_info "This script will help you set up Maven Central publishing for the EBSCore SDK."
 echo ""
 
 # Check if we're in the right directory
@@ -88,10 +88,10 @@ GROUP=com.everybytesystems
 VERSION_NAME=1.0.0
 
 # POM Configuration
-POM_NAME=DHIS2 DataFlow SDK
+POM_NAME=EBSCore SDK
 POM_DESCRIPTION=A comprehensive, type-safe, and production-ready Kotlin Multiplatform SDK for DHIS2 integration
 POM_INCEPTION_YEAR=2024
-POM_URL=https://github.com/everybytesystems/dhis2-dataflow-sdk
+POM_URL=https://github.com/everybytesystems/ebscore-sdk
 
 # License
 POM_LICENSE_NAME=MIT License
@@ -104,9 +104,9 @@ POM_DEVELOPER_NAME=EveryByte Systems
 POM_DEVELOPER_EMAIL=support@everybytesystems.com
 
 # SCM
-POM_SCM_URL=https://github.com/everybytesystems/dhis2-dataflow-sdk
-POM_SCM_CONNECTION=scm:git:git://github.com/everybytesystems/dhis2-dataflow-sdk.git
-POM_SCM_DEV_CONNECTION=scm:git:ssh://git@github.com:everybytesystems/dhis2-dataflow-sdk.git
+POM_SCM_URL=https://github.com/everybytesystems/ebscore-sdk
+POM_SCM_CONNECTION=scm:git:git://github.com/everybytesystems/ebscore-sdk.git
+POM_SCM_DEV_CONNECTION=scm:git:ssh://git@github.com:everybytesystems/ebscore-sdk.git
 
 # Sonatype
 SONATYPE_HOST=S01
@@ -155,14 +155,14 @@ mavenPublishing {
     
     coordinates(
         groupId = "com.everybytesystems",
-        artifactId = "dhis2-dataflow-sdk-$module",
+        artifactId = "ebscore-sdk-$module",
         version = "1.0.0"
     )
     
     pom {
-        name.set("DHIS2 DataFlow SDK - ${module^}")
-        description.set("${module^} module of the DHIS2 DataFlow SDK")
-        url.set("https://github.com/everybytesystems/dhis2-dataflow-sdk")
+        name.set("EBSCore SDK - ${module^}")
+        description.set("${module^} module of the EBSCore SDK")
+        url.set("https://github.com/everybytesystems/ebscore-sdk")
         
         licenses {
             license {
@@ -181,9 +181,9 @@ mavenPublishing {
         }
         
         scm {
-            url.set("https://github.com/everybytesystems/dhis2-dataflow-sdk")
-            connection.set("scm:git:git://github.com/everybytesystems/dhis2-dataflow-sdk.git")
-            developerConnection.set("scm:git:ssh://git@github.com:everybytesystems/dhis2-dataflow-sdk.git")
+            url.set("https://github.com/everybytesystems/ebscore-sdk")
+            connection.set("scm:git:git://github.com/everybytesystems/ebscore-sdk.git")
+            developerConnection.set("scm:git:ssh://git@github.com:everybytesystems/ebscore-sdk.git")
         }
     }
 }

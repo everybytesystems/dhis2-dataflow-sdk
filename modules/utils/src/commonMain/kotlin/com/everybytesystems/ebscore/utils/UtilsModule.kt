@@ -566,12 +566,15 @@ object RetryUtils {
 // 📊 PERFORMANCE UTILITIES
 // ============================================================================
 
+// Platform-specific time function
+expect fun getCurrentTimeMillis(): Long
+
 object PerformanceUtils {
     
     suspend fun <T> measureTime(block: suspend () -> T): Pair<T, Long> {
-        val startTime = System.currentTimeMillis()
+        val startTime = getCurrentTimeMillis()
         val result = block()
-        val endTime = System.currentTimeMillis()
+        val endTime = getCurrentTimeMillis()
         return result to (endTime - startTime)
     }
     
@@ -625,10 +628,10 @@ fun String.toKebabCase(): String = StringUtils.kebabCase(this)
 fun String.toSnakeCase(): String = StringUtils.snakeCase(this)
 
 // List Extensions
-fun <T> List<T>.takeRandom(count: Int): List<T> = CollectionUtils.takeRandom(this, count)
-fun <T> List<T>.sample(sampleSize: Int): List<T> = CollectionUtils.sample(this, sampleSize)
-fun <T> List<T>.mode(): T? = CollectionUtils.mode(this)
-fun <T> List<T>.frequencies(): Map<T, Int> = CollectionUtils.frequencies(this)
+fun <T> List<T>.takeRandomElements(count: Int): List<T> = with(CollectionUtils) { takeRandom(count) }
+fun <T> List<T>.sampleElements(sampleSize: Int): List<T> = with(CollectionUtils) { sample(sampleSize) }
+fun <T> List<T>.findMode(): T? = with(CollectionUtils) { mode() }
+fun <T> List<T>.getFrequencies(): Map<T, Int> = with(CollectionUtils) { frequencies() }
 
 // Double Extensions
 fun Double.roundTo(places: Int): Double = MathUtils.roundToDecimalPlaces(this, places)

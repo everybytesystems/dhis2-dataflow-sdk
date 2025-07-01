@@ -5,7 +5,7 @@ import com.everybytesystems.dataflow.core.version.DHIS2Version
 import kotlinx.coroutines.runBlocking
 
 fun main() = runBlocking {
-    println("🚀 DHIS2 DataFlow SDK Demo")
+    println("🚀 DHIS2 EBSCore SDK Demo")
     println("=" * 50)
     
     // Demo 1: Version Detection and Feature Support

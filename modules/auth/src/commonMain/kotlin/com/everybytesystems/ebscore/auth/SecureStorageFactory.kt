@@ -23,7 +23,7 @@ expect class SecureStorageFactory {
  */
 data class SecureStorageConfig(
     val keyAlias: String = "dhis2_dataflow_auth",
-    val serviceName: String = "DHIS2DataFlowSDK",
+    val serviceName: String = "DHIS2EBSCoreSDK",
     val encryptionRequired: Boolean = true
 )
 

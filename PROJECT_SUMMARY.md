@@ -1,8 +1,8 @@
-# DHIS2 DataFlow SDK - Project Summary
+# DHIS2 EBSCore SDK - Project Summary
 
 ## 📋 Overview
 
-This document summarizes the comprehensive DHIS2 DataFlow SDK that has been created. The SDK is designed as a Kotlin Multiplatform library providing high-level APIs for interacting with DHIS2 systems.
+This document summarizes the comprehensive DHIS2 EBSCore SDK that has been created. The SDK is designed as a Kotlin Multiplatform library providing high-level APIs for interacting with DHIS2 systems.
 
 ## 🏗 Architecture & Structure
 
@@ -58,8 +58,8 @@ The SDK is organized into 6 main modules, each with specific responsibilities:
 #### 6. **SDK Module** (`modules/sdk/`)
 - **Purpose**: Main SDK facade and high-level APIs
 - **Key Components**:
-  - `DataFlowSdk`: Main SDK interface
-  - `DataFlowSdkBuilder`: Builder pattern for configuration
+  - `EBSCoreSdk`: Main SDK interface
+  - `EBSCoreSdkBuilder`: Builder pattern for configuration
   - High-level convenience methods
   - Unified API surface
 
@@ -81,7 +81,7 @@ The SDK is organized into 6 main modules, each with specific responsibilities:
 
 #### 1. **Builder Pattern**
 ```kotlin
-val sdk = DataFlowSdkBuilder()
+val sdk = EBSCoreSdkBuilder()
     .baseUrl("https://dhis2.example.org")
     .basicAuth("username", "password")
     .enableLogging(true)
@@ -193,7 +193,7 @@ All services are interface-based and can be easily mocked or replaced.
 ### Basic SDK Usage
 ```kotlin
 // Initialize
-val sdk = DataFlowSdkBuilder()
+val sdk = EBSCoreSdkBuilder()
     .baseUrl("https://play.dhis2.org/40.2.2")
     .basicAuth("admin", "district")
     .build()
@@ -292,6 +292,6 @@ The project currently has some Kotlin compiler compatibility issues when buildin
 
 ## 🎯 Conclusion
 
-The DHIS2 DataFlow SDK provides a comprehensive, well-architected solution for DHIS2 integration. With its modular design, comprehensive model support, and modern Kotlin Multiplatform architecture, it significantly reduces the complexity of building DHIS2-integrated applications while providing enterprise-grade features like offline support, authentication management, and data synchronization.
+The DHIS2 EBSCore SDK provides a comprehensive, well-architected solution for DHIS2 integration. With its modular design, comprehensive model support, and modern Kotlin Multiplatform architecture, it significantly reduces the complexity of building DHIS2-integrated applications while providing enterprise-grade features like offline support, authentication management, and data synchronization.
 
 The SDK is ready for development use on JVM and Android platforms, with iOS support planned once build issues are resolved. The extensive API surface and thoughtful architecture make it suitable for both simple integrations and complex enterprise applications.

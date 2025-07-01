@@ -1,4 +1,4 @@
-# 📦 DHIS2 DataFlow SDK - Publishing Status
+# 📦 DHIS2 EBSCore SDK - Publishing Status
 
 ## 🎯 **Current Status: LIVE on JitPack! 🚀**
 
@@ -7,7 +7,7 @@
 **Status**: 🟢 **LIVE and Available**
 - **Version**: v1.0.0
 - **Published**: ✅ December 2024
-- **JitPack URL**: https://jitpack.io/#everybytesystems/dhis2-dataflow-sdk
+- **JitPack URL**: https://jitpack.io/#everybytesystems/dhis2-ebscore-sdk
 - **Build Status**: ✅ Ready (builds on first request)
 
 #### **How to Use Right Now:**
@@ -18,11 +18,11 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-core:1.0.0")
-    implementation("com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-auth:1.0.0")
-    implementation("com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-metadata:1.0.0")
-    implementation("com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-data:1.0.0")
-    implementation("com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-visual:1.0.0")
+    implementation("com.github.everybytesystems.dhis2-ebscore-sdk:dhis2-ebscore-sdk-core:1.0.0")
+    implementation("com.github.everybytesystems.dhis2-ebscore-sdk:dhis2-ebscore-sdk-auth:1.0.0")
+    implementation("com.github.everybytesystems.dhis2-ebscore-sdk:dhis2-ebscore-sdk-metadata:1.0.0")
+    implementation("com.github.everybytesystems.dhis2-ebscore-sdk:dhis2-ebscore-sdk-data:1.0.0")
+    implementation("com.github.everybytesystems.dhis2-ebscore-sdk:dhis2-ebscore-sdk-visual:1.0.0")
 }
 ```
 
@@ -69,11 +69,11 @@ dependencies {
 #### **Future Usage (After Maven Central Setup):**
 ```kotlin
 dependencies {
-    implementation("com.everybytesystems:dhis2-dataflow-sdk-core:1.0.0")
-    implementation("com.everybytesystems:dhis2-dataflow-sdk-auth:1.0.0")
-    implementation("com.everybytesystems:dhis2-dataflow-sdk-metadata:1.0.0")
-    implementation("com.everybytesystems:dhis2-dataflow-sdk-data:1.0.0")
-    implementation("com.everybytesystems:dhis2-dataflow-sdk-visual:1.0.0")
+    implementation("com.everybytesystems:dhis2-ebscore-sdk-core:1.0.0")
+    implementation("com.everybytesystems:dhis2-ebscore-sdk-auth:1.0.0")
+    implementation("com.everybytesystems:dhis2-ebscore-sdk-metadata:1.0.0")
+    implementation("com.everybytesystems:dhis2-ebscore-sdk-data:1.0.0")
+    implementation("com.everybytesystems:dhis2-ebscore-sdk-visual:1.0.0")
 }
 ```
 
@@ -142,10 +142,10 @@ dependencies {
 - 🔧 **Setup Script**: `./setup-maven-central.sh`
 
 ### **Links**
-- 📁 **Repository**: https://github.com/everybytesystems/dhis2-dataflow-sdk
-- 📦 **JitPack**: https://jitpack.io/#everybytesystems/dhis2-dataflow-sdk
-- 🏷️ **Releases**: https://github.com/everybytesystems/dhis2-dataflow-sdk/releases
-- 🐛 **Issues**: https://github.com/everybytesystems/dhis2-dataflow-sdk/issues
+- 📁 **Repository**: https://github.com/everybytesystems/dhis2-ebscore-sdk
+- 📦 **JitPack**: https://jitpack.io/#everybytesystems/dhis2-ebscore-sdk
+- 🏷️ **Releases**: https://github.com/everybytesystems/dhis2-ebscore-sdk/releases
+- 🐛 **Issues**: https://github.com/everybytesystems/dhis2-ebscore-sdk/issues
 
 ### **Professional Support**
 - 📧 **Email**: support@everybytesystems.com
@@ -156,7 +156,7 @@ dependencies {
 
 ## 🎯 **Summary**
 
-**The DHIS2 DataFlow SDK is LIVE and ready for production use!**
+**The DHIS2 EBSCore SDK is LIVE and ready for production use!**
 
 - ✅ **Available NOW** via JitPack
 - ✅ **100% feature complete** with all 14 DHIS2 APIs

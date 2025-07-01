@@ -1,4 +1,4 @@
-# DHIS2 DataFlow SDK
+# DHIS2 EBSCore SDK
 
 A powerful Kotlin Multiplatform SDK for Android and iOS that provides seamless integration with DHIS2 systems, featuring offline-first architecture, real-time data synchronization, and AI-powered insights.
 
@@ -19,21 +19,21 @@ A powerful Kotlin Multiplatform SDK for Android and iOS that provides seamless i
 
 ```kotlin
 dependencies {
-    implementation("com.everybytesystems.dataflow-sdk:sdk:1.0.0")
+    implementation("com.everybytesystems.ebscore-sdk:sdk:1.0.0")
 }
 ```
 
 ### CocoaPods (iOS)
 
 ```ruby
-pod 'DHIS2DataFlowSDK', '~> 1.0.0'
+pod 'DHIS2EBSCoreSDK', '~> 1.0.0'
 ```
 
 ### Swift Package Manager (iOS)
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/everybytesystems/dhis2-dataflow-sdk", from: "1.0.0")
+    .package(url: "https://github.com/everybytesystems/dhis2-ebscore-sdk", from: "1.0.0")
 ]
 ```
 
@@ -73,7 +73,7 @@ val databaseDriverFactory = DatabaseDriverFactory()
 val secureStorageFactory = SecureStorageFactory()
 
 // Common initialization
-val sdk = DataFlowSdkBuilder()
+val sdk = EBSCoreSdkBuilder()
     .baseUrl("https://your-dhis2-instance.org")
     .apiVersion("41")
     .enableLogging(true)
@@ -275,7 +275,7 @@ try {
 
 ```kotlin
 @Composable
-fun DashboardScreen(sdk: DataFlowSdk) {
+fun DashboardScreen(sdk: EBSCoreSdk) {
     val dataElements by sdk.metadataService.getDataElementsFlow().collectAsState()
     
     LazyColumn {
@@ -338,12 +338,12 @@ fun testOfflineSync() = runTest {
 ```kotlin
 // Android-specific initialization
 class MainActivity : ComponentActivity() {
-    private lateinit var sdk: DataFlowSdk
+    private lateinit var sdk: EBSCoreSdk
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
-        sdk = DataFlowSdkBuilder()
+        sdk = EBSCoreSdkBuilder()
             .baseUrl("https://dhis2.example.org")
             .databaseDriverFactory(DatabaseDriverFactory(this))
             .secureStorageFactory(SecureStorageFactory(this))
@@ -361,12 +361,12 @@ class MainActivity : ComponentActivity() {
 ```swift
 // iOS-specific initialization
 class AppDelegate: UIResponder, UIApplicationDelegate {
-    var sdk: DataFlowSdk?
+    var sdk: EBSCoreSdk?
     
     func application(_ application: UIApplication, 
                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        sdk = DataFlowSdkBuilder()
+        sdk = EBSCoreSdkBuilder()
             .baseUrl("https://dhis2.example.org")
             .databaseDriverFactory(DatabaseDriverFactory())
             .secureStorageFactory(SecureStorageFactory())
@@ -386,7 +386,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 ### Advanced Configuration
 
 ```kotlin
-val sdk = DataFlowSdkBuilder()
+val sdk = EBSCoreSdkBuilder()
     .baseUrl("https://dhis2.example.org")
     .apiVersion("41")
     .enableLogging(true)
@@ -402,7 +402,7 @@ val sdk = DataFlowSdkBuilder()
 
 ## 📚 Documentation
 
-- [Technical Documentation](dataflowskd-docs.md) - Detailed implementation guide
+- [Technical Documentation](ebscoreskd-docs.md) - Detailed implementation guide
 - [API Reference](docs/api-reference.md)
 - [Architecture Guide](docs/architecture.md)
 - [Migration Guide](docs/migration.md)
@@ -426,9 +426,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 🆘 Support
 
 - 📧 Email: support@everybytesystems.com
-- 💬 Discord: [Join our community](https://discord.gg/dhis2-dataflow)
-- 🐛 Issues: [GitHub Issues](https://github.com/everybytesystems/dhis2-dataflow-sdk/issues)
-- 📖 Documentation: [Full Documentation](https://docs.dhis2-dataflow.com)
+- 💬 Discord: [Join our community](https://discord.gg/dhis2-ebscore)
+- 🐛 Issues: [GitHub Issues](https://github.com/everybytesystems/dhis2-ebscore-sdk/issues)
+- 📖 Documentation: [Full Documentation](https://docs.dhis2-ebscore.com)
 
 ## 🗺️ Roadmap
 

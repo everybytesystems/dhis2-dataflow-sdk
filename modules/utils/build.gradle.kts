@@ -8,7 +8,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "11"
             }
         }
     }
@@ -17,7 +17,13 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     
-    jvm("desktop")
+    jvm {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "11"
+            }
+        }
+    }
     
     js(IR) {
         browser()
@@ -40,6 +46,22 @@ kotlin {
             implementation(libs.kotlin.test)
             implementation(libs.kotlinx.coroutines.test)
         }
+        
+        val nativeMain by creating {
+            dependsOn(commonMain.get())
+        }
+        
+        val iosX64Main by getting {
+            dependsOn(nativeMain)
+        }
+        
+        val iosArm64Main by getting {
+            dependsOn(nativeMain)
+        }
+        
+        val iosSimulatorArm64Main by getting {
+            dependsOn(nativeMain)
+        }
     }
 }
 
@@ -52,7 +74,7 @@ android {
     }
     
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }

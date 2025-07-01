@@ -55,6 +55,7 @@ class TrackerService(
         return try {
             // First check cache
             val cachedEntities = dataCache.getCachedTrackedEntities(program, orgUnit, attributes)
+                .filterIsInstance<TrackedEntity>()
             if (cachedEntities.isNotEmpty()) {
                 return ApiResponse.Success(cachedEntities)
             }

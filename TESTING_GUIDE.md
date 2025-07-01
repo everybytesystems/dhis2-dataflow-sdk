@@ -1,18 +1,18 @@
-# 🧪 Testing Guide: How to Run and Test the DHIS2 DataFlow SDK
+# 🧪 Testing Guide: How to Run and Test the DHIS2 EBSCore SDK
 
 ## 🎯 **Quick Testing Options**
 
 ### **Option 1: Run Unit Tests (Fastest)**
 ```bash
-cd /Users/stephocay/projects/dataflowsdk
+cd /Users/stephocay/projects/ebscoresdk
 
 # Run all tests
 ./gradlew test
 
 # Run tests for specific module
-./gradlew :dhis2-dataflow-sdk-core:test
-./gradlew :dhis2-dataflow-sdk-auth:test
-./gradlew :dhis2-dataflow-sdk:test
+./gradlew :dhis2-ebscore-sdk-core:test
+./gradlew :dhis2-ebscore-sdk-auth:test
+./gradlew :dhis2-ebscore-sdk:test
 ```
 
 ### **Option 2: Create a Simple Test App**
@@ -20,7 +20,7 @@ Let's create a minimal test application to try the SDK:
 
 ```bash
 # Create a simple test app
-./gradlew :dhis2-dataflow-sdk:publishToMavenLocal
+./gradlew :dhis2-ebscore-sdk:publishToMavenLocal
 ```
 
 ### **Option 3: Interactive Testing with Kotlin Script**
@@ -32,7 +32,7 @@ I've created a complete test application for you! Here's how to run it:
 
 ### **Step 1: Run the Test App**
 ```bash
-cd /Users/stephocay/projects/dataflowsdk
+cd /Users/stephocay/projects/ebscoresdk
 
 # Run the test application
 ./gradlew :test-app:run
@@ -48,7 +48,7 @@ This will:
 
 ### **Step 2: What You'll See**
 ```
-🚀 DHIS2 DataFlow SDK Test Application
+🚀 DHIS2 EBSCore SDK Test Application
 =====================================
 📦 Initializing SDK...
 ✅ SDK initialized successfully!
@@ -120,7 +120,7 @@ This will:
 
 ### **Step 1: Open in Android Studio**
 1. Open Android Studio
-2. File → Open → Select `/Users/stephocay/projects/dataflowsdk`
+2. File → Open → Select `/Users/stephocay/projects/ebscoresdk`
 3. Wait for Gradle sync
 
 ### **Step 2: Run Tests in IDE**
@@ -205,7 +205,7 @@ This will:
 
 ```bash
 # 1. Go to project directory
-cd /Users/stephocay/projects/dataflowsdk
+cd /Users/stephocay/projects/ebscoresdk
 
 # 2. Run the test app (connects to real DHIS2!)
 ./gradlew :test-app:run
@@ -232,7 +232,7 @@ Once you see the tests working:
 
 ### **✅ Build Everything (WORKS!)**
 ```bash
-cd /Users/stephocay/projects/dataflowsdk
+cd /Users/stephocay/projects/ebscoresdk
 ./gradlew build
 ```
 **Result**: ✅ BUILD SUCCESSFUL - All modules compile correctly!
@@ -245,9 +245,9 @@ cd /Users/stephocay/projects/dataflowsdk
 
 ### **✅ Build Individual Modules**
 ```bash
-./gradlew :dhis2-dataflow-sdk-core:build
-./gradlew :dhis2-dataflow-sdk-auth:build
-./gradlew :dhis2-dataflow-sdk:build
+./gradlew :dhis2-ebscore-sdk-core:build
+./gradlew :dhis2-ebscore-sdk-auth:build
+./gradlew :dhis2-ebscore-sdk:build
 ```
 
 ## 🎯 **What This Proves**
@@ -263,17 +263,17 @@ cd /Users/stephocay/projects/dataflowsdk
 ### **1. In Android Studio**
 1. Open the project in Android Studio
 2. Create a new Android app
-3. Add dependency: `implementation(project(":dhis2-dataflow-sdk"))`
+3. Add dependency: `implementation(project(":dhis2-ebscore-sdk"))`
 4. Use the SDK as shown in examples
 
 ### **2. In Xcode (iOS)**
-1. Build the iOS framework: `./gradlew :dhis2-dataflow-sdk:linkDebugFrameworkIosX64`
+1. Build the iOS framework: `./gradlew :dhis2-ebscore-sdk:linkDebugFrameworkIosX64`
 2. Import the framework in Xcode
 3. Use the SDK from Swift/SwiftUI
 
 ### **3. Test with Real DHIS2**
 ```kotlin
-val sdk = DataFlowSdkBuilder()
+val sdk = EBSCoreSdkBuilder()
     .baseUrl("https://play.dhis2.org/dev")
     .build()
 

@@ -2,11 +2,11 @@
 
 ## **📋 Overview**
 
-This document outlines the complete transformation of the DataFlow SDK into the **EBSCore SDK** with enhanced module organization and comprehensive DHIS2 integration.
+This document outlines the complete transformation of the EBSCore SDK into the **EBSCore SDK** with enhanced module organization and comprehensive DHIS2 integration.
 
 ## **🎯 Objectives**
 
-1. **Rename Project**: DataFlow SDK → EBSCore SDK
+1. **Rename Project**: EBSCore SDK → EBSCore SDK
 2. **Restructure Modules**: Organize into logical, focused modules
 3. **DHIS2 Integration**: Complete DHIS2 API implementation
 4. **Enhanced Architecture**: Improved separation of concerns
@@ -231,13 +231,13 @@ graph TD
 ### **Phase 3: Package Renaming (Manual)**
 ```bash
 # 1. Update all package declarations
-find . -name "*.kt" -exec sed -i 's/com.everybytesystems.dataflow/com.everybytesystems.ebscore/g' {} \;
+find . -name "*.kt" -exec sed -i 's/com.everybytesystems.ebscore/com.everybytesystems.ebscore/g' {} \;
 
 # 2. Update imports
-find . -name "*.kt" -exec sed -i 's/import com.everybytesystems.dataflow/import com.everybytesystems.ebscore/g' {} \;
+find . -name "*.kt" -exec sed -i 's/import com.everybytesystems.ebscore/import com.everybytesystems.ebscore/g' {} \;
 
 # 3. Update build.gradle.kts files
-find . -name "build.gradle.kts" -exec sed -i 's/dataflow/ebscore/g' {} \;
+find . -name "build.gradle.kts" -exec sed -i 's/ebscore/ebscore/g' {} \;
 ```
 
 ### **Phase 4: Module Build Configuration**
@@ -255,7 +255,7 @@ Create the three sample applications:
 ### **Phase 6: Documentation**
 - API documentation for all modules
 - Integration guides
-- Migration guide from DataFlow SDK
+- Migration guide from EBSCore SDK
 - DHIS2 integration tutorial
 - Chart types documentation
 

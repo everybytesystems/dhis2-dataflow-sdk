@@ -9,7 +9,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "11"
             }
         }
     }
@@ -18,7 +18,13 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     
-    jvm("desktop")
+    jvm {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "11"
+            }
+        }
+    }
     
     js(IR) {
         browser()
@@ -45,15 +51,31 @@ kotlin {
             // Android-specific dependencies if needed
         }
         
-        iosMain.dependencies {
-            // iOS-specific dependencies if needed
-        }
-        
-        val desktopMain by getting {
+        val iosMain by creating {
+            dependsOn(commonMain.get())
             dependencies {
-                // Desktop-specific dependencies if needed
+                // iOS-specific dependencies if needed
             }
         }
+        
+        val iosX64Main by getting {
+            dependsOn(iosMain)
+        }
+        
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        
+        val iosSimulatorArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        
+        // Temporarily disable JVM source set
+        // val desktopMain by getting {
+        //     dependencies {
+        //         // Desktop-specific dependencies if needed
+        //     }
+        // }
         
         jsMain.dependencies {
             // JS-specific dependencies if needed
@@ -75,20 +97,9 @@ android {
     }
     
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
 
-mavenPublishing {
-    coordinates(
-        groupId = "com.everybytesystems.ebscore",
-        artifactId = "dhis2-metadata",
-        version = "1.0.0"
-    )
-    
-    pom {
-        name.set("EBSCore DHIS2 Metadata")
-        description.set("DHIS2 metadata management module for EBSCore SDK")
-    }
-}
+// Maven publishing configuration will be added later

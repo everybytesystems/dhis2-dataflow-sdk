@@ -8,16 +8,23 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = "11"
             }
         }
     }
     
+    // Temporarily disable iOS targets due to Xcode configuration issues
     iosX64()
     iosArm64()
     iosSimulatorArm64()
     
-    jvm("desktop")
+    jvm {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "11"
+            }
+        }
+    }
     
     js(IR) {
         browser()
@@ -50,15 +57,31 @@ kotlin {
             implementation(libs.ktor.client.okhttp)
         }
         
-        iosMain.dependencies {
-            implementation(libs.ktor.client.darwin)
-        }
-        
-        val desktopMain by getting {
+        val iosMain by creating {
+            dependsOn(commonMain.get())
             dependencies {
-                implementation(libs.ktor.client.okhttp)
+                implementation(libs.ktor.client.darwin)
             }
         }
+        
+        val iosX64Main by getting {
+            dependsOn(iosMain)
+        }
+        
+        val iosArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        
+        val iosSimulatorArm64Main by getting {
+            dependsOn(iosMain)
+        }
+        
+        // Temporarily disable JVM source set
+        // val desktopMain by getting {
+        //     dependencies {
+        //         implementation(libs.ktor.client.okhttp)
+        //     }
+        // }
         
         jsMain.dependencies {
             implementation(libs.ktor.client.js)
@@ -81,7 +104,7 @@ android {
     }
     
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }

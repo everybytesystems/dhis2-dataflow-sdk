@@ -2,7 +2,7 @@
  * Simple test to verify the SDK builds and basic functionality works
  */
 fun main() {
-    println("🚀 DHIS2 DataFlow SDK - Simple Build Test")
+    println("🚀 DHIS2 EBSCore SDK - Simple Build Test")
     println("========================================")
     
     try {
@@ -11,7 +11,7 @@ fun main() {
         
         // This should compile if our SDK is properly structured
         val builderTest = """
-        val sdk = DataFlowSdkBuilder()
+        val sdk = EBSCoreSdkBuilder()
             .baseUrl("https://play.dhis2.org/dev")
             .apiVersion("41")
             .enableLogging(true)

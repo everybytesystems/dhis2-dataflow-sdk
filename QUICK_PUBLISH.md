@@ -1,4 +1,4 @@
-# 🚀 Quick Publishing Guide - DHIS2 DataFlow SDK
+# 🚀 Quick Publishing Guide - DHIS2 EBSCore SDK
 
 ## 📦 **Immediate Publishing via JitPack (5 minutes)**
 
@@ -7,11 +7,11 @@ JitPack is the fastest way to make your SDK available immediately without comple
 ### **Step 1: Create a Release Tag**
 
 ```bash
-cd /Users/stephocay/projects/dataflowsdk
+cd /Users/stephocay/projects/ebscoresdk
 
 # Ensure everything is committed
 git add .
-git commit -m "feat: complete DHIS2 DataFlow SDK v1.0.0"
+git commit -m "feat: complete DHIS2 EBSCore SDK v1.0.0"
 
 # Create and push release tag
 git tag v1.0.0
@@ -21,7 +21,7 @@ git push origin v1.0.0
 
 ### **Step 2: Verify on JitPack**
 
-1. Visit: https://jitpack.io/#everybytesystems/dhis2-dataflow-sdk
+1. Visit: https://jitpack.io/#everybytesystems/dhis2-ebscore-sdk
 2. Click "Get it" next to v1.0.0
 3. Wait for green checkmark (build success)
 
@@ -36,13 +36,13 @@ repositories {
 
 dependencies {
     // Core module (required)
-    implementation("com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-core:1.0.0")
+    implementation("com.github.everybytesystems.dhis2-ebscore-sdk:dhis2-ebscore-sdk-core:1.0.0")
     
     // Optional modules
-    implementation("com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-auth:1.0.0")
-    implementation("com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-metadata:1.0.0")
-    implementation("com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-data:1.0.0")
-    implementation("com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-visual:1.0.0")
+    implementation("com.github.everybytesystems.dhis2-ebscore-sdk:dhis2-ebscore-sdk-auth:1.0.0")
+    implementation("com.github.everybytesystems.dhis2-ebscore-sdk:dhis2-ebscore-sdk-metadata:1.0.0")
+    implementation("com.github.everybytesystems.dhis2-ebscore-sdk:dhis2-ebscore-sdk-data:1.0.0")
+    implementation("com.github.everybytesystems.dhis2-ebscore-sdk:dhis2-ebscore-sdk-visual:1.0.0")
 }
 ```
 
@@ -51,15 +51,15 @@ dependencies {
 Create a simple test:
 
 ```kotlin
-import com.everybytesystems.dataflow.core.DHIS2Client
-import com.everybytesystems.dataflow.auth.AuthenticationManager
+import com.everybytesystems.ebscore.core.DHIS2Client
+import com.everybytesystems.ebscore.auth.AuthenticationManager
 
 fun main() {
     val client = DHIS2Client.builder()
         .baseUrl("https://play.dhis2.org/40.2.2")
         .build()
     
-    println("DHIS2 DataFlow SDK v1.0.0 - Ready!")
+    println("DHIS2 EBSCore SDK v1.0.0 - Ready!")
 }
 ```
 
@@ -87,7 +87,7 @@ fun main() {
 ### **Phase 1: JitPack (Today)**
 ```bash
 git tag v1.0.0 && git push origin v1.0.0
-# Available at: https://jitpack.io/#everybytesystems/dhis2-dataflow-sdk
+# Available at: https://jitpack.io/#everybytesystems/dhis2-ebscore-sdk
 ```
 
 ### **Phase 2: Maven Central (Later)**
@@ -104,7 +104,7 @@ git tag v1.0.0 && git push origin v1.0.0
 
 ## 🎉 **Ready to Publish!**
 
-The DHIS2 DataFlow SDK is **production-ready** with:
+The DHIS2 EBSCore SDK is **production-ready** with:
 
 - ✅ **14/14 DHIS2 APIs** fully implemented (100% coverage)
 - ✅ **Enterprise architecture** with proper error handling

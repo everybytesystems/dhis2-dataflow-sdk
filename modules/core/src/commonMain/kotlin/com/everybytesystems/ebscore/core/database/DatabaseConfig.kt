@@ -1,7 +1,7 @@
 package com.everybytesystems.ebscore.core.database
 
 /**
- * Database configuration for DHIS2 DataFlow SDK
+ * Database configuration for DHIS2 EBSCore SDK
  */
 data class DatabaseConfig(
     val databaseName: String = "dhis2_dataflow.db",

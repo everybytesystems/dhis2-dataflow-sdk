@@ -1,0 +1,48 @@
+#Gradle
+org.gradle.jvmargs=-Xmx2048M -Dfile.encoding=UTF-8 -Dkotlin.daemon.jvm.options\="-Xmx2048M"
+org.gradle.caching=true
+org.gradle.configuration-cache=false
+org.gradle.parallel=true
+#Kotlin
+kotlin.code.style=official
+
+kotlin.mpp.stability.nowarn=true
+#MPP
+kotlin.mpp.enableCInteropCommonization=true
+kotlin.native.ignoreDisabledTargets=true
+kotlin.mpp.androidGradlePluginCompatibility.nowarn=true
+kotlin.mpp.applyDefaultHierarchyTemplate=false
+#Android
+android.useAndroidX=true
+android.nonTransitiveRClass=true
+android.suppressUnsupportedCompileSdk=35
+
+# Publishing Configuration
+# GROUP and VERSION_NAME are set explicitly in each module's build.gradle.kts
+# to avoid conflicts with vanniktech maven publish plugin
+
+# Maven Publishing (vanniktech plugin)
+SONATYPE_HOST=S01
+RELEASE_SIGNING_ENABLED=true
+SONATYPE_AUTOMATIC_RELEASE=true
+
+# POM Information
+POM_NAME=DHIS2 DataFlow SDK
+POM_DESCRIPTION=A comprehensive, type-safe, and production-ready Kotlin Multiplatform SDK for DHIS2 integration
+POM_INCEPTION_YEAR=2024
+POM_URL=https://github.com/everybytesystems/dhis2-dataflow-sdk
+
+# License
+POM_LICENSE_NAME=MIT License
+POM_LICENSE_URL=https://opensource.org/licenses/MIT
+POM_LICENSE_DIST=repo
+
+# Developer
+POM_DEVELOPER_ID=everybytesystems
+POM_DEVELOPER_NAME=EveryByte Systems
+POM_DEVELOPER_EMAIL=support@everybytesystems.com
+
+# SCM
+POM_SCM_URL=https://github.com/everybytesystems/dhis2-dataflow-sdk
+POM_SCM_CONNECTION=scm:git:git://github.com/everybytesystems/dhis2-dataflow-sdk.git
+POM_SCM_DEV_CONNECTION=scm:git:ssh://git@github.com:everybytesystems/dhis2-dataflow-sdk.git

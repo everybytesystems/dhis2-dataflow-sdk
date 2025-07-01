@@ -1,6 +1,7 @@
 package com.everybytesystems.ebscore.sync
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.serialization.Serializable
 
 /**
  * Generic synchronization interface for EBSCore SDK
@@ -41,6 +42,7 @@ data class SyncResult(
 /**
  * Sync status enum
  */
+@Serializable
 enum class SyncStatus {
     IDLE,
     SYNCING,

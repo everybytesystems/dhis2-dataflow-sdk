@@ -13,8 +13,8 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "dhis2-dataflow-sdk"
+rootProject.name = "ebscore-sdk"
 
-include(":dhis2-dataflow-sdk-core")
+include(":ebscore-core")
 
-project(":dhis2-dataflow-sdk-core").projectDir = file("modules/core")
+project(":ebscore-core").projectDir = file("modules/core")

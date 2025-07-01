@@ -1,8 +1,8 @@
-# DHIS2 DataFlow SDK — Technical Documentation
+# DHIS2 EBSCore SDK — Technical Documentation
 
 ## 1. Introduction
 
-The **DHIS2 DataFlow SDK** is a powerful Kotlin Multiplatform toolkit for Android and iOS, providing:
+The **DHIS2 EBSCore SDK** is a powerful Kotlin Multiplatform toolkit for Android and iOS, providing:
 
 - Full integration with DHIS2 endpoints: metadata via `/api/metadata`, analytics via `/analytics` & Visualisation API :contentReference[oaicite:1]{index=1}
 - Tracker data (`/tracker/enrollments`, `/tracker/events`)
@@ -58,7 +58,7 @@ Develop shared UI components:
 ## 5. Usage Examples
 
 ```kotlin
-val sdk = DataFlowSdk.initialize(
+val sdk = EBSCoreSdk.initialize(
   baseUrl = "https://dhis2.example.org",
   authConfig = AuthConfig.Basic("user","pass"),
   dbDriver = createSqlDriver(DbSchema, "dhis2.db")
@@ -153,7 +153,7 @@ A robust pipeline handles building, testing, and publishing SDK modules:
 
 ## 9. Roadmap & Extensions
 
-The DataFlow SDK is designed for extensibility and modular growth:
+The EBSCore SDK is designed for extensibility and modular growth:
 
 | Feature                                | Description |
 |----------------------------------------|-------------|

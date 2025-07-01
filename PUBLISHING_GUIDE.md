@@ -1,8 +1,8 @@
-# DHIS2 DataFlow SDK - Publishing Guide
+# DHIS2 EBSCore SDK - Publishing Guide
 
 ## 📦 **Package Distribution Setup**
 
-This guide covers publishing the DHIS2 DataFlow SDK to various package repositories for easy distribution and consumption.
+This guide covers publishing the DHIS2 EBSCore SDK to various package repositories for easy distribution and consumption.
 
 ---
 
@@ -30,7 +30,7 @@ git push origin v1.0.0
 ```
 
 #### **2. Verify on JitPack**
-- Visit: https://jitpack.io/#everybytesystems/dhis2-dataflow-sdk
+- Visit: https://jitpack.io/#everybytesystems/dhis2-ebscore-sdk
 - Click "Get it" to trigger the first build
 - Wait for green checkmark (build success)
 
@@ -42,8 +42,8 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-core:1.0.0")
-    implementation("com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-auth:1.0.0")
+    implementation("com.github.everybytesystems.dhis2-ebscore-sdk:dhis2-ebscore-sdk-core:1.0.0")
+    implementation("com.github.everybytesystems.dhis2-ebscore-sdk:dhis2-ebscore-sdk-auth:1.0.0")
 }
 ```
 
@@ -71,7 +71,7 @@ configure<PublishingExtension> {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/everybytesystems/dhis2-dataflow-sdk")
+            url = uri("https://maven.pkg.github.com/everybytesystems/dhis2-ebscore-sdk")
             credentials {
                 username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
                 password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
@@ -88,9 +88,9 @@ configure<PublishingExtension> {
             from(components["kotlin"])
             
             pom {
-                name.set("DHIS2 DataFlow SDK")
+                name.set("DHIS2 EBSCore SDK")
                 description.set("A comprehensive, type-safe, and production-ready Kotlin Multiplatform SDK for DHIS2 integration")
-                url.set("https://github.com/everybytesystems/dhis2-dataflow-sdk")
+                url.set("https://github.com/everybytesystems/dhis2-ebscore-sdk")
                 
                 licenses {
                     license {
@@ -108,9 +108,9 @@ configure<PublishingExtension> {
                 }
                 
                 scm {
-                    connection.set("scm:git:git://github.com/everybytesystems/dhis2-dataflow-sdk.git")
-                    developerConnection.set("scm:git:ssh://github.com:everybytesystems/dhis2-dataflow-sdk.git")
-                    url.set("https://github.com/everybytesystems/dhis2-dataflow-sdk/tree/main")
+                    connection.set("scm:git:git://github.com/everybytesystems/dhis2-ebscore-sdk.git")
+                    developerConnection.set("scm:git:ssh://github.com:everybytesystems/dhis2-ebscore-sdk.git")
+                    url.set("https://github.com/everybytesystems/dhis2-ebscore-sdk/tree/main")
                 }
             }
         }
@@ -126,7 +126,7 @@ apply(from = "$rootDir/gradle/publishing.gradle.kts")
 ```
 
 #### **3. Configure GitHub Secrets**
-- Go to: https://github.com/everybytesystems/dhis2-dataflow-sdk/settings/secrets/actions
+- Go to: https://github.com/everybytesystems/dhis2-ebscore-sdk/settings/secrets/actions
 - Add secrets:
   - `USERNAME`: Your GitHub username
   - `TOKEN`: GitHub token with `write:packages` scope
@@ -140,7 +140,7 @@ apply(from = "$rootDir/gradle/publishing.gradle.kts")
 ```kotlin
 repositories {
     maven {
-        url = uri("https://maven.pkg.github.com/everybytesystems/dhis2-dataflow-sdk")
+        url = uri("https://maven.pkg.github.com/everybytesystems/dhis2-ebscore-sdk")
         credentials {
             username = "your-github-username"
             password = "your-github-token"
@@ -149,7 +149,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.everybytesystems:dhis2-dataflow-sdk-core:1.0.0")
+    implementation("com.everybytesystems:dhis2-ebscore-sdk-core:1.0.0")
 }
 ```
 
@@ -206,10 +206,10 @@ GROUP=com.everybytesystems
 VERSION_NAME=1.0.0
 
 # POM
-POM_NAME=DHIS2 DataFlow SDK
+POM_NAME=DHIS2 EBSCore SDK
 POM_DESCRIPTION=A comprehensive, type-safe, and production-ready Kotlin Multiplatform SDK for DHIS2 integration
 POM_INCEPTION_YEAR=2024
-POM_URL=https://github.com/everybytesystems/dhis2-dataflow-sdk
+POM_URL=https://github.com/everybytesystems/dhis2-ebscore-sdk
 
 # License
 POM_LICENSE_NAME=MIT License
@@ -222,9 +222,9 @@ POM_DEVELOPER_NAME=EveryByte Systems
 POM_DEVELOPER_EMAIL=support@everybytesystems.com
 
 # SCM
-POM_SCM_URL=https://github.com/everybytesystems/dhis2-dataflow-sdk
-POM_SCM_CONNECTION=scm:git:git://github.com/everybytesystems/dhis2-dataflow-sdk.git
-POM_SCM_DEV_CONNECTION=scm:git:ssh://git@github.com:everybytesystems/dhis2-dataflow-sdk.git
+POM_SCM_URL=https://github.com/everybytesystems/dhis2-ebscore-sdk
+POM_SCM_CONNECTION=scm:git:git://github.com/everybytesystems/dhis2-ebscore-sdk.git
+POM_SCM_DEV_CONNECTION=scm:git:ssh://git@github.com:everybytesystems/dhis2-ebscore-sdk.git
 
 # Sonatype
 SONATYPE_HOST=S01
@@ -255,11 +255,11 @@ The existing `.github/workflows/ci.yml` already includes publishing steps. Just 
 #### **6. Usage by Consumers (After Release)**
 ```kotlin
 dependencies {
-    implementation("com.everybytesystems:dhis2-dataflow-sdk-core:1.0.0")
-    implementation("com.everybytesystems:dhis2-dataflow-sdk-auth:1.0.0")
-    implementation("com.everybytesystems:dhis2-dataflow-sdk-metadata:1.0.0")
-    implementation("com.everybytesystems:dhis2-dataflow-sdk-data:1.0.0")
-    implementation("com.everybytesystems:dhis2-dataflow-sdk-visual:1.0.0")
+    implementation("com.everybytesystems:dhis2-ebscore-sdk-core:1.0.0")
+    implementation("com.everybytesystems:dhis2-ebscore-sdk-auth:1.0.0")
+    implementation("com.everybytesystems:dhis2-ebscore-sdk-metadata:1.0.0")
+    implementation("com.everybytesystems:dhis2-ebscore-sdk-data:1.0.0")
+    implementation("com.everybytesystems:dhis2-ebscore-sdk-visual:1.0.0")
 }
 ```
 
@@ -292,7 +292,7 @@ This triggers:
 # Quick setup for immediate availability
 git tag v1.0.0
 git push origin v1.0.0
-# Available at: https://jitpack.io/#everybytesystems/dhis2-dataflow-sdk
+# Available at: https://jitpack.io/#everybytesystems/dhis2-ebscore-sdk
 ```
 
 ### **Phase 2: Professional (Maven Central)**
@@ -313,13 +313,13 @@ Since the repository is ready, let's start with JitPack:
 
 ### **1. Create First Release**
 ```bash
-cd /Users/stephocay/projects/dataflowsdk
+cd /Users/stephocay/projects/ebscoresdk
 git tag v1.0.0
 git push origin v1.0.0
 ```
 
 ### **2. Verify Build**
-- Visit: https://jitpack.io/#everybytesystems/dhis2-dataflow-sdk
+- Visit: https://jitpack.io/#everybytesystems/dhis2-ebscore-sdk
 - Click "Get it" next to v1.0.0
 - Wait for green checkmark
 
@@ -331,7 +331,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-core:1.0.0")
+    implementation("com.github.everybytesystems.dhis2-ebscore-sdk:dhis2-ebscore-sdk-core:1.0.0")
 }
 ```
 
@@ -355,14 +355,14 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.everybytesystems.dhis2-dataflow-sdk:dhis2-dataflow-sdk-core:1.0.0")
+    implementation("com.github.everybytesystems.dhis2-ebscore-sdk:dhis2-ebscore-sdk-core:1.0.0")
 }
 ```
 
 #### Maven Central (Coming Soon)
 ```kotlin
 dependencies {
-    implementation("com.everybytesystems:dhis2-dataflow-sdk-core:1.0.0")
+    implementation("com.everybytesystems:dhis2-ebscore-sdk-core:1.0.0")
 }
 ```
 ```
@@ -379,7 +379,7 @@ dependencies {
 - Comprehensive documentation and examples
 
 ### Published
-- Available on JitPack: https://jitpack.io/#everybytesystems/dhis2-dataflow-sdk
+- Available on JitPack: https://jitpack.io/#everybytesystems/dhis2-ebscore-sdk
 - Maven Central publishing in progress
 ```
 
@@ -387,7 +387,7 @@ dependencies {
 
 ## 🎉 **Ready to Publish!**
 
-The DHIS2 DataFlow SDK is **production-ready** and can be published immediately to:
+The DHIS2 EBSCore SDK is **production-ready** and can be published immediately to:
 
 1. ✅ **JitPack** - 5 minutes setup, immediate availability
 2. ✅ **GitHub Packages** - 15 minutes setup, integrated with GitHub
