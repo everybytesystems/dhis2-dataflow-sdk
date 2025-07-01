@@ -34,10 +34,10 @@ include(":ebscore-dhis2-data")
 include(":ebscore-dhis2-analytics")
 include(":ebscore-dhis2-sync")
 
-// Sample Applications
-include(":samples:basic-app")
-include(":samples:dhis2-app")
-include(":samples:analytics-app")
+// Demo Applications
+include(":demos:android")
+include(":demos:desktop")
+include(":demos:web")
 
 // Module Directory Mappings
 project(":ebscore-core").projectDir = file("modules/core")
@@ -58,7 +58,7 @@ project(":ebscore-dhis2-data").projectDir = file("modules/dhis2/data")
 project(":ebscore-dhis2-analytics").projectDir = file("modules/dhis2/analytics")
 project(":ebscore-dhis2-sync").projectDir = file("modules/dhis2/sync")
 
-// Sample Applications
-project(":samples:basic-app").projectDir = file("samples/basic-app")
-project(":samples:dhis2-app").projectDir = file("samples/dhis2-app")
-project(":samples:analytics-app").projectDir = file("samples/analytics-app")
+// Demo Applications Directory Mappings
+project(":demos:android").projectDir = file("demos/android")
+project(":demos:desktop").projectDir = file("demos/desktop")
+project(":demos:web").projectDir = file("demos/web")

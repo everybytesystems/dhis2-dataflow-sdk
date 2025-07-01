@@ -200,6 +200,39 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Discussions**: [GitHub Discussions](https://github.com/everybytesystems/ebscore-sdk/discussions)
 - **Email**: support@everybytesystems.com
 
+## 📁 Repository Structure
+
+```
+ebscore-sdk/
+├── 📚 docs/                    # Documentation
+│   ├── GETTING_STARTED.md     # Setup and usage guide
+│   ├── API_REFERENCE.md       # Complete API documentation
+│   ├── EXAMPLES.md            # Code examples
+│   └── PUBLISHING.md          # Publishing guide
+├── 🧩 modules/                # SDK modules
+│   ├── core/                  # Core functionality
+│   ├── auth/                  # Authentication
+│   ├── metadata/              # Metadata management
+│   ├── data/                  # Data operations
+│   ├── tracker/               # Tracker functionality
+│   ├── analytics/             # Analytics and reporting
+│   ├── sync/                  # Synchronization
+│   └── ui/                    # UI components
+├── 💡 examples/               # Code examples
+│   ├── basic/                 # Basic usage examples
+│   ├── analytics/             # Analytics examples
+│   ├── tracker/               # Tracker examples
+│   └── advanced/              # Advanced usage patterns
+├── 🚀 demos/                  # Demo applications
+│   ├── android/               # Android demo app
+│   ├── desktop/               # Desktop demo app
+│   ├── web/                   # Web demo app
+│   └── ios/                   # iOS demo (README)
+├── 🔧 scripts/                # Setup and publishing scripts
+├── 🧪 test-scripts/           # Development test utilities
+└── 📄 README.md               # This file
+```
+
 ## 🎯 Roadmap
 
 - [ ] GraphQL API support
