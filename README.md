@@ -1,274 +1,213 @@
 # 🚀 EBSCore SDK
 
 [![Kotlin](https://img.shields.io/badge/kotlin-multiplatform-blue.svg)](https://kotlinlang.org/docs/multiplatform.html)
-[![Compose](https://img.shields.io/badge/compose-multiplatform-green.svg)](https://www.jetbrains.com/lp/compose-multiplatform/)
 [![DHIS2](https://img.shields.io/badge/DHIS2-100%25%20API%20Coverage-orange.svg)](https://dhis2.org/)
-[![Charts](https://img.shields.io/badge/Charts-68%2B%20Types-blue.svg)](https://github.com/EverybyteSystems/ebscore-sdk)
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![JitPack](https://jitpack.io/v/everybytesystems/ebscore-sdk.svg)](https://jitpack.io/#everybytesystems/ebscore-sdk)
 
-**The most comprehensive health data management SDK for Compose Multiplatform development**
+**A comprehensive, type-safe Kotlin Multiplatform SDK for DHIS2 integration**
 
-EBSCore SDK provides complete DHIS2 integration, advanced analytics with 68+ chart types, and production-ready tools for building sophisticated health data applications across Android, iOS, Desktop, and Web platforms.
+EBSCore SDK provides complete DHIS2 API coverage with enterprise-grade features, enabling developers to build sophisticated health data applications across Android, iOS, Desktop, and Web platforms.
 
 ## ✨ Key Features
 
 ### 🏥 **Complete DHIS2 Integration**
-- **100% API Coverage**: All major DHIS2 APIs implemented
-- **Offline-First**: Full offline capabilities with intelligent sync
-- **Real-time Sync**: Bidirectional synchronization with conflict resolution
-- **Data Validation**: DHIS2-compliant data validation and transformation
-
-### 📊 **Advanced Analytics & Visualization**
-- **68+ Chart Types**: Most comprehensive chart library available
-- **Interactive**: Full touch/mouse interaction support
-- **Real-time Updates**: Live data streaming and visualization
-- **Export Capabilities**: PNG, SVG, PDF export formats
-- **Statistical Analysis**: Advanced statistical functions and trend analysis
+- **✅ 14/14 APIs Implemented** - 100% DHIS2 Web API coverage
+- **🔄 Version-Aware** - Supports DHIS2 versions 2.36-2.42
+- **📱 Multiplatform** - JVM, Android, iOS, JavaScript support
+- **🔒 Enterprise Security** - OAuth2, Basic Auth, JWT token management
+- **💾 Offline-First** - Intelligent caching and sync capabilities
 
 ### 🏗️ **Production-Ready Architecture**
-- **Modular Design**: 10 focused modules with clear boundaries
-- **Type-Safe APIs**: Comprehensive Kotlin type system
-- **Cross-Platform**: Single codebase for all major platforms
-- **Performance Optimized**: Intelligent caching and memory management
-- **Enterprise Security**: Multi-auth strategies with encrypted storage
+- **Type-Safe APIs** - Comprehensive Kotlin type system
+- **Modular Design** - Clean separation of concerns
+- **Performance Optimized** - Intelligent caching and memory management
+- **Error Handling** - Comprehensive error types and recovery strategies
+- **Testing Support** - Built-in testing utilities and mocks
 
-### 🏥 **DHIS2 API Coverage**
+## 📦 Installation
 
-| API | Status | Description |
-|-----|--------|-------------|
-| **System Info API** | ✅ 100% | Server information and capabilities |
-| **User Management API** | ✅ 100% | User accounts and permissions |
-| **Organization Units API** | ✅ 100% | Organizational hierarchy |
-| **Data Elements API** | ✅ 100% | Data element definitions |
-| **Data Sets API** | ✅ 100% | Data set configurations |
-| **Programs API** | ✅ 100% | Tracker program definitions |
-| **Data Values API** | ✅ 100% | Aggregate data values |
-| **Events API** | ✅ 100% | Tracker events |
-| **Tracked Entity Instances API** | ✅ 100% | Individual records |
-| **Analytics API** | ✅ 100% | Data analytics and reporting |
+### JitPack (Recommended)
 
-## 🚀 Quick Start
-
-### Installation
-
-Add to your `build.gradle.kts`:
+Add JitPack repository to your `build.gradle.kts`:
 
 ```kotlin
+repositories {
+    maven("https://jitpack.io")
+}
+
 dependencies {
-    implementation("com.everybytesystems.ebscore:ebscore-sdk:1.0.0")
+    // Core SDK
+    implementation("com.github.everybytesystems.ebscore-sdk:ebscore-sdk-core:1.0.0")
     
-    // Optional: Add specific modules if needed
-    implementation("com.everybytesystems.ebscore:ebscore-analytics:1.0.0")
-    implementation("com.everybytesystems.ebscore:ebscore-ui:1.0.0")
+    // Authentication
+    implementation("com.github.everybytesystems.ebscore-sdk:ebscore-sdk-auth:1.0.0")
+    
+    // Optional modules
+    implementation("com.github.everybytesystems.ebscore-sdk:ebscore-sdk-metadata:1.0.0")
+    implementation("com.github.everybytesystems.ebscore-sdk:ebscore-sdk-data:1.0.0")
+    implementation("com.github.everybytesystems.ebscore-sdk:ebscore-sdk-tracker:1.0.0")
+    implementation("com.github.everybytesystems.ebscore-sdk:ebscore-sdk-analytics:1.0.0")
 }
 ```
 
-### Basic Usage
+### Maven Central (Coming Soon)
 
 ```kotlin
-// Initialize SDK
-val sdk = EBSCoreSdk.Builder()
-    .baseUrl("https://your-dhis2-instance.org")
-    .credentials("username", "password")
-    .enableOfflineMode(true)
-    .enableAnalytics(true)
-    .build()
+dependencies {
+    implementation("com.everybytesystems:ebscore-sdk-core:1.0.0")
+    implementation("com.everybytesystems:ebscore-sdk-auth:1.0.0")
+}
+```
 
-// Get data values
-val dataValues = sdk.getDataValues(
-    dataElement = "dataElementId",
-    period = "202401",
-    orgUnit = "orgUnitId"
-)
+## 🚀 Quick Start
 
-// Create tracked entity
-val trackedEntity = TrackedEntity(
-    trackedEntityType = "personType",
-    orgUnit = "orgUnitId",
-    attributes = listOf(
-        TrackedEntityAttribute("firstName", "John"),
-        TrackedEntityAttribute("lastName", "Doe")
+### Basic Setup
+
+```kotlin
+import com.everybytesystems.ebscore.sdk.EBSCoreSdkBuilder
+import com.everybytesystems.ebscore.auth.BasicAuthConfig
+
+suspend fun main() {
+    // Create SDK instance
+    val sdk = EBSCoreSdkBuilder()
+        .baseUrl("https://play.dhis2.org/2.42.0")
+        .autoDetectVersion(true)
+        .enableLogging(true)
+        .build()
+    
+    // Initialize SDK
+    sdk.initialize()
+    
+    // Authenticate
+    val authResult = sdk.authenticate(
+        BasicAuthConfig(
+            username = "admin",
+            password = "district"
+        )
     )
-)
-val result = sdk.createTrackedEntity(trackedEntity)
+    
+    if (authResult.isSuccess) {
+        println("✅ Authentication successful!")
+        
+        // Use the APIs
+        val systemInfo = sdk.systemApi.getSystemInfo()
+        println("DHIS2 Version: ${systemInfo.version}")
+    }
+    
+    // Cleanup
+    sdk.close()
+}
+```
 
-// Create analytics visualization
-val query = AnalyticsQuery.builder()
-    .dimension("dx", listOf("dataElementId"))
-    .dimension("pe", listOf("202401"))
-    .dimension("ou", listOf("orgUnitId"))
+### Advanced Usage
+
+```kotlin
+// OAuth2 Authentication
+val oauthConfig = OAuth2Config(
+    clientId = "your-client-id",
+    clientSecret = "your-client-secret",
+    redirectUri = "your-app://callback"
+)
+
+val sdk = EBSCoreSdkBuilder()
+    .baseUrl("https://your-dhis2-instance.org")
+    .authConfig(oauthConfig)
+    .enableCaching(true)
+    .cacheSize(100 * 1024 * 1024) // 100MB
+    .enableCompression(true)
+    .userAgent("MyApp/1.0")
     .build()
 
-val analyticsData = sdk.getAnalytics(query)
-val chart = LineChart(
-    data = analyticsData,
-    title = "Monthly Trends",
-    interactive = true
+// Use specific APIs
+val metadata = sdk.metadataApi.getDataElements(
+    fields = "id,name,valueType",
+    filter = "domainType:eq:AGGREGATE"
+)
+
+val analytics = sdk.analyticsApi.getAnalytics(
+    dimension = listOf("dx:fbfJHSPpUQD", "pe:LAST_12_MONTHS", "ou:USER_ORGUNIT"),
+    displayProperty = "NAME"
 )
 ```
 
-## 📁 Module Architecture
+## 🏥 DHIS2 API Coverage
 
-```
-ebscore-sdk/
-├── modules/
-│   ├── sdk/                     # ✅ Main SDK entry point & services
-│   ├── core/                    # ✅ Core interfaces & network API
-│   ├── network/                 # ✅ HTTP client & networking (Ktor-based)
-│   ├── dhis2/                   # ✅ Complete DHIS2 API client
-│   ├── storage/                 # ✅ SQLDelight database & caching
-│   ├── auth/                    # ✅ Authentication & security
-│   ├── sync/                    # ✅ Data synchronization engine
-│   ├── analytics/               # ✅ Analytics & reporting
-│   ├── utils/                   # ✅ 200+ utility functions
-│   └── ui/                      # ✅ UI components & 68+ chart types
-```
-
-## 📈 Chart Library
-
-### 68+ Chart Types Available
-
-#### Chart Categories:
-1. **Statistical Charts (5)**: Box plots, violin plots, histograms, density plots, Q-Q plots
-2. **Financial Charts (4)**: OHLC, Renko, Point & Figure, Kagi
-3. **Business Charts (5)**: Funnel, pyramid, bullet, speedometer, Marimekko
-4. **Time Series Charts (4)**: Gantt, timeline, calendar, stream graphs
-5. **Geographic Charts (3)**: Choropleth, flow maps, dot distribution
-6. **Relationship Charts (5)**: Chord diagrams, arc diagrams, matrix, parallel coordinates, alluvial
-7. **Hierarchical Charts (5)**: Dendrograms, sunburst, icicle, circle packing, partition
-8. **Distribution Charts (4)**: Ridgeline, beeswarm, strip charts, Sina plots
-9. **Creative Charts (4)**: Word clouds, pictographs, slope graphs, bump charts
-10. **Scientific Charts (2)**: Contour plots, vector fields
-11. **Interactive Charts (3)**: Sparklines, progress charts, metric cards
-12. **Basic Charts (12)**: Line, bar, pie, scatter, area, column, etc.
-13. **Advanced Charts (12)**: Heatmaps, treemaps, Sankey, network graphs, etc.
-
-#### Chart Features:
-- ✅ **Interactive**: Full touch/mouse interaction support
-- ✅ **Responsive**: Automatic resizing and responsive design
-- ✅ **Customizable**: Themes, colors, fonts, and styling
-- ✅ **Export**: PNG, SVG, PDF export capabilities
-- ✅ **Real-time**: Live data updates and streaming
-- ✅ **Accessibility**: Screen reader and keyboard navigation support
-
-## 🎯 Platform Support
-
-- ✅ **Android** - Native Android applications
-- ✅ **iOS** - Native iOS applications  
-- ✅ **Desktop** - Windows, macOS, Linux desktop applications
-- ✅ **Web** - Browser-based web applications
-
-## 🔧 Requirements
-
-- **Kotlin**: 1.9.0+
-- **Compose Multiplatform**: 1.5.0+
-- **Gradle**: 8.0+
-- **Android**: API 24+ (Android 7.0)
-- **iOS**: iOS 12.0+
-- **JVM**: Java 11+
-
-## 📚 Getting Started
-
-### Module Selection Guide
-- **Core Functionality**: `ebscore-sdk` (includes all essential features)
-- **Advanced Analytics**: Add `ebscore-analytics` for statistical analysis
-- **Data Visualization**: Add `ebscore-ui` for charts and components
-- **Custom Storage**: Add `ebscore-storage` for advanced caching
-- **Custom Sync**: Add `ebscore-sync` for specialized synchronization
-
-### Quick Start Checklist
-- ✅ **Add Dependencies**: Include EBSCore SDK in your project
-- ✅ **Initialize SDK**: Configure with your DHIS2 instance details
-- ✅ **Authentication**: Set up user credentials or tokens
-- ✅ **Test Connection**: Verify connectivity to DHIS2 server
-- ✅ **Start Development**: Begin using SDK APIs
+| API | Status | Description |
+|-----|--------|-------------|
+| **System API** | ✅ 100% | System information and server capabilities |
+| **User API** | ✅ 100% | User management and authentication |
+| **Metadata API** | ✅ 100% | Data elements, datasets, programs, org units |
+| **Data API** | ✅ 100% | Data values and aggregate data operations |
+| **Analytics API** | ✅ 100% | Data analytics and pivot tables |
+| **Tracker API** | ✅ 100% | Tracked entities, events, and enrollments |
+| **Apps API** | ✅ 100% | App management and dashboards |
+| **Messaging API** | ✅ 100% | Messages and notifications |
+| **Exchange API** | ✅ 100% | Data import/export operations |
+| **Visualizations API** | ✅ 100% | Charts and visualization management |
+| **Event Visualizations API** | ✅ 100% | Event-based analytics and charts |
+| **Program Rules API** | ✅ 100% | Program rules and actions |
+| **Relationships API** | ✅ 100% | Entity relationships |
+| **Import/Export API** | ✅ 100% | Bulk data operations |
 
 ## 🏗️ Architecture
 
-### Modular Design
-```
-dhis2-ebscore-sdk/
-├── modules/
-│   ├── core/           # Core SDK with all APIs
-│   ├── auth/           # Authentication module
-│   ├── metadata/       # Enhanced metadata operations
-│   ├── data/           # Data processing utilities
-│   └── visual/         # Visualization helpers
-├── examples/           # Usage examples
-└── docs/              # Documentation
-```
+### Modules
 
-### Version Compatibility Matrix
+- **`ebscore-sdk-core`** - Core SDK functionality and HTTP client
+- **`ebscore-sdk-auth`** - Authentication and security
+- **`ebscore-sdk-metadata`** - Metadata management
+- **`ebscore-sdk-data`** - Data values and aggregation
+- **`ebscore-sdk-tracker`** - Tracker and events
+- **`ebscore-sdk-analytics`** - Analytics and reporting
+- **`ebscore-sdk-storage`** - Local storage and caching
+- **`ebscore-sdk-sync`** - Synchronization engine
+- **`ebscore-sdk-utils`** - Utilities and helpers
 
-| Feature Category | 2.36 | 2.37 | 2.38 | 2.39 | 2.40 | 2.41 | 2.42 |
-|------------------|------|------|------|------|------|------|------|
-| **Core APIs** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Tracker Operations** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Analytics** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Messaging** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Metadata Gist** | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Email Notifications** | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Metadata Versioning** | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **System Backup** | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Bulk Operations** | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ | ✅ |
-| **Push Notifications** | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| **Cluster Management** | ❌ | ❌ | ❌ | ❌ | ✅ | ✅ | ✅ |
-| **Advanced Sync** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ |
+### Platform Support
 
-## 🧪 Testing
+| Platform | Status | Notes |
+|----------|--------|-------|
+| **JVM** | ✅ Full | Java 8+ compatible |
+| **Android** | ✅ Full | API 21+ (Android 5.0+) |
+| **iOS** | ✅ Full | iOS 12+ |
+| **JavaScript** | ✅ Full | Browser and Node.js |
+| **Desktop** | ✅ Full | Windows, macOS, Linux |
 
-Run the test suite:
+## 📚 Documentation
 
-```bash
-./gradlew test
-```
-
-Run integration tests:
-
-```bash
-./gradlew integrationTest
-```
+- **[Getting Started Guide](docs/GETTING_STARTED.md)** - Detailed setup and configuration
+- **[API Reference](docs/API_REFERENCE.md)** - Complete API documentation
+- **[Examples](docs/EXAMPLES.md)** - Code examples and use cases
+- **[Publishing Guide](docs/PUBLISHING.md)** - How to publish and distribute
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details on:
 
-### Development Setup
-
-1. Clone the repository:
-```bash
-git clone https://github.com/everybytesystems/dhis2-ebscore-sdk.git
-cd dhis2-ebscore-sdk
-```
-
-2. Build the project:
-```bash
-./gradlew build
-```
-
-3. Run tests:
-```bash
-./gradlew test
-```
+- Setting up the development environment
+- Code style and conventions
+- Testing requirements
+- Submitting pull requests
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## 🆘 Support
 
-- [DHIS2](https://dhis2.org) for the excellent health information system
-- [Kotlin Multiplatform](https://kotlinlang.org/docs/multiplatform.html) for enabling cross-platform development
-- [Ktor](https://ktor.io) for the HTTP client implementation
-- [kotlinx.serialization](https://github.com/Kotlin/kotlinx.serialization) for JSON serialization
-
-## 📞 Support
-
-- **Documentation**: [Full API Documentation](https://everybytesystems.github.io/dhis2-ebscore-sdk/)
-- **Issues**: [GitHub Issues](https://github.com/everybytesystems/dhis2-ebscore-sdk/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/everybytesystems/dhis2-ebscore-sdk/discussions)
+- **Issues**: [GitHub Issues](https://github.com/everybytesystems/ebscore-sdk/issues)
+- **Discussions**: [GitHub Discussions](https://github.com/everybytesystems/ebscore-sdk/discussions)
 - **Email**: support@everybytesystems.com
+
+## 🎯 Roadmap
+
+- [ ] GraphQL API support
+- [ ] Real-time data streaming
+- [ ] Advanced offline capabilities
+- [ ] Performance monitoring
+- [ ] Plugin system
 
 ---
 
-**Made with ❤️ by [EveryByte Systems](https://everybytesystems.com)**
+**Built with ❤️ by [EveryByte Systems](https://everybytesystems.com)**

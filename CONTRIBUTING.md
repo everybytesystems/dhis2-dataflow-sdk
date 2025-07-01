@@ -1,6 +1,6 @@
-# Contributing to DHIS2 EBSCore SDK
+# Contributing to EBSCore SDK
 
-Thank you for your interest in contributing to the DHIS2 EBSCore SDK! This document provides guidelines and information for contributors.
+Thank you for your interest in contributing to the EBSCore SDK! This document provides guidelines and information for contributors.
 
 ## 🤝 How to Contribute
 
@@ -11,6 +11,7 @@ Thank you for your interest in contributing to the DHIS2 EBSCore SDK! This docum
 3. **Provide detailed information** including:
    - DHIS2 version you're working with
    - SDK version
+   - Platform (Android, iOS, JVM, JS)
    - Steps to reproduce
    - Expected vs actual behavior
    - Code samples if applicable
@@ -28,143 +29,240 @@ Thank you for your interest in contributing to the DHIS2 EBSCore SDK! This docum
 
 ### Prerequisites
 
-- **JDK 17 or higher**
-- **Git**
-- **IDE with Kotlin support** (IntelliJ IDEA recommended)
+- **JDK 17+** - Required for Kotlin Multiplatform
+- **Android Studio** - For Android development
+- **Xcode** - For iOS development (macOS only)
+- **Git** - Version control
 
-### Getting Started
+### Clone and Setup
 
-1. **Clone the repository**:
 ```bash
-git clone https://github.com/everybytesystems/dhis2-ebscore-sdk.git
-cd dhis2-ebscore-sdk
-```
+git clone https://github.com/everybytesystems/ebscore-sdk.git
+cd ebscore-sdk
 
-2. **Build the project**:
-```bash
+# Build the project
 ./gradlew build
-```
 
-3. **Run tests**:
-```bash
+# Run tests
 ./gradlew test
-```
-
-4. **Run integration tests**:
-```bash
-./gradlew integrationTest
 ```
 
 ### Project Structure
 
 ```
-dhis2-ebscore-sdk/
+ebscore-sdk/
 ├── modules/
-│   ├── core/           # Core SDK with all APIs
-│   ├── auth/           # Authentication module
-│   ├── metadata/       # Enhanced metadata operations
-│   ├── data/           # Data processing utilities
-│   └── visual/         # Visualization helpers
-├── examples/           # Usage examples
+│   ├── core/           # Core SDK functionality
+│   ├── auth/           # Authentication
+│   ├── metadata/       # Metadata management
+│   ├── data/           # Data operations
+│   ├── tracker/        # Tracker API
+│   ├── analytics/      # Analytics API
+│   ├── storage/        # Local storage
+│   ├── sync/           # Synchronization
+│   └── utils/          # Utilities
+├── examples/           # Example applications
 ├── docs/              # Documentation
-├── .github/           # GitHub workflows and templates
-└── gradle/            # Gradle wrapper and configuration
+└── gradle/            # Gradle configuration
 ```
 
 ## 📝 Coding Standards
 
-### Kotlin Style Guide
+### Kotlin Style
 
-We follow the [Kotlin Coding Conventions](https://kotlinlang.org/docs/coding-conventions.html) with these additions:
+- Follow [Kotlin Coding Conventions](https://kotlinlang.org/docs/coding-conventions.html)
+- Use **4 spaces** for indentation
+- Maximum line length: **120 characters**
+- Use meaningful variable and function names
 
-#### Naming Conventions
-- **Classes**: PascalCase (`DataValuesApi`)
-- **Functions**: camelCase (`getTrackedEntities`)
-- **Properties**: camelCase (`baseUrl`)
-- **Constants**: SCREAMING_SNAKE_CASE (`DEFAULT_TIMEOUT`)
+### Code Organization
 
-#### Code Organization
-- **Group related functionality** in the same file
-- **Use meaningful names** for classes, functions, and variables
-- **Keep functions small** and focused on a single responsibility
-- **Add KDoc comments** for public APIs
-
-#### Example:
 ```kotlin
-/**
- * Retrieves tracked entities based on the specified criteria.
- * 
- * @param program The program identifier to filter by
- * @param orgUnit The organization unit identifier
- * @param pageSize Maximum number of entities to return (default: 50)
- * @return ApiResponse containing the list of tracked entities
- */
-suspend fun getTrackedEntities(
-    program: String? = null,
-    orgUnit: String? = null,
-    pageSize: Int = 50
-): ApiResponse<TrackedEntitiesResponse> {
-    val params = buildMap {
-        program?.let { put("program", it) }
-        orgUnit?.let { put("ou", it) }
-        put("pageSize", pageSize.toString())
+// Package structure
+package com.everybytesystems.ebscore.{module}.{feature}
+
+// Import order
+import kotlin.*
+import kotlinx.*
+import platform-specific imports
+import third-party libraries
+import com.everybytesystems.ebscore.*
+
+// Class structure
+class ExampleClass {
+    // Constants
+    companion object {
+        private const val DEFAULT_TIMEOUT = 30_000L
     }
     
-    return get("trackedEntities", params)
+    // Properties
+    private val property: String
+    
+    // Constructor
+    
+    // Public methods
+    
+    // Private methods
 }
 ```
 
-### API Design Principles
+### Documentation
 
-1. **Consistency**: Follow established patterns across all APIs
-2. **Type Safety**: Use strong typing and avoid `Any` types
-3. **Version Awareness**: Check version compatibility for features
-4. **Error Handling**: Provide meaningful error messages
-5. **Documentation**: Include comprehensive KDoc comments
+- Use **KDoc** for public APIs
+- Include code examples for complex functions
+- Document all parameters and return values
 
-### Testing Guidelines
-
-#### Unit Tests
-- **Test all public methods**
-- **Use descriptive test names**
-- **Follow AAA pattern** (Arrange, Act, Assert)
-- **Mock external dependencies**
-
-Example:
 ```kotlin
-@Test
-fun `getTrackedEntities should return success response with valid parameters`() {
-    // Arrange
-    val expectedResponse = TrackedEntitiesResponse(/* ... */)
-    coEvery { httpClient.get<TrackedEntitiesResponse>(any()) } returns expectedResponse
+/**
+ * Retrieves data elements from DHIS2 server
+ *
+ * @param fields Comma-separated list of fields to include
+ * @param filter Filter expression for data elements
+ * @param paging Pagination parameters
+ * @return ApiResponse containing list of data elements
+ *
+ * @sample
+ * ```kotlin
+ * val elements = api.getDataElements(
+ *     fields = "id,name,valueType",
+ *     filter = "domainType:eq:AGGREGATE"
+ * )
+ * ```
+ */
+suspend fun getDataElements(
+    fields: String? = null,
+    filter: String? = null,
+    paging: PagingParams? = null
+): ApiResponse<List<DataElement>>
+```
+
+## 🧪 Testing
+
+### Test Structure
+
+- **Unit Tests**: Test individual components in isolation
+- **Integration Tests**: Test API interactions with mock servers
+- **Platform Tests**: Test platform-specific functionality
+
+### Writing Tests
+
+```kotlin
+class DataElementApiTest {
     
-    // Act
-    val result = trackerApi.getTrackedEntities(program = "testProgram")
+    @Test
+    fun `getDataElements should return success with valid response`() = runTest {
+        // Given
+        val mockClient = MockHttpClient()
+        val api = DataElementApi(mockClient)
+        
+        // When
+        val result = api.getDataElements()
+        
+        // Then
+        assertTrue(result.isSuccess)
+        assertEquals(2, result.data?.size)
+    }
     
-    // Assert
-    assertTrue(result is ApiResponse.Success)
-    assertEquals(expectedResponse, result.data)
+    @Test
+    fun `getDataElements should handle network error`() = runTest {
+        // Given
+        val mockClient = MockHttpClient(simulateNetworkError = true)
+        val api = DataElementApi(mockClient)
+        
+        // When
+        val result = api.getDataElements()
+        
+        // Then
+        assertTrue(result.isError)
+        assertTrue(result.error is NetworkError)
+    }
 }
 ```
 
-#### Integration Tests
-- **Test real API interactions** (with test DHIS2 instance)
-- **Test version compatibility**
-- **Test error scenarios**
+### Running Tests
 
-## 🔄 Development Workflow
+```bash
+# Run all tests
+./gradlew test
 
-### Branch Strategy
+# Run specific module tests
+./gradlew :modules:core:test
 
-- **`main`**: Production-ready code
-- **`develop`**: Integration branch for features
-- **`feature/*`**: Individual feature branches
-- **`hotfix/*`**: Critical bug fixes
-- **`release/*`**: Release preparation
+# Run tests for specific platform
+./gradlew jvmTest
+./gradlew androidTest
+./gradlew iosTest
+./gradlew jsTest
+```
 
-### Commit Messages
+## 🔧 Building and Publishing
 
-Follow [Conventional Commits](https://www.conventionalcommits.org/):
+### Local Development
+
+```bash
+# Build all modules
+./gradlew build
+
+# Publish to local Maven repository
+./gradlew publishToMavenLocal
+
+# Test with local version
+./gradlew :examples:desktop:run
+```
+
+### Publishing to JitPack
+
+```bash
+# Create and push a tag
+git tag v1.0.1
+git push origin v1.0.1
+
+# JitPack will automatically build the release
+```
+
+## 🐛 Debugging
+
+### Common Issues
+
+1. **Build Failures**
+   - Clean and rebuild: `./gradlew clean build`
+   - Check JDK version: `java -version`
+   - Update Gradle wrapper: `./gradlew wrapper --gradle-version=8.5`
+
+2. **Test Failures**
+   - Run with verbose output: `./gradlew test --info`
+   - Check platform-specific issues
+   - Verify mock server responses
+
+3. **Platform-Specific Issues**
+   - **Android**: Check API level compatibility
+   - **iOS**: Verify Xcode version and iOS deployment target
+   - **JS**: Check Node.js version and browser compatibility
+
+### Logging
+
+```kotlin
+// Use structured logging
+private val logger = Logger("DataElementApi")
+
+logger.debug { "Fetching data elements with filter: $filter" }
+logger.info { "Successfully retrieved ${elements.size} data elements" }
+logger.error(exception) { "Failed to fetch data elements" }
+```
+
+## 📋 Pull Request Checklist
+
+Before submitting a pull request, ensure:
+
+- [ ] Code follows the style guidelines
+- [ ] All tests pass locally
+- [ ] New functionality includes tests
+- [ ] Documentation is updated
+- [ ] CHANGELOG.md is updated (if applicable)
+- [ ] Commit messages are descriptive
+- [ ] No merge conflicts with main branch
+
+### Commit Message Format
 
 ```
 type(scope): description
@@ -180,148 +278,40 @@ Types:
 - `docs`: Documentation changes
 - `style`: Code style changes
 - `refactor`: Code refactoring
-- `test`: Adding or updating tests
-- `chore`: Maintenance tasks
+- `test`: Test additions or modifications
+- `chore`: Build process or auxiliary tool changes
 
 Examples:
 ```
-feat(tracker): add support for working lists API
+feat(auth): add OAuth2 authentication support
 
-fix(analytics): resolve geospatial coordinate serialization issue
+fix(tracker): resolve null pointer exception in event creation
 
 docs(readme): update installation instructions
-
-test(data-values): add integration tests for bulk operations
 ```
 
-### Pull Request Process
+## 🎯 Development Workflow
 
-1. **Create a feature branch** from `develop`
-2. **Make your changes** following the coding standards
-3. **Add/update tests** as needed
-4. **Update documentation** if applicable
-5. **Ensure all checks pass**:
-   ```bash
-   ./gradlew test detekt build
-   ```
-6. **Create a pull request** with:
-   - Clear title and description
-   - Reference to related issues
-   - Screenshots/examples if applicable
-   - Checklist of completed items
-
-### Code Review Guidelines
-
-#### For Authors
-- **Keep PRs focused** and reasonably sized
-- **Provide context** in the description
-- **Respond promptly** to feedback
-- **Test thoroughly** before requesting review
-
-#### For Reviewers
-- **Be constructive** and respectful
-- **Focus on code quality** and maintainability
-- **Check for test coverage**
-- **Verify documentation** is updated
-- **Test the changes** if possible
-
-## 🧪 Testing
-
-### Running Tests
-
-```bash
-# Run all tests
-./gradlew test
-
-# Run tests for specific module
-./gradlew :dhis2-ebscore-sdk-core:test
-
-# Run integration tests
-./gradlew integrationTest
-
-# Run tests with coverage
-./gradlew test jacocoTestReport
-```
-
-### Test Categories
-
-1. **Unit Tests**: Fast, isolated tests for individual components
-2. **Integration Tests**: Tests that interact with real DHIS2 instances
-3. **Performance Tests**: Tests for performance and scalability
-4. **Compatibility Tests**: Tests across different DHIS2 versions
-
-### Test Configuration
-
-Create a `test.properties` file for integration tests:
-```properties
-dhis2.baseUrl=https://your-test-instance.dhis2.org
-dhis2.username=test-user
-dhis2.password=test-password
-```
-
-## 📚 Documentation
-
-### API Documentation
-
-- **Use KDoc** for all public APIs
-- **Include examples** in documentation
-- **Document parameters** and return values
-- **Note version requirements** for features
-
-### README Updates
-
-- **Keep examples current** with latest API
-- **Update feature lists** when adding new functionality
-- **Maintain compatibility matrix**
-
-### Implementation Status
-
-Update `IMPLEMENTATION_STATUS.md` when:
-- Adding new APIs or features
-- Changing implementation status
-- Adding version support
-
-## 🚀 Release Process
-
-### Version Numbering
-
-We follow [Semantic Versioning](https://semver.org/):
-- **MAJOR**: Breaking changes
-- **MINOR**: New features (backward compatible)
-- **PATCH**: Bug fixes (backward compatible)
-
-### Release Checklist
-
-1. **Update version** in `gradle.properties`
-2. **Update CHANGELOG.md** with release notes
-3. **Ensure all tests pass**
-4. **Create release tag**: `git tag v1.0.0`
-5. **Push tag**: `git push origin v1.0.0`
-6. **GitHub Actions** will handle the rest
+1. **Create Issue** - Describe the feature or bug
+2. **Fork Repository** - Create your own fork
+3. **Create Branch** - Use descriptive branch names
+4. **Implement Changes** - Follow coding standards
+5. **Write Tests** - Ensure good test coverage
+6. **Update Documentation** - Keep docs current
+7. **Submit PR** - Use the PR template
+8. **Code Review** - Address feedback
+9. **Merge** - Squash and merge when approved
 
 ## 🆘 Getting Help
 
-### Communication Channels
-
-- **GitHub Issues**: Bug reports and feature requests
-- **GitHub Discussions**: General questions and discussions
-- **Email**: support@everybytesystems.com
-
-### Resources
-
-- [DHIS2 Developer Documentation](https://developers.dhis2.org/)
-- [Kotlin Multiplatform Documentation](https://kotlinlang.org/docs/multiplatform.html)
-- [Ktor Documentation](https://ktor.io/docs/)
+- **GitHub Discussions**: Ask questions and share ideas
+- **GitHub Issues**: Report bugs and request features
+- **Email**: development@everybytesystems.com
 
 ## 📄 License
 
-By contributing to this project, you agree that your contributions will be licensed under the MIT License.
+By contributing to EBSCore SDK, you agree that your contributions will be licensed under the MIT License.
 
-## 🙏 Recognition
+---
 
-Contributors will be recognized in:
-- **CONTRIBUTORS.md** file
-- **Release notes**
-- **GitHub contributors** section
-
-Thank you for contributing to the DHIS2 EBSCore SDK! 🎉
+Thank you for contributing to EBSCore SDK! 🚀
