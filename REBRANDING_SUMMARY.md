@@ -64,7 +64,7 @@ We have successfully completed a comprehensive rebranding of the repository from
 ### Publishing Configuration
 - **JitPack:** `com.github.everybytesystems.ebscore-sdk:ebscore-sdk-core:VERSION`
 - **Maven Central:** `com.everybytesystems:ebscore-sdk-core:VERSION`
-- **Repository URL:** `https://github.com/everybytesystems/ebscore-sdk`
+- **Repository URL:** `https://github.com/everybytesystems/ebscore-sdk` ✅ **RENAMED!**
 
 ### Features Maintained
 - ✅ 14/14 DHIS2 APIs fully implemented (100% coverage)
